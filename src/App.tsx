@@ -1,13 +1,17 @@
+import { ThemeProvider } from '@mui/material'
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
+import Typography from '@mui/material/Typography'
 import { FC } from 'react'
 
+import { theme } from '@/lib/mui/theme'
 import logo from '@/logo.svg'
+
 import '@/App.css'
 
 const App: FC = () => {
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className='App'>
         <header className='App-header'>
@@ -24,9 +28,11 @@ const App: FC = () => {
             Learn React
           </a>
         </header>
-        <Button variant='contained'>こんにちは</Button>
+        <Button variant='contained'>テスト</Button>
+        <Typography>It is never too late to be what you might have been.</Typography>
+        <Typography>なりたかった自分になるのに遅すぎるということはない。</Typography>
       </div>
-    </>
+    </ThemeProvider>
   )
 }
 
