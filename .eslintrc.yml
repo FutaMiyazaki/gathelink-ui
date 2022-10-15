@@ -19,7 +19,21 @@ plugins:
 rules:
   {
     import/named: off,
-    import/order: [error, { alphabetize: { order: asc } }],
+    import/order:
+      [
+        error,
+        {
+          groups: [builtin, external, internal, [parent, sibling], object, type, index],
+          'newlines-between': 'always',
+          pathGroupsExcludedImportTypes: [builtin],
+          alphabetize: { order: asc, caseInsensitive: true },
+          pathGroups:
+            [
+              { pattern: '@/components/common', group: internal, position: before },
+              { pattern: '@/components/hooks', group: internal, position: before },
+            ],
+        },
+      ],
     no-use-before-define: off,
     '@typescript-eslint/no-use-before-define': [error],
     no-void: [error, { allowAsStatement: true }],
@@ -34,4 +48,4 @@ rules:
       [warn, { vars: all, varsIgnorePattern: ^_, args: after-used, argsIgnorePattern: ^_ }],
     '@typescript-eslint/triple-slash-reference': off,
   }
-settings: { react: { version: detect }, import/resolver: { typescript: {} } }
+settings: { react: { version: detect }, import/resolver: { typescript: { project: './' } } }
