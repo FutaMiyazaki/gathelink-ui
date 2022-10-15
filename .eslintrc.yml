@@ -3,7 +3,10 @@ env:
   es2021: true
 extends:
   - plugin:react/recommended
+  - plugin:import/recommended
+  - plugin:import/warnings
   - standard-with-typescript
+  - prettier
 overrides: []
 parserOptions:
   ecmaVersion: latest
@@ -11,4 +14,24 @@ parserOptions:
   project: ./tsconfig.json
 plugins:
   - react
-rules: {}
+  - import
+  - unused-imports
+rules:
+  {
+    import/named: off,
+    import/order: [error, { alphabetize: { order: asc } }],
+    no-use-before-define: off,
+    '@typescript-eslint/no-use-before-define': [error],
+    no-void: [error, { allowAsStatement: true }],
+    react/function-component-definition:
+      [2, { namedComponents: arrow-function, unnamedComponents: arrow-function }],
+    react/prop-types: off,
+    react/react-in-jsx-scope: off,
+    '@typescript-eslint/no-unused-vars': off,
+    spaced-comment: [error, always, { markers: ['/'] }],
+    unused-imports/no-unused-imports: error,
+    unused-imports/no-unused-vars:
+      [warn, { vars: all, varsIgnorePattern: ^_, args: after-used, argsIgnorePattern: ^_ }],
+    '@typescript-eslint/triple-slash-reference': off,
+  }
+settings: { react: { version: detect }, import/resolver: { typescript: {} } }
