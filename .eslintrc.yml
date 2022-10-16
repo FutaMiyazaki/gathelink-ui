@@ -46,7 +46,7 @@ rules:
     unused-imports/no-unused-imports: error,
     unused-imports/no-unused-vars:
       [warn, { vars: all, varsIgnorePattern: ^_, args: after-used, argsIgnorePattern: ^_ }],
-    '@typescript-eslint/consistent-type-definitions': warn,
+    '@typescript-eslint/consistent-type-definitions': [warn, type],
     '@typescript-eslint/triple-slash-reference': off,
   }
 settings: { react: { version: detect }, import/resolver: { typescript: { project: './' } } }
