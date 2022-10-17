@@ -41,12 +41,14 @@ rules:
       [2, { namedComponents: arrow-function, unnamedComponents: arrow-function }],
     react/prop-types: off,
     react/react-in-jsx-scope: off,
+    '@typescript-eslint/no-floating-promises': off,
     '@typescript-eslint/no-unused-vars': off,
     spaced-comment: [error, always, { markers: ['/'] }],
     unused-imports/no-unused-imports: error,
     unused-imports/no-unused-vars:
       [warn, { vars: all, varsIgnorePattern: ^_, args: after-used, argsIgnorePattern: ^_ }],
     '@typescript-eslint/consistent-type-definitions': [warn, type],
+    '@typescript-eslint/no-misused-promises': off,
     '@typescript-eslint/triple-slash-reference': off,
   }
 settings: { react: { version: detect }, import/resolver: { typescript: { project: './' } } }
