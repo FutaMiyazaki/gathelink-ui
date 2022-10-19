@@ -1,38 +1,30 @@
-import { FC } from 'react'
-import { Outlet, Route, Routes } from 'react-router-dom'
+import { parseCookies } from 'nookies'
+import { FC, useEffect } from 'react'
+import { useRoutes } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
 
-import { MainLayout } from '@/components/Layouts/MainLayout'
-import { AuthHeader } from '@/features/auth/components/Header'
-import { AuthLayout } from '@/features/auth/components/Layout'
-import { Login } from '@/features/auth/routes/Login'
-import { Signup } from '@/features/auth/routes/Signup'
-import { Home } from '@/features/misc/routes/Home'
+import { commonRoutes } from '@/routes/common'
+import { protectedRoutes } from '@/routes/protected'
+import { publicRoutes } from '@/routes/public'
+import { isAuthenticatedState } from '@/states/AuthAtom'
 
 export const AppRoutes: FC = () => {
-  const Main: FC = () => (
-    <MainLayout>
-      <Outlet />
-    </MainLayout>
-  )
+  const cookie = parseCookies()
+  const [authenticated, setAuthenticated] = useRecoilState(isAuthenticatedState)
 
-  const Auth: FC = () => (
-    <>
-      <AuthHeader />
-      <AuthLayout>
-        <Outlet />
-      </AuthLayout>
-    </>
-  )
+  useEffect(() => {
+    if (
+      !authenticated &&
+      cookie.uid !== undefined &&
+      cookie.client !== undefined &&
+      cookie.accessToken !== undefined
+    ) {
+      setAuthenticated(true)
+    }
+  }, [authenticated])
 
-  return (
-    <Routes>
-      <Route element={<Main />}>
-        <Route index element={<Home />} />
-      </Route>
-      <Route element={<Auth />}>
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<Signup />} />
-      </Route>
-    </Routes>
-  )
+  const routes = authenticated ? protectedRoutes : publicRoutes
+  const element = useRoutes([...routes, ...commonRoutes])
+
+  return <>{element}</>
 }
