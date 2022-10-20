@@ -5,11 +5,11 @@ import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
 import { FC, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
 import { Button } from '@/components/Elements/Button'
+import { InputLabel } from '@/features/auth/components/InputLabel'
 import { useSignup } from '@/features/auth/hooks/useSignup'
 import { authValidationRules } from '@/features/auth/utils/authValidationRules'
 
@@ -50,9 +50,10 @@ export const SignupForm: FC = () => {
         </Alert>
       )}
       <Box component='form' noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1, mb: 4 }}>
-        <Typography component='h3' variant='subtitle1' sx={{ fontWeight: 'bold', mb: 1 }}>
-          メールアドレス
-        </Typography>
+        <InputLabel
+          inputRequirement='半角英数字でご利用中のメールアドレスを入力してください'
+          labelTitle='メールアドレス'
+        />
         <Controller
           name='email'
           control={control}
@@ -68,15 +69,14 @@ export const SignupForm: FC = () => {
               size='small'
               error={fieldState.invalid}
               helperText={fieldState.error?.message}
+              sx={{ mb: 4 }}
             />
           )}
         />
-        <Typography component='h3' variant='subtitle1' sx={{ fontWeight: 'bold', mt: 3 }}>
-          パスワード
-        </Typography>
-        <Typography component='h4' variant='caption' sx={{ mb: 1 }}>
-          8文字以上の半角英数記号
-        </Typography>
+        <InputLabel
+          inputRequirement='アルファベットと数字を組み合わせて8文字以上で入力してください'
+          labelTitle='パスワード'
+        />
         <Controller
           name='password'
           control={control}
@@ -105,15 +105,14 @@ export const SignupForm: FC = () => {
                   </InputAdornment>
                 ),
               }}
+              sx={{ mb: 4 }}
             />
           )}
         />
-        <Typography component='h3' variant='subtitle1' sx={{ fontWeight: 'bold', mt: 3 }}>
-          ニックネーム
-        </Typography>
-        <Typography component='h4' variant='caption' sx={{ mb: 1 }}>
-          20文字以下
-        </Typography>
+        <InputLabel
+          inputRequirement='20文字以下で入力してください'
+          labelTitle='名前 (ニックネーム)'
+        />
         <Controller
           name='name'
           control={control}

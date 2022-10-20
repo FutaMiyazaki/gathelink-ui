@@ -5,11 +5,11 @@ import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
 import { FC, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
 import { Button } from '@/components/Elements/Button'
+import { InputLabel } from '@/features/auth/components/InputLabel'
 import { useSignup } from '@/features/auth/hooks/useSignup'
 import { authValidationRules } from '@/features/auth/utils/authValidationRules'
 
@@ -50,9 +50,10 @@ export const LoginForm: FC = () => {
         </Alert>
       )}
       <Box component='form' noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1, mb: 4 }}>
-        <Typography component='h3' variant='subtitle1' sx={{ fontWeight: 'bold', mb: 1 }}>
-          メールアドレス
-        </Typography>
+        <InputLabel
+          inputRequirement='半角英数字でご利用中のメールアドレスを入力してください'
+          labelTitle='メールアドレス'
+        />
         <Controller
           name='email'
           control={control}
@@ -68,15 +69,11 @@ export const LoginForm: FC = () => {
               size='small'
               error={fieldState.invalid}
               helperText={fieldState.error?.message}
+              sx={{ mb: 3 }}
             />
           )}
         />
-        <Typography component='h3' variant='subtitle1' sx={{ fontWeight: 'bold', mt: 3 }}>
-          パスワード
-        </Typography>
-        <Typography component='h4' variant='caption' sx={{ mb: 1 }}>
-          8文字以上の半角英数記号
-        </Typography>
+        <InputLabel labelTitle='パスワード' />
         <Controller
           name='password'
           control={control}
