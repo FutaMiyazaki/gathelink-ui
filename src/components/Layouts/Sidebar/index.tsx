@@ -12,6 +12,7 @@ import { LinkButton } from '@/components/Elements/Button/LinkButton'
 import { Link } from '@/components/Elements/Link'
 import { buttonItems } from '@/components/Layouts/Sidebar/buttonItems'
 import { useGuestLogin } from '@/features/auth/hooks/useGuestLogin'
+import { MyFoldersList } from '@/features/folder/components/MyFoldersList'
 import { useMedia } from '@/hooks/useMedia'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 import { isDrawerOpenedState } from '@/states/DrawerAtom'
@@ -61,6 +62,7 @@ export const Sidebar: FC = () => {
           />
         </Stack>
       )}
+      {authenticated && <MyFoldersList />}
       <Box sx={{ m: 2 }}>
         <MuiButton
           disableElevation
