@@ -9,7 +9,7 @@ import { FC, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
 import { Button } from '@/components/Elements/Button'
-import { InputLabel } from '@/features/auth/components/InputLabel'
+import { InputLabel } from '@/components/Elements/Form/InputLabel'
 import { useSignup } from '@/features/auth/hooks/useSignup'
 import { authValidationRules } from '@/features/auth/utils/authValidationRules'
 
