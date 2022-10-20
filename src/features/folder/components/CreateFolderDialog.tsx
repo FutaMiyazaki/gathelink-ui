@@ -1,13 +1,11 @@
-import {
-  Alert,
-  Box,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  TextField,
-} from '@mui/material'
+import Alert from '@mui/material/Alert'
+import Box from '@mui/material/Box'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogTitle from '@mui/material/DialogTitle'
+import Grid from '@mui/material/Grid'
+import TextField from '@mui/material/TextField'
 import { FC, useEffect } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
