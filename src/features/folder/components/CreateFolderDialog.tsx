@@ -1,4 +1,6 @@
+import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
 import Alert from '@mui/material/Alert'
+import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
@@ -51,6 +53,11 @@ export const CreateFolderDialog: FC<CreateFolderButtonProps> = ({ handleCloseDia
       onClose={() => handleCloseDialog()}
       sx={{ textAlign: 'center' }}
     >
+      <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column', mt: 2 }}>
+        <Avatar sx={{ bgcolor: 'primary.main' }}>
+          <CreateNewFolderIcon />
+        </Avatar>
+      </Box>
       <DialogTitle>新しいフォルダを作成</DialogTitle>
       <DialogContent>
         {errorMessage !== '' && (
