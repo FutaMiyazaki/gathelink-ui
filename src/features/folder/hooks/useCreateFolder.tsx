@@ -6,8 +6,8 @@ import { alertState } from '@/states/AlertAtom'
 import { authHeaders } from '@/utils/authHeaders'
 
 type UseCreateFolder = {
-  errorMessage: string
   createFolder: (folder: params) => Promise<void>
+  errorMessage: string
   isLoading: boolean
   resStatus: number
 }
