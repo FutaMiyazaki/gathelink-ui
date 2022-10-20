@@ -1,6 +1,7 @@
 import FolderIcon from '@mui/icons-material/Folder'
 import FolderOpenIcon from '@mui/icons-material/FolderOpen'
 import {
+  Alert,
   Box,
   CircularProgress,
   List,
@@ -12,7 +13,7 @@ import {
   Typography,
 } from '@mui/material'
 import { FC, useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { Link } from '@/components/Elements/Link'
@@ -38,9 +39,11 @@ const MyFolderListItem: FC<myFolderListItemProps> = ({ active, folderLinks, fold
       dense
       disableGutters
       secondaryAction={
-        <Typography variant='caption' color='secondary.dark' sx={{ pr: 2 }}>
-          {folderLinks?.length}
-        </Typography>
+        folderLinks?.length !== undefined && (
+          <Typography variant='caption' sx={{ pr: 2 }}>
+            {folderLinks?.length > 0 && folderLinks?.length}
+          </Typography>
+        )
       }
       sx={{
         backgroundColor: bgColor,
@@ -62,16 +65,18 @@ const MyFolderListItem: FC<myFolderListItemProps> = ({ active, folderLinks, fold
   )
 }
 
+type RouterParams = {
+  folderId: string
+}
+
 export const MyFoldersList: FC = () => {
-  const location = useLocation()
   const myFolders = useRecoilValue(myFoldersState)
   const { errorMessage, fetchMyFolders, isLoading } = useFetchMyFolders()
+  const { folderId } = useParams<RouterParams>()
 
   useEffect(() => {
     fetchMyFolders()
   }, [])
-
-  console.log(location)
 
   return (
     <Box>
@@ -82,13 +87,13 @@ export const MyFoldersList: FC = () => {
         <Stack justifyContent='center'>
           <CircularProgress size={25} sx={{ mx: 'auto' }} />
         </Stack>
-      ) : myFolders[0]?.name !== undefined ? (
+      ) : myFolders?.length !== 0 ? (
         <List>
           {myFolders.map((folder: Folder) => {
             return (
               <Link key={folder.id} color='black' path={`/folder/${folder.id}`}>
                 <MyFolderListItem
-                  active={folder.id === 10}
+                  active={folderId !== undefined && parseInt(folderId, 10) === folder.id}
                   folderName={folder.name}
                   folderLinks={folder?.links}
                 />
@@ -98,13 +103,13 @@ export const MyFoldersList: FC = () => {
         </List>
       ) : (
         <>
-          {errorMessage !== undefined ? (
-            <Typography variant='body2' color='red'>
+          {errorMessage !== '' ? (
+            <Alert severity='error' sx={{ m: 2 }}>
               {errorMessage}
-            </Typography>
+            </Alert>
           ) : (
-            <Typography variant='body2' color='secondary.dark'>
-              作成・保存したフォルダはありません
+            <Typography variant='body2' color='secondary.dark' sx={{ mx: 2, my: 1 }}>
+              作成したフォルダはありません
             </Typography>
           )}
         </>
