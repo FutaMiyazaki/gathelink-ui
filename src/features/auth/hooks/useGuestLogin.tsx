@@ -7,12 +7,12 @@ import { apiClient } from '@/lib/axios/apiClient'
 import { alertState } from '@/states/AlertAtom'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 
-type USEGuestLogin = {
+type UseGuestLogin = {
   isLoading: boolean
   guestLogin: () => Promise<void>
 }
 
-export const useGuestLogin = (): USEGuestLogin => {
+export const useGuestLogin = (): UseGuestLogin => {
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
   const setAuthenticated = useSetRecoilState(isAuthenticatedState)
