@@ -16,7 +16,7 @@ import { useCreateFolder } from '@/features/folder/hooks/useCreateFolder'
 import { folderValidationRules } from '@/features/folder/utils/folderValidationRules'
 import { useMedia } from '@/hooks/useMedia'
 
-type CreateFolderButtonProps = {
+type CreateFolderDialogProps = {
   handleCloseDialog: () => void
   open: boolean
 }
@@ -25,7 +25,7 @@ type Inputs = {
   name: string
 }
 
-export const CreateFolderDialog: FC<CreateFolderButtonProps> = ({ handleCloseDialog, open }) => {
+export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({ handleCloseDialog, open }) => {
   const { control, handleSubmit, reset } = useForm<Inputs>()
   const { createFolder, errorMessage, isLoading, resStatus } = useCreateFolder()
   const { isMobileScreen } = useMedia()
