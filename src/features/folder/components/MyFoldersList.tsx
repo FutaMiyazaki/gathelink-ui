@@ -1,17 +1,15 @@
-import FolderIcon from '@mui/icons-material/Folder'
-import FolderOpenIcon from '@mui/icons-material/FolderOpen'
-import {
-  Alert,
-  Box,
-  CircularProgress,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Stack,
-  Typography,
-} from '@mui/material'
+import FolderOpenRoundedIcon from '@mui/icons-material/FolderOpenRounded'
+import FolderRoundedIcon from '@mui/icons-material/FolderRounded'
+import Alert from '@mui/material/Alert'
+import Box from '@mui/material/Box'
+import CircularProgress from '@mui/material/CircularProgress'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
 import { FC, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
@@ -51,7 +49,7 @@ const MyFolderListItem: FC<myFolderListItemProps> = ({ active, folderLinks, fold
       }}
     >
       <ListItemButton>
-        <ListItemIcon>{active ? <FolderOpenIcon /> : <FolderIcon />}</ListItemIcon>
+        <ListItemIcon>{active ? <FolderOpenRoundedIcon /> : <FolderRoundedIcon />}</ListItemIcon>
         <ListItemText>
           <Typography
             variant='body2'
