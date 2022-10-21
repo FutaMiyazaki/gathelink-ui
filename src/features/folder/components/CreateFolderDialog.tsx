@@ -49,8 +49,8 @@ export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({ handleCloseDia
       fullScreen={isMobileScreen}
       fullWidth
       maxWidth='xs'
-      open={open}
       onClose={() => handleCloseDialog()}
+      open={open}
       sx={{ textAlign: 'center' }}
     >
       <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column', mt: 2 }}>

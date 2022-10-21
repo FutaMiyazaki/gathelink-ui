@@ -60,8 +60,8 @@ export const AddLinkDialog: FC<AddLinkDialogProps> = ({ handleCloseDialog, open 
       fullScreen={isMobileScreen}
       fullWidth
       maxWidth='xs'
-      open={open}
       onClose={() => handleCloseDialog()}
+      open={open}
     >
       <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column', mt: 2 }}>
         <Avatar sx={{ bgcolor: 'primary.main' }}>

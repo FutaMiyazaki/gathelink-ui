@@ -41,9 +41,10 @@ export const DeleteFolderDialog: FC<DeleteFolderDialogProps> = ({
   return (
     <Dialog
       fullScreen={isMobileScreen}
+      fullWidth
       maxWidth='xs'
-      open={open}
       onClose={() => handleCloseDialog()}
+      open={open}
       sx={{ textAlign: 'center' }}
     >
       <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column', mt: 2 }}>
