@@ -16,6 +16,7 @@ import { useRecoilValue } from 'recoil'
 
 import { Button } from '@/components/Elements/Button'
 import { InputLabel } from '@/components/Elements/Form/InputLabel'
+import { useFetchMyFolders } from '@/features/folder/hooks/useFetchMyFolders'
 import { Folder } from '@/features/folder/types/Folder'
 import { useAddLink } from '@/features/link/hooks/useAddLink'
 import { linkValidationRules } from '@/features/link/utils/linkValidationRules'
@@ -34,10 +35,11 @@ type Inputs = {
 }
 
 export const AddLinkDialog: FC<AddLinkDialogProps> = ({ handleCloseDialog, open }) => {
+  const { isMobileScreen } = useMedia()
+  const { fetchMyFolders } = useFetchMyFolders()
+  const myFolders = useRecoilValue(myFoldersState)
   const { control, handleSubmit, reset, setValue } = useForm<Inputs>()
   const { addLink, errorMessage, isLoading, resStatus } = useAddLink()
-  const { isMobileScreen } = useMedia()
-  const myFolders = useRecoilValue(myFoldersState)
 
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
     const link = {
@@ -47,6 +49,10 @@ export const AddLinkDialog: FC<AddLinkDialogProps> = ({ handleCloseDialog, open 
     }
     addLink(link)
   }
+
+  useEffect(() => {
+    fetchMyFolders()
+  }, [])
 
   useEffect(() => {
     if (resStatus === 201) {
