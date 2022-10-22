@@ -28,6 +28,7 @@ export const Sidebar: FC = () => {
   const { isLoading, guestLogin } = useGuestLogin()
 
   const handleClickGuestButton = (): void => {
+    setIsDrawerOpened(false)
     guestLogin()
   }
 
