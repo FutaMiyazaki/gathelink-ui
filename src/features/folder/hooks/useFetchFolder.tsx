@@ -9,12 +9,12 @@ type UseFetchFolder = {
   errorMessage: string
   fetchFolder: (id: string) => Promise<void>
   folder?: Folder
-  isLoading: boolean
+  isFeatchLoading: boolean
 }
 
 export const useFetchFolder = (): UseFetchFolder => {
   const [errorMessage, setErrorMessage] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
+  const [isFeatchLoading, setIsLoading] = useState(false)
   const [folder, setFolder] = useState<Folder | undefined>()
   const setEditingLinks = useSetRecoilState(EditingLinksState)
 
@@ -40,6 +40,6 @@ export const useFetchFolder = (): UseFetchFolder => {
     errorMessage,
     fetchFolder,
     folder,
-    isLoading,
+    isFeatchLoading,
   }
 }
