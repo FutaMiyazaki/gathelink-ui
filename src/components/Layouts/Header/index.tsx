@@ -5,8 +5,10 @@ import { FC, useState } from 'react'
 import { useSetRecoilState, useRecoilValue } from 'recoil'
 
 import { Button } from '@/components/Elements/Button'
+import { Link } from '@/components/Elements/Link'
 import { HeaderAccountMenu } from '@/components/Layouts/Header/AccountMenu'
 import { AddLinkDialog } from '@/features/link/components/addLinkDialog'
+import { useMedia } from '@/hooks/useMedia'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 import { isDrawerOpenedState } from '@/states/DrawerAtom'
 
@@ -14,6 +16,7 @@ export const Header: FC = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const authenticated = useRecoilValue(isAuthenticatedState)
   const setIsDrawerOpened = useSetRecoilState(isDrawerOpenedState)
+  const { isDesktopScreen } = useMedia()
 
   const handleOpenDialog = (): void => {
     setOpenDialog(true)
@@ -32,18 +35,20 @@ export const Header: FC = () => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography
-          variant='h6'
-          noWrap
-          component='div'
-          color='primary'
-          sx={{ mr: 2, display: { xs: 'flex', md: 'none' } }}
-        >
-          Gathelink
-        </Typography>
+        <Link path='/'>
+          <Typography
+            color='primary'
+            component='span'
+            noWrap
+            variant='h6'
+            sx={{ mr: 2, display: { xs: 'flex', md: 'none' } }}
+          >
+            Gathelink
+          </Typography>
+        </Link>
         <Box sx={{ flexGrow: 1 }} />
         {authenticated && <HeaderAccountMenu />}
-        {authenticated && (
+        {authenticated && isDesktopScreen && (
           <>
             <Button icon={<StarIcon />} label='リンク追加' onClick={handleOpenDialog} />
             <AddLinkDialog handleCloseDialog={handleCloseDialog} open={openDialog} />
