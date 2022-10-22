@@ -1,6 +1,5 @@
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
-import { CircularProgress } from '@mui/material'
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
@@ -13,6 +12,7 @@ import { useRecoilValue } from 'recoil'
 
 import { Button } from '@/components/Elements/Button'
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
+import { PageLoading } from '@/components/Layouts/PageLoading'
 import { DeleteFolderDialog } from '@/features/folder/components/DeleteFolderDialog'
 import { FolderLinkButton } from '@/features/folder/components/FolderLinkButton'
 import { useFetchFolder } from '@/features/folder/hooks/useFetchFolder'
@@ -45,11 +45,7 @@ export const FolderAbout: FC = () => {
   }, [folderId])
 
   if (isFeatchLoading) {
-    return (
-      <Stack direction='row' justifyContent='center'>
-        <CircularProgress size={50} sx={{ mt: 10 }} />
-      </Stack>
-    )
+    return <PageLoading />
   }
 
   return (
