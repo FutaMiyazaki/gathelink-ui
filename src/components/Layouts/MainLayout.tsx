@@ -5,6 +5,7 @@ import { FC, ReactNode } from 'react'
 import { AppAlert } from '@/components/Alert'
 import { Header } from '@/components/Layouts/Header'
 import { Sidebar } from '@/components/Layouts/Sidebar'
+import { SpeedDialButton } from '@/components/Layouts/SpeedDialButton'
 
 type MainLayoutProps = {
   children: ReactNode
@@ -32,6 +33,7 @@ export const MainLayout: FC<MainLayoutProps> = ({ children }) => (
         <AppAlert />
       </Container>
       {children}
+      <SpeedDialButton />
     </Box>
   </Box>
 )
