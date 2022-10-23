@@ -27,7 +27,10 @@ export const Header: FC = () => {
   }
 
   return (
-    <AppBar color='transparent' elevation={0} sx={{ borderBottom: 1, borderColor: '#e0e0e0' }}>
+    <AppBar
+      elevation={0}
+      sx={{ backgroundColor: 'secondary.light', borderBottom: 1, borderColor: '#e0e0e0' }}
+    >
       <Toolbar>
         <IconButton
           onClick={() => setIsDrawerOpened(true)}
