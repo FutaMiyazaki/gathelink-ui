@@ -1,30 +1,40 @@
+import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import { Button as MuiButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import { FC } from 'react'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { FC, useState } from 'react'
+import { useRecoilValue } from 'recoil'
 
 import { Button } from '@/components/Elements/Button'
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
 import { Link } from '@/components/Elements/Link'
 import { buttonItems } from '@/components/Layouts/Sidebar/buttonItems'
 import { useGuestLogin } from '@/features/auth/hooks/useGuestLogin'
+import { CreateFolderDialog } from '@/features/folder/components/CreateFolderDialog'
+import { MyFoldersList } from '@/features/folder/components/MyFoldersList'
 import { useMedia } from '@/hooks/useMedia'
 import { isAuthenticatedState } from '@/states/AuthAtom'
-import { isDrawerOpenedState } from '@/states/DrawerAtom'
 import { DRAWER_WIDTH } from '@/utils/const'
 
 export const Sidebar: FC = () => {
+  const [openDialog, setOpenDialog] = useState<boolean>(false)
   const { isDesktopScreen } = useMedia()
-  const [isDrawerOpened, setIsDrawerOpened] = useRecoilState(isDrawerOpenedState)
   const authenticated = useRecoilValue(isAuthenticatedState)
   const { isLoading, guestLogin } = useGuestLogin()
 
   const handleClickGuestButton = (): void => {
     guestLogin()
+  }
+
+  const handleOpenDialog = (): void => {
+    setOpenDialog(true)
+  }
+
+  const handleCloseDialog = (): void => {
+    setOpenDialog(false)
   }
 
   const renderContent = (
@@ -61,6 +71,7 @@ export const Sidebar: FC = () => {
           />
         </Stack>
       )}
+      {authenticated && <MyFoldersList />}
       <Box sx={{ m: 2 }}>
         <MuiButton
           disableElevation
@@ -86,7 +97,7 @@ export const Sidebar: FC = () => {
         },
       }}
     >
-      {isDesktopScreen ? (
+      {isDesktopScreen && (
         <Drawer
           sx={{
             width: DRAWER_WIDTH,
@@ -101,26 +112,29 @@ export const Sidebar: FC = () => {
           anchor='left'
         >
           <Box sx={{ pt: 3 }}>
-            <Link path='/' underline='none'>
-              <Typography
-                variant='h6'
-                noWrap
-                color='primary'
-                sx={{ pl: 2, mb: 2, display: { xs: 'none', md: 'flex' } }}
-              >
-                Gathelink
-              </Typography>
-            </Link>
+            <Stack
+              alignItems='center'
+              direction='row'
+              justifyContent='space-between'
+              sx={{ pl: 2, pr: 1, mb: 3 }}
+            >
+              <Link path='/' underline='none'>
+                <Typography component='span' color='primary' noWrap variant='h6'>
+                  Gathelink
+                </Typography>
+              </Link>
+              {authenticated && (
+                <Button
+                  icon={<CreateNewFolderOutlinedIcon />}
+                  label='フォルダ作成'
+                  onClick={handleOpenDialog}
+                  size='small'
+                />
+              )}
+            </Stack>
+            <CreateFolderDialog handleCloseDialog={handleCloseDialog} open={openDialog} />
             {renderContent}
           </Box>
-        </Drawer>
-      ) : (
-        <Drawer
-          open={isDrawerOpened}
-          onClose={() => setIsDrawerOpened(false)}
-          PaperProps={{ sx: { width: DRAWER_WIDTH } }}
-        >
-          <Box sx={{ py: 2 }}>{renderContent}</Box>
         </Drawer>
       )}
     </Box>
