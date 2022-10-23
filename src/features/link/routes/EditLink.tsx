@@ -1,12 +1,14 @@
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
 import FolderOpenTwoToneIcon from '@mui/icons-material/FolderOpenTwoTone'
 import Alert from '@mui/material/Alert'
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
+import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 
@@ -15,6 +17,7 @@ import { LinkButton } from '@/components/Elements/Button/LinkButton'
 import { InputLabel } from '@/components/Elements/Form/InputLabel'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { Folder } from '@/features/folder/types/Folder'
+import { DeleteLinkDialog } from '@/features/link/components/DeleteLinkDialog'
 import { useFetchLink } from '@/features/link/hooks/useFetchLink'
 import { useUpdateLink } from '@/features/link/hooks/useUpdateLink'
 import { linkValidationRules } from '@/features/link/utils/linkValidationRules'
@@ -35,6 +38,7 @@ export const EditLink: FC = () => {
   const { folderId, linkId } = useParams<RouterParams>()
   const { fetchLink, isFeatchLoading, link, myFolders } = useFetchLink()
   const { updateLink, errorMessage, isUpdating } = useUpdateLink()
+  const [openDialog, setOpenDialog] = useState<boolean>(false)
 
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
     const link = {
@@ -43,6 +47,14 @@ export const EditLink: FC = () => {
       folder_id: data.folder != null ? data.folder.id : 0,
     }
     updateLink(link, linkId as string)
+  }
+
+  const handleOpenDialog = (): void => {
+    setOpenDialog(true)
+  }
+
+  const handleCloseDialog = (): void => {
+    setOpenDialog(false)
   }
 
   useEffect(() => {
@@ -55,15 +67,32 @@ export const EditLink: FC = () => {
 
   return (
     <Container maxWidth='sm' sx={{ mt: 4 }}>
-      <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold', mb: 2 }}>
-        リンクの編集
-      </Typography>
+      <Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ mb: 3 }}>
+        <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold' }}>
+          リンクの編集
+        </Typography>
+        <Button
+          color='warning'
+          icon={<DeleteForeverOutlinedIcon />}
+          label='削除'
+          onClick={handleOpenDialog}
+          variant='text'
+        />
+      </Stack>
+      {folderId !== undefined && linkId !== undefined && (
+        <DeleteLinkDialog
+          folderId={folderId}
+          linkId={linkId}
+          handleCloseDialog={handleCloseDialog}
+          open={openDialog}
+        />
+      )}
       {errorMessage?.length !== 0 && (
         <Alert severity='error' sx={{ mb: 2 }}>
           {errorMessage}
         </Alert>
       )}
-      <Box sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 2, mb: 3 }}>
+      <Box sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 3 }}>
         <Box component='form' noValidate onSubmit={handleSubmit(onSubmit)}>
           <InputLabel labelTitle='タイトル' />
           <Controller
