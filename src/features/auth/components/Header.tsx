@@ -7,7 +7,7 @@ export const AuthHeader: FC = () => (
   <AppBar elevation={0} sx={{ backgroundColor: 'secondary.light', mb: 5 }}>
     <Toolbar>
       <Link path='/'>
-        <Typography variant='h6' noWrap component='div' color='primary'>
+        <Typography color='primary' component='span' noWrap variant='h6'>
           Gathelink
         </Typography>
       </Link>
