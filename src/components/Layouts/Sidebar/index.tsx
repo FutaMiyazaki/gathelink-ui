@@ -6,7 +6,7 @@ import Drawer from '@mui/material/Drawer'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { FC, useState } from 'react'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilValue } from 'recoil'
 
 import { Button } from '@/components/Elements/Button'
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
@@ -17,18 +17,15 @@ import { CreateFolderDialog } from '@/features/folder/components/CreateFolderDia
 import { MyFoldersList } from '@/features/folder/components/MyFoldersList'
 import { useMedia } from '@/hooks/useMedia'
 import { isAuthenticatedState } from '@/states/AuthAtom'
-import { isDrawerOpenedState } from '@/states/DrawerAtom'
 import { DRAWER_WIDTH } from '@/utils/const'
 
 export const Sidebar: FC = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const { isDesktopScreen } = useMedia()
-  const [isDrawerOpened, setIsDrawerOpened] = useRecoilState(isDrawerOpenedState)
   const authenticated = useRecoilValue(isAuthenticatedState)
   const { isLoading, guestLogin } = useGuestLogin()
 
   const handleClickGuestButton = (): void => {
-    setIsDrawerOpened(false)
     guestLogin()
   }
 
@@ -100,7 +97,7 @@ export const Sidebar: FC = () => {
         },
       }}
     >
-      {isDesktopScreen ? (
+      {isDesktopScreen && (
         <Drawer
           sx={{
             width: DRAWER_WIDTH,
@@ -138,14 +135,6 @@ export const Sidebar: FC = () => {
             <CreateFolderDialog handleCloseDialog={handleCloseDialog} open={openDialog} />
             {renderContent}
           </Box>
-        </Drawer>
-      ) : (
-        <Drawer
-          open={isDrawerOpened}
-          onClose={() => setIsDrawerOpened(false)}
-          PaperProps={{ sx: { width: DRAWER_WIDTH } }}
-        >
-          <Box sx={{ py: 2 }}>{renderContent}</Box>
         </Drawer>
       )}
     </Box>
