@@ -29,10 +29,10 @@ export const useUpdateFolder = (): UseUpdateFolder => {
 
     await apiClient
       .patch(`/folders/${folderId}`, { folder }, { headers })
-      .then((res) => {
+      .then(() => {
         setAlert({
           isShow: true,
-          message: `${res.data.name as string} フォルダを編集しました`,
+          message: 'フォルダを更新しました',
           severity: 'success',
         })
         navigate(`/folder/${folderId}`)

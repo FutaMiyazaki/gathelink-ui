@@ -31,10 +31,10 @@ export const useUpdateLink = (): UseUpdateLink => {
 
     await apiClient
       .patch(`/links/${linkId}`, { link }, { headers })
-      .then((res) => {
+      .then(() => {
         setAlert({
           isShow: true,
-          message: `${res.data.title as string} リンクを更新しました`,
+          message: 'リンクを更新しました',
           severity: 'success',
         })
         navigate(`/folder/${link.folder_id}`)
