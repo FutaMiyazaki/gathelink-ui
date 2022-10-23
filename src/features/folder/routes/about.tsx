@@ -1,4 +1,5 @@
-import { Typography } from '@mui/material'
 import { FC } from 'react'
 
-export const FolderAbout: FC = () => <Typography>フォルダの詳細ページです</Typography>
+import { FolderAbout } from '@/features/folder/components/FolderAbout'
+
+export const FolderAboutPage: FC = () => <FolderAbout />
