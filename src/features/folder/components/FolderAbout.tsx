@@ -51,7 +51,7 @@ export const FolderAbout: FC = () => {
   return (
     <Container maxWidth='sm' sx={{ my: 4 }}>
       {errorMessage !== '' && <Alert severity='error'>{errorMessage}</Alert>}
-      <Box sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 2, mb: 3 }}>
+      <Box sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 3, mb: 3 }}>
         <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold' }}>
           {folder?.name}
         </Typography>
