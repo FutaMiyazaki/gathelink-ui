@@ -60,38 +60,34 @@ export const FolderAbout: FC = () => {
             <Typography color='secondary.dark' variant='subtitle2'>
               作成者：{folder?.user?.name}
             </Typography>
-            {authenticated && folder?.user?.email === uid && (
+            {authenticated && folder?.user?.email === uid && folderId !== undefined && (
               <>
-                {folderId !== undefined && (
-                  <>
-                    <Stack
-                      direction='row'
-                      justifyContent='flex-end'
-                      alignItems='center'
-                      spacing={2}
-                      sx={{ mt: 2 }}
-                    >
-                      <LinkButton
-                        color='secondary'
-                        icon={<EditOutlinedIcon />}
-                        label='編集'
-                        path={`/folder/${folderId}/edit`}
-                        variant='contained'
-                      />
-                      <Button
-                        color='warning'
-                        icon={<DeleteForeverOutlinedIcon />}
-                        label='削除'
-                        onClick={handleOpenDialog}
-                      />
-                    </Stack>
-                    <DeleteFolderDialog
-                      folderId={folderId}
-                      handleCloseDialog={handleCloseDialog}
-                      open={openDialog}
-                    />
-                  </>
-                )}
+                <Stack
+                  direction='row'
+                  justifyContent='flex-end'
+                  alignItems='center'
+                  spacing={2}
+                  sx={{ mt: 2 }}
+                >
+                  <LinkButton
+                    color='secondary'
+                    icon={<EditOutlinedIcon />}
+                    label='編集'
+                    path={`/folder/${folderId}/edit`}
+                    variant='contained'
+                  />
+                  <Button
+                    color='warning'
+                    icon={<DeleteForeverOutlinedIcon />}
+                    label='削除'
+                    onClick={handleOpenDialog}
+                  />
+                </Stack>
+                <DeleteFolderDialog
+                  folderId={folderId}
+                  handleCloseDialog={handleCloseDialog}
+                  open={openDialog}
+                />
               </>
             )}
           </Box>
@@ -102,7 +98,14 @@ export const FolderAbout: FC = () => {
               sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 2 }}
             >
               {folder?.links?.map((link: Link) => {
-                return <FolderLinkButton key={link.id} label={link.title} url={link.url} />
+                return (
+                  <FolderLinkButton
+                    key={link.id}
+                    folderId={folderId as string}
+                    link={link}
+                    ownerId={folder?.user?.email}
+                  />
+                )
               })}
             </Stack>
           ) : (
