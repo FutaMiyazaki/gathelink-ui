@@ -48,7 +48,7 @@ export const EditFolder: FC = () => {
   }
 
   return (
-    <Container maxWidth='sm' sx={{ mt: 4 }}>
+    <Container maxWidth='sm' sx={{ my: 4 }}>
       <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold', mb: 3 }}>
         フォルダの編集
       </Typography>

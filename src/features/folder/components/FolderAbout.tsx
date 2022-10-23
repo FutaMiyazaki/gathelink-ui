@@ -49,73 +49,65 @@ export const FolderAbout: FC = () => {
   }
 
   return (
-    <div>
-      <Container maxWidth='sm' sx={{ mt: 4 }}>
-        <Box>
-          {errorMessage !== '' && <Alert severity='error'>{errorMessage}</Alert>}
-          <Box sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 2, mb: 3 }}>
-            <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold' }}>
-              {folder?.name}
-            </Typography>
-            <Typography color='secondary.dark' variant='subtitle2'>
-              作成者：{folder?.user?.name}
-            </Typography>
-            {authenticated && folder?.user?.email === uid && folderId !== undefined && (
-              <>
-                <Stack
-                  direction='row'
-                  justifyContent='flex-end'
-                  alignItems='center'
-                  spacing={2}
-                  sx={{ mt: 2 }}
-                >
-                  <LinkButton
-                    color='secondary'
-                    icon={<EditOutlinedIcon />}
-                    label='編集'
-                    path={`/folder/${folderId}/edit`}
-                    variant='contained'
-                  />
-                  <Button
-                    color='warning'
-                    icon={<DeleteForeverOutlinedIcon />}
-                    label='削除'
-                    onClick={handleOpenDialog}
-                    variant='text'
-                  />
-                </Stack>
-                <DeleteFolderDialog
-                  folderId={folderId}
-                  handleCloseDialog={handleCloseDialog}
-                  open={openDialog}
-                />
-              </>
-            )}
-          </Box>
-          {folder?.links != null && folder?.links.length > 0 ? (
+    <Container maxWidth='sm' sx={{ my: 4 }}>
+      {errorMessage !== '' && <Alert severity='error'>{errorMessage}</Alert>}
+      <Box sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 2, mb: 3 }}>
+        <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold' }}>
+          {folder?.name}
+        </Typography>
+        <Typography color='secondary.dark' variant='subtitle2'>
+          作成者：{folder?.user?.name}
+        </Typography>
+        {authenticated && folder?.user?.email === uid && folderId !== undefined && (
+          <>
             <Stack
-              direction='column'
-              spacing={3}
-              sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 2 }}
+              direction='row'
+              justifyContent='flex-end'
+              alignItems='center'
+              spacing={2}
+              sx={{ mt: 2 }}
             >
-              {folder?.links?.map((link: Link) => {
-                return (
-                  <FolderLinkButton
-                    key={link.id}
-                    folderId={folderId as string}
-                    link={link}
-                    ownerId={folder?.user?.email}
-                  />
-                )
-              })}
+              <LinkButton
+                color='secondary'
+                icon={<EditOutlinedIcon />}
+                label='編集'
+                path={`/folder/${folderId}/edit`}
+                variant='contained'
+              />
+              <Button
+                color='warning'
+                icon={<DeleteForeverOutlinedIcon />}
+                label='削除'
+                onClick={handleOpenDialog}
+                variant='text'
+              />
             </Stack>
-          ) : (
-            <Box sx={{ textAlign: 'center', mt: 2 }}>
-              <Typography variant='body2'>リンクはありません</Typography>
-            </Box>
-          )}
+            <DeleteFolderDialog
+              folderId={folderId}
+              handleCloseDialog={handleCloseDialog}
+              open={openDialog}
+            />
+          </>
+        )}
+      </Box>
+      {folder?.links != null && folder?.links.length > 0 ? (
+        <Stack direction='column' spacing={3} sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 2 }}>
+          {folder?.links?.map((link: Link) => {
+            return (
+              <FolderLinkButton
+                key={link.id}
+                folderId={folderId as string}
+                link={link}
+                ownerId={folder?.user?.email}
+              />
+            )
+          })}
+        </Stack>
+      ) : (
+        <Box sx={{ textAlign: 'center', mt: 2 }}>
+          <Typography variant='body2'>リンクはありません</Typography>
         </Box>
-      </Container>
-    </div>
+      )}
+    </Container>
   )
 }
