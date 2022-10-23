@@ -26,7 +26,7 @@ type RouterParams = {
   folderId: string
 }
 
-export const FolderEdit: FC = () => {
+export const EditFolder: FC = () => {
   const { control, handleSubmit } = useForm<Inputs>()
   const { folderId } = useParams<RouterParams>()
 
