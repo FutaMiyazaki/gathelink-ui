@@ -51,7 +51,7 @@ export const AddLinkDialog: FC<AddLinkDialogProps> = ({ handleCloseDialog, open 
   }
 
   useEffect(() => {
-    fetchMyFolders()
+    fetchMyFolders('old')
   }, [])
 
   useEffect(() => {
