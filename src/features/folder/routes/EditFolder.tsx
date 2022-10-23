@@ -29,7 +29,6 @@ type RouterParams = {
 export const EditFolder: FC = () => {
   const { control, handleSubmit } = useForm<Inputs>()
   const { folderId } = useParams<RouterParams>()
-
   const { fetchFolder, folder, isFeatchLoading } = useFetchFolder()
   const { updateFolder, errorMessage, isLoading } = useUpdateFolder()
 
@@ -50,7 +49,7 @@ export const EditFolder: FC = () => {
 
   return (
     <Container maxWidth='sm' sx={{ mt: 4 }}>
-      <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold', mb: 2 }}>
+      <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold', mb: 3 }}>
         フォルダの編集
       </Typography>
       {errorMessage?.length !== 0 && (
@@ -58,7 +57,7 @@ export const EditFolder: FC = () => {
           {errorMessage}
         </Alert>
       )}
-      <Box sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 2, mb: 3 }}>
+      <Box sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 3 }}>
         <Box component='form' noValidate onSubmit={handleSubmit(onSubmit)}>
           <InputLabel labelTitle='フォルダ名' />
           <Controller
