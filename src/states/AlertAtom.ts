@@ -1,9 +1,8 @@
-import { AlertColor } from '@mui/material'
 import { atom } from 'recoil'
 type Alert = {
   isShow: boolean
   message: string
-  severity: AlertColor
+  severity: 'success' | 'info' | 'warning' | 'error'
 }
 
 export const alertState = atom<Alert>({
