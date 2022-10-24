@@ -1,4 +1,4 @@
-import { Link as MuiLink } from '@mui/material'
+import MuiLink from '@mui/material/Link'
 import { ReactNode, FC } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 

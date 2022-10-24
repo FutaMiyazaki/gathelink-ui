@@ -1,12 +1,10 @@
 import EditIcon from '@mui/icons-material/Edit'
-import {
-  IconButton,
-  Link as MuiLink,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Typography,
-} from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import MuiLink from '@mui/material/Link'
+import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemText from '@mui/material/ListItemText'
+import Typography from '@mui/material/Typography'
 import { parseCookies } from 'nookies'
 import { FC } from 'react'
 import { useRecoilValue } from 'recoil'

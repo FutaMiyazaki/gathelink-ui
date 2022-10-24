@@ -1,7 +1,7 @@
 import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined'
 import GitHubIcon from '@mui/icons-material/GitHub'
-import { Button as MuiButton } from '@mui/material'
 import Box from '@mui/material/Box'
+import MuiButton from '@mui/material/Button'
 import Drawer from '@mui/material/Drawer'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'

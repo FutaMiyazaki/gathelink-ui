@@ -1,7 +1,7 @@
 import AddLinkIcon from '@mui/icons-material/AddLink'
 import FolderOpenTwoToneIcon from '@mui/icons-material/FolderOpenTwoTone'
-import { Autocomplete } from '@mui/material'
 import Alert from '@mui/material/Alert'
+import Autocomplete from '@mui/material/Autocomplete'
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'

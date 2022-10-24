@@ -1,4 +1,4 @@
-import { Backdrop } from '@mui/material'
+import Backdrop from '@mui/material/Backdrop'
 import Box from '@mui/material/Box'
 import SpeedDial from '@mui/material/SpeedDial'
 import SpeedDialAction from '@mui/material/SpeedDialAction'
