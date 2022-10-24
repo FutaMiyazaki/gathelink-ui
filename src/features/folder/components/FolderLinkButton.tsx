@@ -2,7 +2,6 @@ import EditIcon from '@mui/icons-material/Edit'
 import IconButton from '@mui/material/IconButton'
 import MuiLink from '@mui/material/Link'
 import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
 import { parseCookies } from 'nookies'
@@ -49,27 +48,25 @@ export const FolderLinkButton: FC<FolderLinkButtonProps> = ({ folderId, link, ow
       }
       sx={{ p: 0, mb: 0 }}
     >
-      <ListItemButton sx={{ p: 0 }}>
-        <MuiLink href={link.url} target='_blank' underline='none'>
-          <ListItemText
-            primary={
-              <Typography component='span' variant='subtitle1' sx={{ fontWeight: 'bold' }}>
-                {link.title}
+      <MuiLink href={link.url} target='_blank' underline='none'>
+        <ListItemText
+          primary={
+            <Typography component='span' variant='subtitle1' sx={{ fontWeight: 'bold' }}>
+              {link.title}
+            </Typography>
+          }
+          secondary={
+            <>
+              <Typography color='black' component='span' sx={{ display: 'block', ml: 2 }}>
+                {getDomain(link.url)}
               </Typography>
-            }
-            secondary={
-              <>
-                <Typography color='black' component='span' sx={{ display: 'block', ml: 2 }}>
-                  {getDomain(link.url)}
-                </Typography>
-                <Typography component='span' variant='caption' sx={{ display: 'block', ml: 2 }}>
-                  {link.updated_at}
-                </Typography>
-              </>
-            }
-          />
-        </MuiLink>
-      </ListItemButton>
+              <Typography component='span' variant='caption' sx={{ display: 'block', ml: 2 }}>
+                {link.updated_at}
+              </Typography>
+            </>
+          }
+        />
+      </MuiLink>
     </ListItem>
   )
 }
