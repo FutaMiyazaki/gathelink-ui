@@ -1,4 +1,4 @@
-import { Button as MuiButton } from '@mui/material'
+import MuiButton from '@mui/material/Button'
 import CircularProgress from '@mui/material/CircularProgress'
 import { FC, ReactNode } from 'react'
 
@@ -26,21 +26,19 @@ export const Button: FC<ButtonProps> = ({
   size = 'medium',
   type,
   variant = 'contained',
-}) => {
-  return (
-    <MuiButton
-      onClick={onClick}
-      color={color}
-      disabled={disabled}
-      disableElevation
-      fullWidth={fullWidth}
-      size={size}
-      startIcon={icon}
-      type={type}
-      variant={variant}
-      sx={{ borderRadius: 5, fontWeight: 'bold' }}
-    >
-      {isLoading ? <CircularProgress size={25} /> : label}
-    </MuiButton>
-  )
-}
+}) => (
+  <MuiButton
+    onClick={onClick}
+    color={color}
+    disabled={disabled}
+    disableElevation
+    fullWidth={fullWidth}
+    size={size}
+    startIcon={icon}
+    type={type}
+    variant={variant}
+    sx={{ borderRadius: 5, fontWeight: 'bold' }}
+  >
+    {isLoading ? <CircularProgress size={25} /> : label}
+  </MuiButton>
+)
