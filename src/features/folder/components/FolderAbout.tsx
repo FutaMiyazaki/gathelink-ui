@@ -49,9 +49,9 @@ export const FolderAbout: FC = () => {
   }
 
   return (
-    <Container maxWidth='sm' sx={{ my: 4 }}>
+    <Container maxWidth='sm' sx={{ mt: 4, mb: 6 }}>
       {errorMessage !== '' && <Alert severity='error'>{errorMessage}</Alert>}
-      <Box sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 3, mb: 3 }}>
+      <Box sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 3, mb: 4 }}>
         <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold' }}>
           {folder?.name}
         </Typography>
@@ -91,7 +91,7 @@ export const FolderAbout: FC = () => {
         )}
       </Box>
       {folder?.links != null && folder?.links.length > 0 ? (
-        <Stack direction='column' spacing={3} sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 2 }}>
+        <Stack direction='column' spacing={3} sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 3 }}>
           {folder?.links?.map((link: Link) => {
             return (
               <FolderLinkButton

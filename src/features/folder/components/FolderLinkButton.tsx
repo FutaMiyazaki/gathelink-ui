@@ -49,7 +49,7 @@ export const FolderLinkButton: FC<FolderLinkButtonProps> = ({ folderId, link, ow
       }
       sx={{ p: 0, mb: 0 }}
     >
-      <ListItemButton sx={{ px: 1 }}>
+      <ListItemButton sx={{ p: 0 }}>
         <MuiLink href={link.url} target='_blank' underline='none'>
           <ListItemText
             primary={
