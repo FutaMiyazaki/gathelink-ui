@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton'
 import { useState, FC, MouseEvent } from 'react'
 
 import { Menu } from '@/components/Elements/Menu'
+import { MenuItems } from '@/components/Elements/Menu/MenuItems'
 import { useLogout } from '@/features/auth/hooks/useLogout'
 
 export const HeaderAccountMenu: FC = () => {
@@ -23,7 +24,7 @@ export const HeaderAccountMenu: FC = () => {
     logout()
   }
 
-  const accountMenuItems = [
+  const accountMenuItems: MenuItems = [
     { icon: <SettingsOutlinedIcon fontSize='small' />, onClick: handleCloseMenu, text: '設定' },
     { icon: <Logout fontSize='small' />, onClick: handleClickLogout, text: 'ログアウト' },
   ]

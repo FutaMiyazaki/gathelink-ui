@@ -10,8 +10,6 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { FC, MouseEvent, useEffect, useState } from 'react'
@@ -19,7 +17,8 @@ import { useParams } from 'react-router-dom'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { Link } from '@/components/Elements/Link'
-import { sortMenuItems } from '@/features/folder/components/sortMenuItems'
+import { Menu } from '@/components/Elements/Menu'
+import { MenuItems } from '@/components/Elements/Menu/MenuItems'
 import { useFetchMyFolders } from '@/features/folder/hooks/useFetchMyFolders'
 import { Folder } from '@/features/folder/types/Folder'
 import { FoldersSortType } from '@/features/folder/types/FoldersSortType'
@@ -79,16 +78,22 @@ export const MyFoldersList: FC = () => {
   const { folderId } = useParams<RouterParams>()
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const open = Boolean(anchorEl)
 
   const handleChangeSort = (sortType: FoldersSortType): void => {
     fetchMyFolders(sortType)
     setAnchorEl(null)
   }
 
-  const handleClickSortMenu = (e: MouseEvent<HTMLButtonElement>): void => {
+  const handleCloseMenu = (): void => setAnchorEl(null)
+
+  const handleOpenSortMenu = (e: MouseEvent<HTMLButtonElement>): void => {
     setAnchorEl(e.currentTarget)
   }
+
+  const sortMenuItems: MenuItems = [
+    { onClick: () => handleChangeSort('old'), text: '作成日時が古い順' },
+    { onClick: () => handleChangeSort('latest'), text: '作成日時が新しい順' },
+  ]
 
   useEffect(() => {
     fetchMyFolders('old')
@@ -105,27 +110,10 @@ export const MyFoldersList: FC = () => {
         <Typography variant='subtitle1' color='secondary.dark' sx={{ fontWeight: 'bold' }}>
           マイフォルダ
         </Typography>
-        <IconButton onClick={handleClickSortMenu}>
+        <IconButton onClick={handleOpenSortMenu}>
           <SortIcon />
         </IconButton>
-        <Menu anchorEl={anchorEl} autoFocus={false} open={open} onClose={() => setAnchorEl(null)}>
-          {sortMenuItems.map((item) => {
-            return (
-              <MenuItem
-                key={item.label}
-                onClick={() => handleChangeSort(item.sortType)}
-                sx={{
-                  '&:hover': {
-                    color: 'white',
-                    backgroundColor: 'primary.main',
-                  },
-                }}
-              >
-                {item.label}
-              </MenuItem>
-            )
-          })}
-        </Menu>
+        <Menu anchorEl={anchorEl} handleCloseMenu={handleCloseMenu} menuItems={sortMenuItems} />
       </Stack>
       {isLoading ? (
         <Stack justifyContent='center'>
