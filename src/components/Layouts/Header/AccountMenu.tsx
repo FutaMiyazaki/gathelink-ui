@@ -1,14 +1,13 @@
 import Logout from '@mui/icons-material/Logout'
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
 import SettingsIcon from '@mui/icons-material/Settings'
-import {
-  Avatar,
-  CircularProgress,
-  IconButton,
-  ListItemIcon,
-  Menu,
-  MenuItem,
-  Typography,
-} from '@mui/material'
+import Avatar from '@mui/material/Avatar'
+import CircularProgress from '@mui/material/CircularProgress'
+import IconButton from '@mui/material/IconButton'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import Typography from '@mui/material/Typography'
 import { useState, FC } from 'react'
 
 import { useLogout } from '@/features/auth/hooks/useLogout'
@@ -30,7 +29,9 @@ export const HeaderAccountMenu: FC = () => {
   return (
     <div>
       <IconButton onClick={handleClick} size='small'>
-        <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+        <Avatar sx={{ width: 32, height: 32 }}>
+          <PersonOutlineOutlinedIcon />
+        </Avatar>
       </IconButton>
       <Menu
         anchorEl={anchorEl}
