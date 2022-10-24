@@ -25,8 +25,16 @@ export const HeaderAccountMenu: FC = () => {
   }
 
   const accountMenuItems: MenuItems = [
-    { icon: <SettingsOutlinedIcon fontSize='small' />, onClick: handleCloseMenu, text: '設定' },
-    { icon: <Logout fontSize='small' />, onClick: handleClickLogout, text: 'ログアウト' },
+    {
+      icon: <SettingsOutlinedIcon fontSize='small' sx={{ mr: 1 }} />,
+      onClick: handleCloseMenu,
+      text: '設定',
+    },
+    {
+      icon: <Logout fontSize='small' sx={{ mr: 1 }} />,
+      onClick: handleClickLogout,
+      text: 'ログアウト',
+    },
   ]
 
   return (

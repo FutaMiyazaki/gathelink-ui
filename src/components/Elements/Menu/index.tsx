@@ -1,4 +1,3 @@
-import ListItemIcon from '@mui/material/ListItemIcon'
 import MuiMenu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Typography from '@mui/material/Typography'
@@ -29,7 +28,7 @@ export const Menu: FC<MenuProps> = ({ anchorEl, handleCloseMenu, menuItems }) =>
               },
             }}
           >
-            <ListItemIcon>{item.icon}</ListItemIcon>
+            {item.icon}
             <Typography component='span' variant='body2'>
               {item.text}
             </Typography>
