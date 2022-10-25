@@ -1,34 +1,22 @@
-import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import Box from '@mui/material/Box'
 import MuiButton from '@mui/material/Button'
 import Drawer from '@mui/material/Drawer'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { useRecoilValue } from 'recoil'
 
-import { Button } from '@/components/Elements/Button'
 import { Link } from '@/components/Elements/Link'
 import { LeadAuthorization } from '@/components/Layouts/LeadAuthorization'
-import { CreateFolderDialog } from '@/features/folder/components/CreateFolderDialog'
 import { MyFoldersList } from '@/features/folder/components/MyFoldersList'
 import { useMedia } from '@/hooks/useMedia'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 import { DRAWER_WIDTH } from '@/utils/const'
 
 export const Sidebar: FC = () => {
-  const [openDialog, setOpenDialog] = useState<boolean>(false)
-  const { isDesktopScreen } = useMedia()
   const authenticated = useRecoilValue(isAuthenticatedState)
-
-  const handleOpenDialog = (): void => {
-    setOpenDialog(true)
-  }
-
-  const handleCloseDialog = (): void => {
-    setOpenDialog(false)
-  }
+  const { isDesktopScreen } = useMedia()
 
   const renderContent = (
     <>
@@ -80,23 +68,14 @@ export const Sidebar: FC = () => {
               alignItems='center'
               direction='row'
               justifyContent='space-between'
-              sx={{ pl: 2, pr: 1, mb: 3 }}
+              sx={{ pl: 2, pr: 1, mb: 2 }}
             >
               <Link path='/' underline='none'>
                 <Typography component='span' color='primary' noWrap variant='h6'>
                   Gathelink
                 </Typography>
               </Link>
-              {authenticated && (
-                <Button
-                  icon={<CreateNewFolderOutlinedIcon />}
-                  label='フォルダ作成'
-                  onClick={handleOpenDialog}
-                  size='small'
-                />
-              )}
             </Stack>
-            <CreateFolderDialog handleCloseDialog={handleCloseDialog} open={openDialog} />
             {renderContent}
           </Box>
         </Drawer>
