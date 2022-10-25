@@ -88,14 +88,14 @@ export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({ handleCloseDia
             <Grid container alignItems='center' justifyContent='center' spacing={1}>
               <Grid item xs={6}>
                 <Button
-                  onClick={() => handleCloseDialog()}
                   color='secondary'
                   fullWidth={true}
                   label='キャンセル'
+                  onClick={() => handleCloseDialog()}
                 />
               </Grid>
               <Grid item xs={6}>
-                <Button isLoading={isLoading} fullWidth={true} label='作成する' type='submit' />
+                <Button fullWidth={true} isLoading={isLoading} label='作成する' type='submit' />
               </Grid>
             </Grid>
           </DialogActions>

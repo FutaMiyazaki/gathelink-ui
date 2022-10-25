@@ -84,36 +84,37 @@ export const AddLinkDialog: FC<AddLinkDialogProps> = ({ handleCloseDialog, open 
         <Box component='form' noValidate onSubmit={handleSubmit(onSubmit)}>
           <InputLabel labelTitle='タイトル' />
           <Controller
-            name='title'
             control={control}
             defaultValue={''}
+            name='title'
             rules={linkValidationRules.title}
             render={({ field, fieldState }) => (
               <TextField
                 {...field}
-                type='text'
-                fullWidth
-                size='small'
+                autoFocus
                 error={fieldState.invalid}
+                fullWidth
                 helperText={fieldState.error?.message}
+                size='small'
+                type='text'
                 sx={{ mb: 4 }}
               />
             )}
           />
           <InputLabel labelTitle='URL' />
           <Controller
-            name='url'
             control={control}
             defaultValue={''}
+            name='url'
             rules={linkValidationRules.url}
             render={({ field, fieldState }) => (
               <TextField
                 {...field}
-                type='text'
-                fullWidth
-                size='small'
                 error={fieldState.invalid}
+                fullWidth
                 helperText={fieldState.error?.message}
+                size='small'
+                type='text'
                 sx={{ mb: 4 }}
               />
             )}
@@ -163,7 +164,7 @@ export const AddLinkDialog: FC<AddLinkDialogProps> = ({ handleCloseDialog, open 
                 />
               </Grid>
               <Grid item xs={6}>
-                <Button isLoading={isLoading} fullWidth={true} label='作成する' type='submit' />
+                <Button fullWidth={true} isLoading={isLoading} label='作成する' type='submit' />
               </Grid>
             </Grid>
           </DialogActions>
