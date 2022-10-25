@@ -9,10 +9,8 @@ import { FC, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import { Button } from '@/components/Elements/Button'
-import { LinkButton } from '@/components/Elements/Button/LinkButton'
 import { Link } from '@/components/Elements/Link'
-import { buttonItems } from '@/components/Layouts/buttonItems'
-import { useGuestLogin } from '@/features/auth/hooks/useGuestLogin'
+import { LeadAuthorization } from '@/components/Layouts/LeadAuthorization'
 import { CreateFolderDialog } from '@/features/folder/components/CreateFolderDialog'
 import { MyFoldersList } from '@/features/folder/components/MyFoldersList'
 import { useMedia } from '@/hooks/useMedia'
@@ -23,11 +21,6 @@ export const Sidebar: FC = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const { isDesktopScreen } = useMedia()
   const authenticated = useRecoilValue(isAuthenticatedState)
-  const { isLoading, guestLogin } = useGuestLogin()
-
-  const handleClickGuestButton = (): void => {
-    guestLogin()
-  }
 
   const handleOpenDialog = (): void => {
     setOpenDialog(true)
@@ -39,38 +32,9 @@ export const Sidebar: FC = () => {
 
   const renderContent = (
     <>
-      {!authenticated && (
-        <Stack
-          direction='column'
-          spacing={2}
-          sx={{
-            backgroundColor: 'secondary.light',
-            borderRadius: 3,
-            p: 2,
-            mx: 2,
-          }}
-        >
-          <Typography variant='body2'>
-            新規登録・ログインをすると便利に Gathelink を使うことができます
-          </Typography>
-          {buttonItems.map((item) => (
-            <LinkButton
-              key={item.label}
-              fullWidth={true}
-              label={item.label}
-              path={item.path}
-              variant={item.variant}
-            />
-          ))}
-          <Button
-            onClick={handleClickGuestButton}
-            isLoading={isLoading}
-            fullWidth={true}
-            label='ゲストログインはこちら'
-            variant='text'
-          />
-        </Stack>
-      )}
+      <Box sx={{ mx: 2 }}>
+        <LeadAuthorization />
+      </Box>
       {authenticated && <MyFoldersList />}
       <Box sx={{ m: 2 }}>
         <MuiButton
@@ -103,8 +67,8 @@ export const Sidebar: FC = () => {
             width: DRAWER_WIDTH,
             flexShrink: 0,
             borderColor: 'secondary.light',
-            bgcolor: '#f5f5f5',
             '& .MuiDrawer-paper': {
+              bgcolor: '#f5f5f5',
               width: DRAWER_WIDTH,
             },
           }}
