@@ -36,12 +36,12 @@ export const Header: FC = () => {
     {
       icon: <AddLinkOutlinedIcon sx={{ mr: 1 }} />,
       onClick: () => setOpenLinkDialog(true),
-      text: 'リンク追加',
+      text: 'リンクを追加',
     },
     {
       icon: <CreateNewFolderOutlinedIcon sx={{ mr: 1 }} />,
       onClick: () => setOpenFolderDialog(true),
-      text: 'フォルダ作成',
+      text: 'フォルダを作成',
     },
   ]
 

@@ -11,6 +11,6 @@ type Actions = Array<{
 }>
 
 export const actions: Actions = [
-  { icon: <AddLinkOutlinedIcon />, name: 'リンク追加', type: 'addLink' },
-  { icon: <CreateNewFolderOutlinedIcon />, name: 'フォルダ作成', type: 'createFolder' },
+  { icon: <AddLinkOutlinedIcon />, name: 'リンクを追加', type: 'addLink' },
+  { icon: <CreateNewFolderOutlinedIcon />, name: 'フォルダを作成', type: 'createFolder' },
 ]
