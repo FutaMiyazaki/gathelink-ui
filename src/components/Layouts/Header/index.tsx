@@ -21,14 +21,6 @@ export const Header: FC = () => {
   const authenticated = useRecoilValue(isAuthenticatedState)
   const { isDesktopScreen } = useMedia()
 
-  const handleOpenDialog = (): void => {
-    setOpenDialog(true)
-  }
-
-  const handleCloseDialog = (): void => {
-    setOpenDialog(false)
-  }
-
   return (
     <AppBar
       elevation={0}
@@ -50,8 +42,8 @@ export const Header: FC = () => {
         {authenticated && <HeaderAccountMenu />}
         {authenticated && isDesktopScreen && (
           <>
-            <Button icon={<StarIcon />} label='リンク追加' onClick={handleOpenDialog} />
-            <AddLinkDialog handleCloseDialog={handleCloseDialog} open={openDialog} />
+            <Button icon={<StarIcon />} label='リンク追加' onClick={() => setOpenDialog(true)} />
+            <AddLinkDialog handleCloseDialog={() => setOpenDialog(false)} open={openDialog} />
           </>
         )}
         {!authenticated && !isDesktopScreen && (

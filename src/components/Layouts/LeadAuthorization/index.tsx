@@ -13,6 +13,10 @@ export const LeadAuthorization: FC = () => {
   const { isLoading, guestLogin } = useGuestLogin()
   const authenticated = useRecoilValue(isAuthenticatedState)
 
+  const handleClickGuestButton = (): void => {
+    guestLogin()
+  }
+
   if (authenticated) {
     return null
   }
@@ -40,11 +44,11 @@ export const LeadAuthorization: FC = () => {
         />
       ))}
       <Button
-        onClick={() => guestLogin}
-        isLoading={isLoading}
+        color='secondary'
         fullWidth={true}
-        label='ゲストログインはこちら'
-        variant='text'
+        isLoading={isLoading}
+        label='ゲストユーザーでログイン'
+        onClick={handleClickGuestButton}
       />
     </Stack>
   )

@@ -32,14 +32,6 @@ export const FolderAbout: FC = () => {
   const authenticated = useRecoilValue(isAuthenticatedState)
   const { errorMessage, fetchFolder, folder, isFeatchLoading } = useFetchFolder()
 
-  const handleOpenDialog = (): void => {
-    setOpenDialog(true)
-  }
-
-  const handleCloseDialog = (): void => {
-    setOpenDialog(false)
-  }
-
   useEffect(() => {
     folderId !== undefined && fetchFolder(folderId)
   }, [folderId])
@@ -78,13 +70,13 @@ export const FolderAbout: FC = () => {
                 color='warning'
                 icon={<DeleteForeverOutlinedIcon />}
                 label='削除'
-                onClick={handleOpenDialog}
+                onClick={() => setOpenDialog(true)}
                 variant='outlined'
               />
             </Stack>
             <DeleteFolderDialog
               folderId={folderId}
-              handleCloseDialog={handleCloseDialog}
+              handleCloseDialog={() => setOpenDialog(false)}
               open={openDialog}
             />
           </>
