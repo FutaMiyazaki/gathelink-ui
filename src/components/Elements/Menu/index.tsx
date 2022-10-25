@@ -15,7 +15,7 @@ export const Menu: FC<MenuProps> = ({ anchorEl, handleCloseMenu, menuItems }) =>
   const open = Boolean(anchorEl)
 
   return (
-    <MuiMenu anchorEl={anchorEl} elevation={2} onClose={handleCloseMenu} open={open}>
+    <MuiMenu anchorEl={anchorEl} onClose={handleCloseMenu} open={open} sx={{ mt: 1 }}>
       {menuItems.map((item) => {
         return (
           <MenuItem
