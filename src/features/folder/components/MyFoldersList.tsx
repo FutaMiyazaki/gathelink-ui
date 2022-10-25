@@ -34,10 +34,12 @@ type myFolderListItemProps = {
 
 const MyFolderListItem: FC<myFolderListItemProps> = ({ active, folderLinks, folderName }) => {
   const setIsDrawerOpened = useSetRecoilState(isDrawerOpenedState)
-  const bgColor = active ? 'secondary.main' : ''
+  const bgColor = active ? 'primary.main' : ''
+  const textColor = active ? '#ffffff' : ''
 
   return (
     <ListItem
+      color='#ffffff'
       onClick={() => setIsDrawerOpened(false)}
       dense
       disableGutters
@@ -50,15 +52,22 @@ const MyFolderListItem: FC<myFolderListItemProps> = ({ active, folderLinks, fold
       }
       sx={{
         backgroundColor: bgColor,
+        color: textColor,
         p: 0,
       }}
     >
       <ListItemButton>
-        <ListItemIcon>{active ? <FolderOpenRoundedIcon /> : <FolderRoundedIcon />}</ListItemIcon>
+        <ListItemIcon>
+          {active ? <FolderOpenRoundedIcon sx={{ color: '#ffffff' }} /> : <FolderRoundedIcon />}
+        </ListItemIcon>
         <ListItemText>
           <Typography
             variant='body2'
-            sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
           >
             {folderName}
           </Typography>
