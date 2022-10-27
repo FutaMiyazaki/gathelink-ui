@@ -14,6 +14,7 @@ import { LinkButton } from '@/components/Elements/Button/LinkButton'
 import { Link } from '@/components/Elements/Link'
 import { Menu } from '@/components/Elements/Menu'
 import { MenuItems } from '@/components/Elements/Menu/MenuItems'
+import { GlobalMenu } from '@/components/Layouts/GlobamMenu'
 import { HeaderAccountMenu } from '@/components/Layouts/Header/AccountMenu'
 import { buttonItems } from '@/components/Layouts/LeadAuthorization/buttonItems'
 import { CreateFolderDialog } from '@/features/folder/components/CreateFolderDialog'
@@ -63,6 +64,7 @@ export const Header: FC = () => {
           </Typography>
         </Link>
         <Box sx={{ flexGrow: 1 }} />
+        {isDesktopScreen && <GlobalMenu />}
         {authenticated && <HeaderAccountMenu />}
         {authenticated && isDesktopScreen && (
           <>
