@@ -73,7 +73,7 @@ export const Header: FC = () => {
               startIcon={<StarTwoToneIcon />}
               onClick={handleOpenMenu}
               variant='contained'
-              sx={{ borderRadius: 5, fontWeight: 'bold' }}
+              sx={{ borderRadius: 5, fontWeight: 'bold', ml: 1 }}
             >
               追加
             </Button>
