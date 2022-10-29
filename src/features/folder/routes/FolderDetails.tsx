@@ -30,7 +30,6 @@ export const FolderDetails: FC = () => {
   const cookie = parseCookies()
   const uid = cookie.uid
   const { folderId } = useParams<RouterParams>()
-
   const authenticated = useRecoilValue(isAuthenticatedState)
   const { errorMessage, fetchFolder, folder, isFeatchLoading } = useFetchFolder()
 
@@ -38,7 +37,7 @@ export const FolderDetails: FC = () => {
     folderId !== undefined && fetchFolder(folderId)
   }, [folderId])
 
-  if (isFeatchLoading) <PageLoading />
+  if (isFeatchLoading) return <PageLoading />
 
   return (
     <Container maxWidth='sm'>
