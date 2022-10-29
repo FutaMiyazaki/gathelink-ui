@@ -17,9 +17,7 @@ export const LeadAuthorization: FC = () => {
     guestLogin()
   }
 
-  if (authenticated) {
-    return null
-  }
+  if (authenticated) return null
 
   return (
     <Stack

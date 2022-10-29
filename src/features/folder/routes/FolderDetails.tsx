@@ -38,9 +38,7 @@ export const FolderDetails: FC = () => {
     folderId !== undefined && fetchFolder(folderId)
   }, [folderId])
 
-  if (isFeatchLoading) {
-    return <PageLoading />
-  }
+  if (isFeatchLoading) <PageLoading />
 
   return (
     <Container maxWidth='sm'>

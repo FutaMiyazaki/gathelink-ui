@@ -43,9 +43,7 @@ export const EditFolder: FC = () => {
     folderId !== undefined && fetchFolder(folderId)
   }, [folderId])
 
-  if (isFeatchLoading) {
-    return <PageLoading />
-  }
+  if (isFeatchLoading) return <PageLoading />
 
   return (
     <Container maxWidth='sm'>

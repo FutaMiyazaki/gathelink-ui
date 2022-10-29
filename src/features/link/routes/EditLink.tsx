@@ -71,9 +71,7 @@ export const EditLink: FC = () => {
     linkId !== undefined && fetchLink(linkId)
   }, [linkId])
 
-  if (isFeatchLoading) {
-    return <PageLoading />
-  }
+  if (isFeatchLoading) <PageLoading />
 
   return (
     <Container maxWidth='sm'>
