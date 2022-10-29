@@ -15,6 +15,7 @@ import Typography from '@mui/material/Typography'
 import { FC, MouseEvent, useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
+import { PageHeading } from '@/components/Elements/Heading/PageHeading'
 import { Link } from '@/components/Elements/Link'
 import { Menu } from '@/components/Elements/Menu'
 import { MenuItems } from '@/components/Elements/Menu/MenuItems'
@@ -24,7 +25,7 @@ import { FoldersSortType } from '@/features/folder/types/FoldersSortType'
 import { useMedia } from '@/hooks/useMedia'
 import { myFoldersState } from '@/states/MyFoldersAtom'
 
-export const MyFoldersPage: FC = () => {
+export const MyFoldersList: FC = () => {
   const myFolders = useRecoilValue(myFoldersState)
   const { errorMessage, fetchMyFolders, isLoading } = useFetchMyFolders()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -48,16 +49,12 @@ export const MyFoldersPage: FC = () => {
     fetchMyFolders('old')
   }, [])
 
-  if (isDesktopScreen) {
-    return null
-  }
+  if (isDesktopScreen) return null
 
   return (
     <Box sx={{ mt: 4, mb: 6 }}>
       <Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ px: 1.5 }}>
-        <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold' }}>
-          マイフォルダ
-        </Typography>
+        <PageHeading text='マイフォルダ' />
         <IconButton onClick={handleOpenSortMenu}>
           <SortIcon />
         </IconButton>

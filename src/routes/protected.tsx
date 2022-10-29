@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom'
 
 import { MainLayout } from '@/components/Layouts/MainLayout'
 import { EditFolder } from '@/features/folder/routes/EditFolder'
-import { MyFoldersPage } from '@/features/folder/routes/MyFolders'
+import { MyFoldersList } from '@/features/folder/routes/MyFoldersList'
 import { EditLink } from '@/features/link/routes/EditLink'
 
 const Main: FC = () => (
@@ -18,7 +18,7 @@ export const protectedRoutes = [
     children: [
       {
         path: '/myfolders',
-        element: <MyFoldersPage />,
+        element: <MyFoldersList />,
       },
       {
         path: '/folder/:folderId/edit',
