@@ -39,10 +39,12 @@ export const MainLayout: FC<MainLayoutProps> = ({ children }) => (
       >
         <GlobalMenu />
       </Box>
-      <Container>
-        <AppAlert />
-      </Container>
-      {children}
+      <Box sx={{ mt: 4, mb: 6 }}>
+        {children}
+        <Container>
+          <AppAlert />
+        </Container>
+      </Box>
       <SpeedDialButton />
     </Box>
   </Box>

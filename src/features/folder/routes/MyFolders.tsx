@@ -53,7 +53,7 @@ export const MyFoldersPage: FC = () => {
   }
 
   return (
-    <Box sx={{ mt: 1, mb: 6 }}>
+    <Box sx={{ mt: 4, mb: 6 }}>
       <Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ px: 1.5 }}>
         <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold' }}>
           マイフォルダ

@@ -76,7 +76,7 @@ export const EditLink: FC = () => {
   }
 
   return (
-    <Container maxWidth='sm' sx={{ mt: 4 }}>
+    <Container maxWidth='sm'>
       <Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ mb: 3 }}>
         <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold' }}>
           リンクの編集
