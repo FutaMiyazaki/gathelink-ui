@@ -32,6 +32,7 @@ export const useGuestLogin = (): UseGuestLogin => {
           setCookie(null, 'accessToken', res.headers['access-token'], option)
         res.headers.client != null && setCookie(null, 'client', res.headers.client, option)
         res.headers.uid != null && setCookie(null, 'uid', res.headers.uid, option)
+        res.data.data.id != null && setCookie(null, 'userId', res.data.data.id, option)
         setAuthenticated(true)
         navigate('/')
         setAlert({ isShow: true, message: 'ゲストユーザーでログインしました', severity: 'success' })

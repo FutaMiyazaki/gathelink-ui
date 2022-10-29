@@ -32,6 +32,7 @@ export const useLogout = (): UseLogout => {
         destroyCookie(null, 'accessToken', option)
         destroyCookie(null, 'client', option)
         destroyCookie(null, 'uid', option)
+        destroyCookie(null, 'userId', option)
         setAuthenticated(false)
         navigate('/')
         setAlert({ isShow: true, message: 'ログアウトに成功しました', severity: 'success' })
