@@ -12,6 +12,7 @@ import { useRecoilValue } from 'recoil'
 
 import { Button } from '@/components/Elements/Button'
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
+import { PageHeading } from '@/components/Elements/Heading/PageHeading'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { FavoriteFolderButton } from '@/features/favoriteFolder/components/FavoriteFolderButton'
 import { DeleteFolderDialog } from '@/features/folder/components/DeleteFolderDialog'
@@ -47,9 +48,7 @@ export const FolderDetails: FC = () => {
       <Box sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 3, mb: 4 }}>
         <Stack alignItems='flex-start' direction='row' justifyContent='space-between'>
           <Box>
-            <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold' }}>
-              {folder?.name}
-            </Typography>
+            <PageHeading text={folder?.name} />
             <Typography color='secondary.dark' variant='subtitle2'>
               作成者：{folder?.user?.name}
             </Typography>
