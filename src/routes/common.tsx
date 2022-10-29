@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { Outlet } from 'react-router-dom'
 
 import { MainLayout } from '@/components/Layouts/MainLayout'
-import { FolderAboutPage } from '@/features/folder/routes/about'
+import { FolderDetails } from '@/features/folder/routes/FolderDetails'
 import { Home } from '@/features/misc/routes/Home'
 
 const Main: FC = () => (
@@ -18,7 +18,7 @@ export const commonRoutes = [
       { path: '/', element: <Home /> },
       {
         path: '/folder/:folderId',
-        element: <FolderAboutPage />,
+        element: <FolderDetails />,
       },
     ],
   },

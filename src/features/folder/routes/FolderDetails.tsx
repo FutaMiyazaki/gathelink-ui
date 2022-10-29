@@ -13,6 +13,7 @@ import { useRecoilValue } from 'recoil'
 import { Button } from '@/components/Elements/Button'
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
 import { PageLoading } from '@/components/Layouts/PageLoading'
+import { FavoriteFolderButton } from '@/features/favoriteFolder/components/FavoriteFolderButton'
 import { DeleteFolderDialog } from '@/features/folder/components/DeleteFolderDialog'
 import { FolderLinkButton } from '@/features/folder/components/FolderLinkButton'
 import { useFetchFolder } from '@/features/folder/hooks/useFetchFolder'
@@ -23,7 +24,7 @@ type RouterParams = {
   folderId: string
 }
 
-export const FolderAbout: FC = () => {
+export const FolderDetails: FC = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const cookie = parseCookies()
   const uid = cookie.uid
@@ -41,15 +42,20 @@ export const FolderAbout: FC = () => {
   }
 
   return (
-    <Container maxWidth='sm' sx={{ mt: 4, mb: 6 }}>
+    <Container maxWidth='sm'>
       {errorMessage !== '' && <Alert severity='error'>{errorMessage}</Alert>}
       <Box sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 3, mb: 4 }}>
-        <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold' }}>
-          {folder?.name}
-        </Typography>
-        <Typography color='secondary.dark' variant='subtitle2'>
-          作成者：{folder?.user?.name}
-        </Typography>
+        <Stack alignItems='flex-start' direction='row' justifyContent='space-between'>
+          <Box>
+            <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold' }}>
+              {folder?.name}
+            </Typography>
+            <Typography color='secondary.dark' variant='subtitle2'>
+              作成者：{folder?.user?.name}
+            </Typography>
+          </Box>
+          <FavoriteFolderButton folderId={folderId as string} />
+        </Stack>
         {authenticated && folder?.user?.email === uid && folderId !== undefined && (
           <>
             <Stack
