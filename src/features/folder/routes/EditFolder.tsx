@@ -43,12 +43,10 @@ export const EditFolder: FC = () => {
     folderId !== undefined && fetchFolder(folderId)
   }, [folderId])
 
-  if (isFeatchLoading) {
-    return <PageLoading />
-  }
+  if (isFeatchLoading) return <PageLoading />
 
   return (
-    <Container maxWidth='sm' sx={{ my: 4 }}>
+    <Container maxWidth='sm'>
       <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold', mb: 3 }}>
         フォルダの編集
       </Typography>

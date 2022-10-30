@@ -3,6 +3,7 @@ import Container from '@mui/material/Container'
 import { FC, ReactNode } from 'react'
 
 import { AppAlert } from '@/components/Alert'
+import { GlobalMenu } from '@/components/Layouts/GlobamMenu'
 import { Header } from '@/components/Layouts/Header'
 import { Sidebar } from '@/components/Layouts/Sidebar'
 import { SpeedDialButton } from '@/components/Layouts/SpeedDialButton'
@@ -29,10 +30,21 @@ export const MainLayout: FC<MainLayoutProps> = ({ children }) => (
         pt: 8,
       }}
     >
-      <Container>
-        <AppAlert />
-      </Container>
-      {children}
+      <Box
+        sx={{
+          borderBottom: 1,
+          borderColor: '#e0e0e0',
+          display: { sx: 'flex', md: 'none' },
+        }}
+      >
+        <GlobalMenu />
+      </Box>
+      <Box sx={{ mt: 4, mb: 6 }}>
+        {children}
+        <Container>
+          <AppAlert />
+        </Container>
+      </Box>
       <SpeedDialButton />
     </Box>
   </Box>

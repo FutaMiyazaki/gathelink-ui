@@ -1,4 +1,4 @@
-import { useMediaQuery } from '@mui/material'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 type UseMedia = {
   isDesktopScreen: boolean

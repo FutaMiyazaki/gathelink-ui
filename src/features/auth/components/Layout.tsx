@@ -1,11 +1,14 @@
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import { Avatar, Box, Divider, Stack } from '@mui/material'
+import Avatar from '@mui/material/Avatar'
+import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
-import Typography from '@mui/material/Typography'
+import Divider from '@mui/material/Divider'
+import Stack from '@mui/material/Stack'
 import { FC, ReactNode } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
+import { PageHeading } from '@/components/Elements/Heading/PageHeading'
 import { Link } from '@/components/Elements/Link'
 
 type AuthLayoutProps = {
@@ -28,10 +31,8 @@ export const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
           <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component='h1' variant='h5' sx={{ mb: 3, fontWeight: 'bold' }}>
-            {location.pathname === '/signup' && '新規登録'}
-            {location.pathname === '/login' && 'ログイン'}
-          </Typography>
+          {location.pathname === '/signup' && <PageHeading text='新規登録' />}
+          {location.pathname === '/login' && <PageHeading text='ログイン' />}
         </Box>
         {children}
         <Stack direction='column' justifyContent='center' sx={{ textAlign: 'center' }}>

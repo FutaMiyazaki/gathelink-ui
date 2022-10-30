@@ -57,16 +57,24 @@ export const EditLink: FC = () => {
     setOpenDialog(false)
   }
 
+  const setDefaultFolder = (myFolders: Folder[]): Folder => {
+    let defaultFolder: Folder = { id: 0, name: '', updated_at: '' }
+    myFolders.forEach((folder) => {
+      if (folder.id === parseInt(folderId as string, 10)) {
+        defaultFolder = folder
+      }
+    })
+    return defaultFolder
+  }
+
   useEffect(() => {
     linkId !== undefined && fetchLink(linkId)
   }, [linkId])
 
-  if (isFeatchLoading) {
-    return <PageLoading />
-  }
+  if (isFeatchLoading) <PageLoading />
 
   return (
-    <Container maxWidth='sm' sx={{ mt: 4 }}>
+    <Container maxWidth='sm'>
       <Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ mb: 3 }}>
         <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold' }}>
           リンクの編集
@@ -134,7 +142,7 @@ export const EditLink: FC = () => {
           {myFolders !== undefined && (
             <Controller
               control={control}
-              defaultValue={null}
+              defaultValue={setDefaultFolder(myFolders)}
               name='folder'
               rules={linkValidationRules.folder}
               render={({ field, fieldState }) => (
