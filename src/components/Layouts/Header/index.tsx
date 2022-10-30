@@ -100,6 +100,7 @@ export const Header: FC = () => {
                 fullWidth={true}
                 label={item.label}
                 path={item.path}
+                size='small'
                 variant={item.variant}
               />
             ))}
