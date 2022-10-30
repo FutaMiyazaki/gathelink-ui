@@ -4,7 +4,7 @@ export const tabItems = [
     to: '/myfolders',
   },
   {
-    label: '探す',
-    to: '/search',
+    label: 'お気に入り',
+    to: '/favorited',
   },
 ]

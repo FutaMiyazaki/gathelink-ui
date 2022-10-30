@@ -2,8 +2,9 @@ import { FC } from 'react'
 import { Outlet } from 'react-router-dom'
 
 import { MainLayout } from '@/components/Layouts/MainLayout'
+import { FavoritedFolders } from '@/features/favoriteFolder/routes/FavoritedFolders'
 import { EditFolder } from '@/features/folder/routes/EditFolder'
-import { MyFoldersList } from '@/features/folder/routes/MyFoldersList'
+import { MyFolders } from '@/features/folder/routes/MyFoldersList'
 import { EditLink } from '@/features/link/routes/EditLink'
 
 const Main: FC = () => (
@@ -18,7 +19,11 @@ export const protectedRoutes = [
     children: [
       {
         path: '/myfolders',
-        element: <MyFoldersList />,
+        element: <MyFolders />,
+      },
+      {
+        path: '/favorited',
+        element: <FavoritedFolders />,
       },
       {
         path: '/folder/:folderId/edit',
