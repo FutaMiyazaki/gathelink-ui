@@ -50,7 +50,10 @@ export const FolderDetails: FC = () => {
               作成者：{folder?.user?.name}
             </Typography>
           </Box>
-          <FavoriteFolderButton folderId={folderId as string} />
+          <FavoriteFolderButton
+            folderId={folderId as string}
+            favoritedData={folder?.folder_favorites}
+          />
         </Stack>
         {authenticated && folder?.user?.email === uid && folderId !== undefined && (
           <>

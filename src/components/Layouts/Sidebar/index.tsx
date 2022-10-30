@@ -9,6 +9,7 @@ import { useRecoilValue } from 'recoil'
 
 import { Link } from '@/components/Elements/Link'
 import { LeadAuthorization } from '@/components/Layouts/LeadAuthorization'
+import { FavoritedFoldersList } from '@/features/favoriteFolder/components/FavoritedFoldersList'
 import { MyFoldersList } from '@/features/folder/components/MyFoldersList'
 import { useMedia } from '@/hooks/useMedia'
 import { isAuthenticatedState } from '@/states/AuthAtom'
@@ -23,7 +24,12 @@ export const Sidebar: FC = () => {
       <Box sx={{ mx: 2 }}>
         <LeadAuthorization />
       </Box>
-      {authenticated && <MyFoldersList />}
+      {authenticated && (
+        <>
+          <FavoritedFoldersList />
+          <MyFoldersList />
+        </>
+      )}
       <Box sx={{ m: 2 }}>
         <MuiButton
           disableElevation
