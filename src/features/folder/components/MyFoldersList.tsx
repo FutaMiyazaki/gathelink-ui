@@ -15,7 +15,7 @@ import { myFoldersState } from '@/states/MyFoldersAtom'
 
 export const MyFoldersList: FC = () => {
   const myFolders = useRecoilValue(myFoldersState)
-  const { errorMessage, fetchMyFolders, isLoading } = useFetchMyFolders()
+  const { errorMessage, fetchMyFolders, isFeatching } = useFetchMyFolders()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
   const handleChangeSort = (sortType: FoldersSortType): void => {
@@ -57,7 +57,7 @@ export const MyFoldersList: FC = () => {
       <FoldersList
         errorMessage={errorMessage}
         folders={myFolders}
-        isLoading={isLoading}
+        isLoading={isFeatching}
         noContentsText='作成したフォルダはありません'
       />
     </Box>
