@@ -28,7 +28,7 @@ export const FavoriteFolderButton: FC<FavoriteFolderButtonProps> = ({
   )
   const { createFavoriteFolder, createResStatus, favoriteData, isCreating } =
     useCreateFavoriteFolder()
-  const { deleteFavoriteFolder, deleteResStatus, isDeleting } = useDeleteFavoriteFolder()
+  const { deleteFavoriteFolder, isDeleting } = useDeleteFavoriteFolder()
 
   const handleCreateFavorite = (): void => {
     createFavoriteFolder(folderId)
