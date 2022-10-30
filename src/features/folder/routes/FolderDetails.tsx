@@ -12,7 +12,9 @@ import { useRecoilValue } from 'recoil'
 
 import { Button } from '@/components/Elements/Button'
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
+import { PageHeading } from '@/components/Elements/Heading/PageHeading'
 import { PageLoading } from '@/components/Layouts/PageLoading'
+import { FavoriteFolderButton } from '@/features/favoriteFolder/components/FavoriteFolderButton'
 import { DeleteFolderDialog } from '@/features/folder/components/DeleteFolderDialog'
 import { FolderLinkButton } from '@/features/folder/components/FolderLinkButton'
 import { useFetchFolder } from '@/features/folder/hooks/useFetchFolder'
@@ -23,41 +25,36 @@ type RouterParams = {
   folderId: string
 }
 
-export const FolderAbout: FC = () => {
+export const FolderDetails: FC = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const cookie = parseCookies()
   const uid = cookie.uid
   const { folderId } = useParams<RouterParams>()
-
   const authenticated = useRecoilValue(isAuthenticatedState)
   const { errorMessage, fetchFolder, folder, isFeatchLoading } = useFetchFolder()
-
-  const handleOpenDialog = (): void => {
-    setOpenDialog(true)
-  }
-
-  const handleCloseDialog = (): void => {
-    setOpenDialog(false)
-  }
 
   useEffect(() => {
     folderId !== undefined && fetchFolder(folderId)
   }, [folderId])
 
-  if (isFeatchLoading) {
-    return <PageLoading />
-  }
+  if (isFeatchLoading) return <PageLoading />
 
   return (
-    <Container maxWidth='sm' sx={{ my: 4 }}>
+    <Container maxWidth='sm'>
       {errorMessage !== '' && <Alert severity='error'>{errorMessage}</Alert>}
-      <Box sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 2, mb: 3 }}>
-        <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold' }}>
-          {folder?.name}
-        </Typography>
-        <Typography color='secondary.dark' variant='subtitle2'>
-          作成者：{folder?.user?.name}
-        </Typography>
+      <Box sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 3, mb: 4 }}>
+        <Stack alignItems='flex-start' direction='row' justifyContent='space-between'>
+          <Box>
+            <PageHeading text={folder?.name} />
+            <Typography color='secondary.dark' variant='subtitle2'>
+              作成者：{folder?.user?.name}
+            </Typography>
+          </Box>
+          <FavoriteFolderButton
+            folderId={folderId as string}
+            favoritedData={folder?.folder_favorites}
+          />
+        </Stack>
         {authenticated && folder?.user?.email === uid && folderId !== undefined && (
           <>
             <Stack
@@ -78,20 +75,20 @@ export const FolderAbout: FC = () => {
                 color='warning'
                 icon={<DeleteForeverOutlinedIcon />}
                 label='削除'
-                onClick={handleOpenDialog}
-                variant='text'
+                onClick={() => setOpenDialog(true)}
+                variant='outlined'
               />
             </Stack>
             <DeleteFolderDialog
               folderId={folderId}
-              handleCloseDialog={handleCloseDialog}
+              handleCloseDialog={() => setOpenDialog(false)}
               open={openDialog}
             />
           </>
         )}
       </Box>
       {folder?.links != null && folder?.links.length > 0 ? (
-        <Stack direction='column' spacing={3} sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 2 }}>
+        <Stack direction='column' spacing={3} sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 3 }}>
           {folder?.links?.map((link: Link) => {
             return (
               <FolderLinkButton

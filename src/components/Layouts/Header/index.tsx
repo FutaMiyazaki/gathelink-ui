@@ -1,29 +1,50 @@
-import StarIcon from '@mui/icons-material/Star'
-import { AppBar, Box, Stack, Toolbar, Typography } from '@mui/material'
-import { FC, useState } from 'react'
+import AddLinkOutlinedIcon from '@mui/icons-material/AddLinkOutlined'
+import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined'
+import StarTwoToneIcon from '@mui/icons-material/StarTwoTone'
+import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Stack from '@mui/material/Stack'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import { FC, MouseEvent, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
-import { Button } from '@/components/Elements/Button'
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
 import { Link } from '@/components/Elements/Link'
+import { Menu } from '@/components/Elements/Menu'
+import { MenuItems } from '@/components/Elements/Menu/MenuItems'
+import { GlobalMenu } from '@/components/Layouts/GlobamMenu'
 import { HeaderAccountMenu } from '@/components/Layouts/Header/AccountMenu'
-import { buttonItems } from '@/components/Layouts/Sidebar/buttonItems'
+import { buttonItems } from '@/components/Layouts/LeadAuthorization/buttonItems'
+import { CreateFolderDialog } from '@/features/folder/components/CreateFolderDialog'
 import { AddLinkDialog } from '@/features/link/components/addLinkDialog'
 import { useMedia } from '@/hooks/useMedia'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 
 export const Header: FC = () => {
-  const [openDialog, setOpenDialog] = useState<boolean>(false)
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [openFolderDialog, setOpenFolderDialog] = useState(false)
+  const [openLinkDialog, setOpenLinkDialog] = useState(false)
   const authenticated = useRecoilValue(isAuthenticatedState)
   const { isDesktopScreen } = useMedia()
 
-  const handleOpenDialog = (): void => {
-    setOpenDialog(true)
+  const handleOpenMenu = (event: MouseEvent<HTMLElement>): void => {
+    setAnchorEl(event.currentTarget)
   }
 
-  const handleCloseDialog = (): void => {
-    setOpenDialog(false)
-  }
+  const headerAddActions: MenuItems = [
+    {
+      icon: <AddLinkOutlinedIcon sx={{ mr: 1 }} />,
+      onClick: () => setOpenLinkDialog(true),
+      text: 'リンクを追加',
+    },
+    {
+      icon: <CreateNewFolderOutlinedIcon sx={{ mr: 1 }} />,
+      onClick: () => setOpenFolderDialog(true),
+      text: 'フォルダを作成',
+    },
+  ]
 
   return (
     <AppBar
@@ -43,11 +64,32 @@ export const Header: FC = () => {
           </Typography>
         </Link>
         <Box sx={{ flexGrow: 1 }} />
+        {isDesktopScreen && <GlobalMenu />}
         {authenticated && <HeaderAccountMenu />}
         {authenticated && isDesktopScreen && (
           <>
-            <Button icon={<StarIcon />} label='リンク追加' onClick={handleOpenDialog} />
-            <AddLinkDialog handleCloseDialog={handleCloseDialog} open={openDialog} />
+            <Button
+              disableElevation
+              startIcon={<StarTwoToneIcon />}
+              onClick={handleOpenMenu}
+              variant='contained'
+              sx={{ borderRadius: 5, fontWeight: 'bold', ml: 1 }}
+            >
+              追加
+            </Button>
+            <Menu
+              anchorEl={anchorEl}
+              handleCloseMenu={() => setAnchorEl(null)}
+              menuItems={headerAddActions}
+            />
+            <AddLinkDialog
+              handleCloseDialog={() => setOpenLinkDialog(false)}
+              open={openLinkDialog}
+            />
+            <CreateFolderDialog
+              handleCloseDialog={() => setOpenFolderDialog(false)}
+              open={openFolderDialog}
+            />
           </>
         )}
         {!authenticated && !isDesktopScreen && (
@@ -58,6 +100,7 @@ export const Header: FC = () => {
                 fullWidth={true}
                 label={item.label}
                 path={item.path}
+                size='small'
                 variant={item.variant}
               />
             ))}

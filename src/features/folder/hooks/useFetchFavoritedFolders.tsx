@@ -3,29 +3,29 @@ import { useSetRecoilState } from 'recoil'
 
 import { FoldersSortType } from '@/features/folder/types/FoldersSortType'
 import { apiClient } from '@/lib/axios/apiClient'
-import { myFoldersState } from '@/states/MyFoldersAtom'
+import { favoritedFoldersState } from '@/states/FavoritedFoldersAtom'
 import { authHeaders } from '@/utils/authHeaders'
 
-type UseFetchMyFolders = {
+type UseFetchFavoritedFolders = {
   errorMessage: string
-  fetchMyFolders: (sortType: FoldersSortType) => Promise<void>
+  fetchFetchFavoritedFolders: (sortType: FoldersSortType) => Promise<void>
   isFeatching: boolean
 }
 
-export const useFetchMyFolders = (): UseFetchMyFolders => {
+export const useFetchFavoritedFolders = (): UseFetchFavoritedFolders => {
   const [errorMessage, setErrorMessage] = useState('')
   const [isFeatching, setIsFeatching] = useState(false)
-  const setMyFolders = useSetRecoilState(myFoldersState)
+  const setFavoritedFolders = useSetRecoilState(favoritedFoldersState)
   const headers = authHeaders()
 
-  const fetchMyFolders = async (sortType: FoldersSortType): Promise<void> => {
+  const fetchFetchFavoritedFolders = async (sortType: FoldersSortType): Promise<void> => {
     setIsFeatching(true)
     setErrorMessage('')
 
     await apiClient
-      .get(`/my_folder_list?sort=${sortType}`, { headers })
+      .get(`/favorited_folders_list?sort=${sortType}`, { headers })
       .then((res) => {
-        setMyFolders(res.data)
+        setFavoritedFolders(res.data)
       })
       .catch((err) => {
         setErrorMessage(err.message)
@@ -37,7 +37,7 @@ export const useFetchMyFolders = (): UseFetchMyFolders => {
 
   return {
     errorMessage,
-    fetchMyFolders,
+    fetchFetchFavoritedFolders,
     isFeatching,
   }
 }

@@ -1,4 +1,4 @@
-import { Backdrop } from '@mui/material'
+import Backdrop from '@mui/material/Backdrop'
 import Box from '@mui/material/Box'
 import SpeedDial from '@mui/material/SpeedDial'
 import SpeedDialAction from '@mui/material/SpeedDialAction'
@@ -37,23 +37,31 @@ export const SpeedDialButton: FC = () => {
     <>
       {isAuthenticated && isMobileScreen && (
         <>
-          <Box sx={{ transform: 'translateZ(0px)', position: 'fixed', bottom: 0, right: 0 }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              position: 'fixed',
+              transform: 'translateZ(0px)',
+              bottom: 0,
+              right: 0,
+            }}
+          >
             <Backdrop open={openSpeedDial} />
             <SpeedDial
               ariaLabel='App SpeedDial'
-              sx={{ position: 'absolute', bottom: 16, right: 16 }}
               icon={<SpeedDialIcon />}
               onClose={() => setOpenSpeedDial(false)}
               onOpen={() => setOpenSpeedDial(true)}
               open={openSpeedDial}
+              sx={{ position: 'absolute', bottom: 16, right: 16 }}
             >
               {actions.map((action) => (
                 <SpeedDialAction
                   key={action.name}
                   icon={action.icon}
-                  tooltipTitle={action.name}
-                  tooltipOpen
                   onClick={() => handleOpenDialog(action.type)}
+                  tooltipOpen
+                  tooltipTitle={action.name}
                 />
               ))}
             </SpeedDial>
