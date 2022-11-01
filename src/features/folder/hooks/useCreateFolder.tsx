@@ -32,7 +32,7 @@ export const useCreateFolder = (): UseCreateFolder => {
       .then((res) => {
         setAlert({
           isShow: true,
-          message: `${res.data.name as string} フォルダを作成しました`,
+          message: 'フォルダを作成しました',
           severity: 'success',
         })
         setResStatus(res.status)
