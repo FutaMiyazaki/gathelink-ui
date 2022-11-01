@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
 
 import { apiClient } from '@/lib/axios/apiClient'
@@ -23,6 +24,7 @@ export const useAddLink = (): UseAddLink => {
   const [isLoading, setIsLoading] = useState(false)
   const [resStatus, setResStatus] = useState(0)
   const [errorMessage, setErrorMessage] = useState('')
+  const navigate = useNavigate()
   const setAlert = useSetRecoilState(alertState)
   const setEditingLinks = useSetRecoilState(EditingLinksState)
   const headers = authHeaders()
@@ -36,6 +38,7 @@ export const useAddLink = (): UseAddLink => {
       .post('/links', { link }, { headers })
       .then((res) => {
         setResStatus(res.status)
+        navigate(`/folder/${res.data.id as string}`)
         setAlert({
           isShow: true,
           message: 'リンクを追加しました',
