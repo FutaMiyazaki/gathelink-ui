@@ -19,6 +19,7 @@ import { DeleteFolderDialog } from '@/features/folder/components/DeleteFolderDia
 import { FolderLinkButton } from '@/features/folder/components/FolderLinkButton'
 import { useFetchFolder } from '@/features/folder/hooks/useFetchFolder'
 import { Link } from '@/features/link/types/Link'
+import { NotFound } from '@/features/misc/routes/NotFound'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 
 type RouterParams = {
@@ -31,13 +32,17 @@ export const FolderDetails: FC = () => {
   const uid = cookie.uid
   const { folderId } = useParams<RouterParams>()
   const authenticated = useRecoilValue(isAuthenticatedState)
-  const { errorMessage, fetchFolder, folder, isFeatchLoading } = useFetchFolder()
+  const { errorMessage, fetchFolder, folder, isFeatchLoading, resStatus } = useFetchFolder()
 
   useEffect(() => {
     folderId !== undefined && fetchFolder(folderId)
   }, [folderId])
 
   if (isFeatchLoading) return <PageLoading />
+
+  if (!isFeatchLoading && resStatus === 404) {
+    return <NotFound />
+  }
 
   return (
     <Container maxWidth='sm'>
