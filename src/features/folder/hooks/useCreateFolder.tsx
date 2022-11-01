@@ -38,7 +38,7 @@ export const useCreateFolder = (): UseCreateFolder => {
         setResStatus(res.status)
       })
       .catch((err) => {
-        setErrorMessage(err.message)
+        setErrorMessage(err.response.data.base[0])
         setResStatus(err.status)
       })
       .finally(() => {
