@@ -50,8 +50,8 @@ export const EditFolder: FC = () => {
       <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold', mb: 3 }}>
         フォルダの編集
       </Typography>
-      {errorMessage?.length !== 0 && (
-        <Alert severity='error' sx={{ mb: 2 }}>
+      {errorMessage !== '' && (
+        <Alert icon={false} severity='error' sx={{ mb: 2 }}>
           {errorMessage}
         </Alert>
       )}

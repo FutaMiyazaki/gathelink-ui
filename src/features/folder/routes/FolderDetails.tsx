@@ -41,7 +41,11 @@ export const FolderDetails: FC = () => {
 
   return (
     <Container maxWidth='sm'>
-      {errorMessage !== '' && <Alert severity='error'>{errorMessage}</Alert>}
+      {errorMessage !== '' && (
+        <Alert icon={false} severity='error' sx={{ mb: 4 }}>
+          {errorMessage}
+        </Alert>
+      )}
       <Box sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 3, mb: 4 }}>
         <Stack alignItems='flex-start' direction='row' justifyContent='space-between'>
           <Box>

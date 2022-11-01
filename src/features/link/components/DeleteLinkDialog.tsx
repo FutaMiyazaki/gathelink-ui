@@ -60,7 +60,7 @@ export const DeleteLinkDialog: FC<DeleteLinkDialogProps> = ({
           この操作は取り消せません。
         </Typography>
         {errorMessage !== '' && (
-          <Alert severity='error' sx={{ mb: 2 }}>
+          <Alert icon={false} severity='error' sx={{ mb: 2 }}>
             {errorMessage}
           </Alert>
         )}

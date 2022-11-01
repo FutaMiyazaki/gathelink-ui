@@ -77,7 +77,7 @@ export const AddLinkDialog: FC<AddLinkDialogProps> = ({ handleCloseDialog, open 
       <DialogTitle sx={{ textAlign: 'center' }}>リンクを追加</DialogTitle>
       <DialogContent>
         {errorMessage !== '' && (
-          <Alert severity='error' sx={{ mb: 2 }}>
+          <Alert icon={false} severity='error' sx={{ mb: 2 }}>
             {errorMessage}
           </Alert>
         )}
