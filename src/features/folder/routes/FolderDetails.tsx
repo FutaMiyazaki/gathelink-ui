@@ -63,10 +63,10 @@ export const FolderDetails: FC = () => {
                 {folder?.description}
               </Typography>
             )}
-            <Typography color='secondary.dark' variant='body2' sx={{ display: 'inline', mr: 2 }}>
+            <Typography color='secondary.dark' variant='body2'>
               作成者：{folder?.user?.name}
             </Typography>
-            <Typography color='secondary.dark' variant='body2' sx={{ display: 'inline' }}>
+            <Typography color='secondary.dark' variant='body2'>
               {moment(folder?.updated_at).format('YYYY/MM/DD')} 更新
             </Typography>
           </Box>
