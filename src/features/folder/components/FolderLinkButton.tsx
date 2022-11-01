@@ -4,6 +4,7 @@ import MuiLink from '@mui/material/Link'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
+import moment from 'moment'
 import { parseCookies } from 'nookies'
 import { FC } from 'react'
 import { useRecoilValue } from 'recoil'
@@ -61,7 +62,7 @@ export const FolderLinkButton: FC<FolderLinkButtonProps> = ({ folderId, link, ow
                 {getDomain(link.url)}
               </Typography>
               <Typography component='span' variant='caption' sx={{ display: 'block', ml: 2 }}>
-                {link.updated_at}
+                {moment(link.updated_at).format('YYYY/MM/DD')} 更新
               </Typography>
             </>
           }

@@ -5,6 +5,7 @@ import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import moment from 'moment'
 import { parseCookies } from 'nookies'
 import { useEffect, FC, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -57,8 +58,11 @@ export const FolderDetails: FC = () => {
         <Stack alignItems='flex-start' direction='row' justifyContent='space-between'>
           <Box>
             <PageHeading text={folder?.name} />
-            <Typography color='secondary.dark' variant='subtitle2'>
+            <Typography color='secondary.dark' variant='body2'>
               作成者：{folder?.user?.name}
+            </Typography>
+            <Typography color='secondary.dark' variant='body2'>
+              更新日時：{moment(folder?.updated_at).format('YYYY/MM/DD')}
             </Typography>
           </Box>
           <FavoriteFolderButton
