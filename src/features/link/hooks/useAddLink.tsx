@@ -20,15 +20,16 @@ type params = {
 }
 
 export const useAddLink = (): UseAddLink => {
-  const [errorMessage, setErrorMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [resStatus, setResStatus] = useState(0)
+  const [errorMessage, setErrorMessage] = useState('')
   const setAlert = useSetRecoilState(alertState)
-  const headers = authHeaders()
   const setEditingLinks = useSetRecoilState(EditingLinksState)
+  const headers = authHeaders()
 
   const addLink = async (link: params): Promise<void> => {
     setIsLoading(true)
+    setResStatus(0)
     setErrorMessage('')
 
     await apiClient
