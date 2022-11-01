@@ -58,11 +58,16 @@ export const FolderDetails: FC = () => {
         <Stack alignItems='flex-start' direction='row' justifyContent='space-between'>
           <Box>
             <PageHeading text={folder?.name} />
-            <Typography color='secondary.dark' variant='body2'>
+            {folder?.description !== null && (
+              <Typography variant='body2' sx={{ my: 1, whiteSpace: 'pre-wrap' }}>
+                {folder?.description}
+              </Typography>
+            )}
+            <Typography color='secondary.dark' variant='body2' sx={{ display: 'inline', mr: 2 }}>
               作成者：{folder?.user?.name}
             </Typography>
-            <Typography color='secondary.dark' variant='body2'>
-              更新日時：{moment(folder?.updated_at).format('YYYY/MM/DD')}
+            <Typography color='secondary.dark' variant='body2' sx={{ display: 'inline' }}>
+              {moment(folder?.updated_at).format('YYYY/MM/DD')} 更新
             </Typography>
           </Box>
           <FavoriteFolderButton
