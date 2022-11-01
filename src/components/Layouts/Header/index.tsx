@@ -63,9 +63,6 @@ export const Header: FC = () => {
             Gathelink
           </Typography>
         </Link>
-        <Box sx={{ flexGrow: 1 }} />
-        {isDesktopScreen && <GlobalMenu />}
-        {authenticated && <HeaderAccountMenu />}
         {authenticated && isDesktopScreen && (
           <>
             <Button
@@ -73,7 +70,7 @@ export const Header: FC = () => {
               startIcon={<StarTwoToneIcon />}
               onClick={handleOpenMenu}
               variant='contained'
-              sx={{ borderRadius: 5, fontWeight: 'bold', ml: 1 }}
+              sx={{ borderRadius: 5, fontWeight: 'bold', ml: 38 }}
             >
               追加
             </Button>
@@ -92,6 +89,9 @@ export const Header: FC = () => {
             />
           </>
         )}
+        <Box sx={{ flexGrow: 1 }} />
+        {isDesktopScreen && <GlobalMenu />}
+        {authenticated && <HeaderAccountMenu />}
         {!authenticated && !isDesktopScreen && (
           <Stack alignItems='center' direction='row' spacing={1}>
             {buttonItems.map((item) => (
