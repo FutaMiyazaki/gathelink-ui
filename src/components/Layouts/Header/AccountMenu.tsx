@@ -1,7 +1,6 @@
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import Logout from '@mui/icons-material/Logout'
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined'
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined'
-import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import { useState, FC, MouseEvent } from 'react'
@@ -40,9 +39,7 @@ export const HeaderAccountMenu: FC = () => {
   return (
     <Box>
       <IconButton onClick={handleOpenMenu} size='small'>
-        <Avatar sx={{ width: 32, height: 32 }}>
-          <PersonOutlineOutlinedIcon />
-        </Avatar>
+        <AccountCircleIcon color='primary' sx={{ width: 32, height: 32 }} />
       </IconButton>
       <Menu anchorEl={anchorEl} handleCloseMenu={handleCloseMenu} menuItems={accountMenuItems} />
     </Box>
