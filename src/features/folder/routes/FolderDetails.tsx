@@ -21,12 +21,14 @@ import { useFetchFolder } from '@/features/folder/hooks/useFetchFolder'
 import { Link } from '@/features/link/types/Link'
 import { NotFound } from '@/features/misc/routes/NotFound'
 import { isAuthenticatedState } from '@/states/AuthAtom'
+import { folderHasLinksState } from '@/states/FolderHasLinksAtom'
 
 type RouterParams = {
   folderId: string
 }
 
 export const FolderDetails: FC = () => {
+  const folderHasLinks = useRecoilValue(folderHasLinksState)
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const cookie = parseCookies()
   const uid = cookie.uid
@@ -96,9 +98,9 @@ export const FolderDetails: FC = () => {
           </>
         )}
       </Box>
-      {folder?.links != null && folder?.links.length > 0 ? (
+      {folderHasLinks.length > 0 ? (
         <Stack direction='column' spacing={3} sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 3 }}>
-          {folder?.links?.map((link: Link) => {
+          {folderHasLinks?.map((link: Link) => {
             return (
               <FolderLinkButton
                 key={link.id}

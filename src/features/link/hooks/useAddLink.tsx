@@ -4,7 +4,7 @@ import { useSetRecoilState } from 'recoil'
 
 import { apiClient } from '@/lib/axios/apiClient'
 import { alertState } from '@/states/AlertAtom'
-import { EditingLinksState } from '@/states/EditingLinksAtom'
+import { folderHasLinksState } from '@/states/FolderHasLinksAtom'
 import { authHeaders } from '@/utils/authHeaders'
 
 type UseAddLink = {
@@ -26,7 +26,7 @@ export const useAddLink = (): UseAddLink => {
   const [errorMessage, setErrorMessage] = useState('')
   const navigate = useNavigate()
   const setAlert = useSetRecoilState(alertState)
-  const setEditingLinks = useSetRecoilState(EditingLinksState)
+  const setFolderHasLinks = useSetRecoilState(folderHasLinksState)
   const headers = authHeaders()
 
   const addLink = async (link: params): Promise<void> => {
@@ -38,13 +38,16 @@ export const useAddLink = (): UseAddLink => {
       .post('/links', { link }, { headers })
       .then((res) => {
         setResStatus(res.status)
-        navigate(`/folder/${res.data.id as string}`)
+        navigate(`/folder/${res.data.folder.id as string}`)
         setAlert({
           isShow: true,
           message: 'リンクを追加しました',
           severity: 'success',
         })
-        setEditingLinks(res.data.links)
+        setFolderHasLinks((prevFolderHasLinks) => {
+          const newFolderHasLinks = [...prevFolderHasLinks, res.data.link]
+          return newFolderHasLinks
+        })
       })
       .catch((err) => {
         setErrorMessage(err.response.data.base[0])
