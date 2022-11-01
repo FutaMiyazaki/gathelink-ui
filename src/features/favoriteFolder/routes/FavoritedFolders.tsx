@@ -1,4 +1,4 @@
-import Box from '@mui/material/Box'
+import { Container } from '@mui/material'
 import Stack from '@mui/material/Stack'
 import { FC, useEffect } from 'react'
 import { useRecoilValue } from 'recoil'
@@ -14,14 +14,8 @@ export const FavoritedFolders: FC = () => {
   const { errorMessage, fetchFetchFavoritedFolders, isFeatching } = useFetchFavoritedFolders()
   const { isDesktopScreen } = useMedia()
 
-  useEffect(() => {
-    fetchFetchFavoritedFolders('old')
-  }, [])
-
-  if (isDesktopScreen) return null
-
-  return (
-    <Box>
+  const renderContent = (
+    <>
       <Stack alignItems='center' direction='row' sx={{ px: 1.5 }}>
         <PageHeading text='お気に入りフォルダ' />
       </Stack>
@@ -31,6 +25,20 @@ export const FavoritedFolders: FC = () => {
         isLoading={isFeatching}
         noContentsText='お気に入りフォルダはありません'
       />
-    </Box>
+    </>
+  )
+
+  useEffect(() => {
+    fetchFetchFavoritedFolders('old')
+  }, [])
+
+  return (
+    <>
+      {isDesktopScreen ? (
+        <Container maxWidth='sm'>{renderContent}</Container>
+      ) : (
+        <>{renderContent}</>
+      )}
+    </>
   )
 }
