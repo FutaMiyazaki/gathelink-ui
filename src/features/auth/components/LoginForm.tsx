@@ -45,7 +45,7 @@ export const LoginForm: FC = () => {
   return (
     <Box>
       {errorMessage?.length !== 0 && (
-        <Alert severity='error' sx={{ mb: 2 }}>
+        <Alert icon={false} severity='error' sx={{ mb: 2 }}>
           {errorMessage}
         </Alert>
       )}

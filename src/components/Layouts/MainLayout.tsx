@@ -3,10 +3,10 @@ import Container from '@mui/material/Container'
 import { FC, ReactNode } from 'react'
 
 import { AppAlert } from '@/components/Alert'
+import { FloatingActionButton } from '@/components/Layouts/FloatingActionButton'
 import { GlobalMenu } from '@/components/Layouts/GlobamMenu'
 import { Header } from '@/components/Layouts/Header'
 import { Sidebar } from '@/components/Layouts/Sidebar'
-import { SpeedDialButton } from '@/components/Layouts/SpeedDialButton'
 
 type MainLayoutProps = {
   children: ReactNode
@@ -45,7 +45,7 @@ export const MainLayout: FC<MainLayoutProps> = ({ children }) => (
           <AppAlert />
         </Container>
       </Box>
-      <SpeedDialButton />
+      <FloatingActionButton />
     </Box>
   </Box>
 )

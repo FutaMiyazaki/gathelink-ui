@@ -74,7 +74,7 @@ export const FoldersListForMobile: FC<FoldersListProps> = ({
       ) : (
         <>
           {errorMessage !== '' ? (
-            <Alert severity='error' sx={{ m: 2 }}>
+            <Alert icon={false} severity='error' sx={{ m: 2 }}>
               {errorMessage}
             </Alert>
           ) : (

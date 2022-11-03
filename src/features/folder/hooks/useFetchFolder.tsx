@@ -3,33 +3,38 @@ import { useSetRecoilState } from 'recoil'
 
 import { Folder } from '@/features/folder/types/Folder'
 import { apiClient } from '@/lib/axios/apiClient'
-import { EditingLinksState } from '@/states/EditingLinksAtom'
+import { folderHasLinksState } from '@/states/FolderHasLinksAtom'
 
 type UseFetchFolder = {
   errorMessage: string
   fetchFolder: (id: string) => Promise<void>
   folder?: Folder
   isFeatchLoading: boolean
+  resStatus: number
 }
 
 export const useFetchFolder = (): UseFetchFolder => {
-  const [errorMessage, setErrorMessage] = useState('')
   const [isFeatchLoading, setIsLoading] = useState(false)
+  const [resStatus, setResStatus] = useState(0)
+  const [errorMessage, setErrorMessage] = useState('')
   const [folder, setFolder] = useState<Folder | undefined>()
-  const setEditingLinks = useSetRecoilState(EditingLinksState)
+  const setFolderHasLinks = useSetRecoilState(folderHasLinksState)
 
   const fetchFolder = async (id: string): Promise<void> => {
     setIsLoading(true)
+    setResStatus(0)
     setErrorMessage('')
 
     await apiClient
       .get(`/folders/${id}`)
       .then((res) => {
+        setResStatus(res.status)
         setFolder(res.data)
-        setEditingLinks(res.data.links)
+        setFolderHasLinks(res.data.links)
       })
       .catch((err) => {
-        setErrorMessage(err.message)
+        setResStatus(err.response.status)
+        setErrorMessage(err.response.data.error)
       })
       .finally(() => {
         setIsLoading(false)
@@ -41,5 +46,6 @@ export const useFetchFolder = (): UseFetchFolder => {
     fetchFolder,
     folder,
     isFeatchLoading,
+    resStatus,
   }
 }

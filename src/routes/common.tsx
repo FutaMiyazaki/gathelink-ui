@@ -21,10 +21,10 @@ export const commonRoutes = [
         path: '/folder/:folderId',
         element: <FolderDetails />,
       },
+      {
+        path: '*',
+        element: <NotFound />,
+      },
     ],
-  },
-  {
-    path: '*',
-    element: <NotFound />,
   },
 ]

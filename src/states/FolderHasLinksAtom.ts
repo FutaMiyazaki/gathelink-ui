@@ -2,10 +2,10 @@ import { atom } from 'recoil'
 
 import { Link } from '@/features/link/types/Link'
 
-type EditingLinks = Link[]
+type FolderHasLinks = Link[]
 
-export const EditingLinksState = atom<EditingLinks>({
-  key: 'editingLinksState',
+export const folderHasLinksState = atom<FolderHasLinks>({
+  key: 'folderHasLinksState',
   default: [
     {
       id: 0,

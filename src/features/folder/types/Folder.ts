@@ -5,6 +5,7 @@ import { User } from '@/features/user/types/User'
 export type Folder = {
   id: number
   name: string
+  description?: string
   updated_at: string
   created_at?: string
   links?: Link[]
