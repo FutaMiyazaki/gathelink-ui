@@ -2,7 +2,7 @@ import AddLinkOutlinedIcon from '@mui/icons-material/AddLinkOutlined'
 import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined'
 import { ReactNode } from 'react'
 
-import { DialogType } from '@/components/Layouts/SpeedDialButton'
+import { DialogType } from '@/components/Layouts/FloatingActionButton'
 
 type Actions = Array<{
   icon: ReactNode
