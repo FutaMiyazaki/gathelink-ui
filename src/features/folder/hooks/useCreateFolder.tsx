@@ -3,6 +3,7 @@ import { useSetRecoilState } from 'recoil'
 
 import { apiClient } from '@/lib/axios/apiClient'
 import { alertState } from '@/states/AlertAtom'
+import { myFoldersState } from '@/states/MyFoldersAtom'
 import { authHeaders } from '@/utils/authHeaders'
 
 type UseCreateFolder = {
@@ -17,14 +18,16 @@ type params = {
 }
 
 export const useCreateFolder = (): UseCreateFolder => {
-  const [errorMessage, setErrorMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [resStatus, setResStatus] = useState(0)
+  const [errorMessage, setErrorMessage] = useState('')
   const setAlert = useSetRecoilState(alertState)
+  const setMyFolders = useSetRecoilState(myFoldersState)
   const headers = authHeaders()
 
   const createFolder = async (folder: params): Promise<void> => {
     setIsLoading(true)
+    setResStatus(0)
     setErrorMessage('')
 
     await apiClient
@@ -32,13 +35,17 @@ export const useCreateFolder = (): UseCreateFolder => {
       .then((res) => {
         setAlert({
           isShow: true,
-          message: `${res.data.name as string} フォルダを作成しました`,
+          message: 'フォルダを作成しました',
           severity: 'success',
         })
         setResStatus(res.status)
+        setMyFolders((prevMyFolders) => {
+          const newMyFolders = [...prevMyFolders, res.data]
+          return newMyFolders
+        })
       })
       .catch((err) => {
-        setErrorMessage(err.message)
+        setErrorMessage(err.response.data.base[0])
         setResStatus(err.status)
       })
       .finally(() => {

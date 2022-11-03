@@ -1,5 +1,5 @@
 import SortIcon from '@mui/icons-material/Sort'
-import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
 import IconButton from '@mui/material/IconButton'
 import Stack from '@mui/material/Stack'
 import { FC, MouseEvent, useEffect, useState } from 'react'
@@ -34,14 +34,8 @@ export const MyFolders: FC = () => {
     { onClick: () => handleChangeSort('latest'), text: '作成日時が新しい順' },
   ]
 
-  useEffect(() => {
-    fetchMyFolders('old')
-  }, [])
-
-  if (isDesktopScreen) return null
-
-  return (
-    <Box>
+  const renderContent = (
+    <>
       <Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ px: 1.5 }}>
         <PageHeading text='マイフォルダ' />
         <IconButton onClick={handleOpenSortMenu}>
@@ -59,6 +53,20 @@ export const MyFolders: FC = () => {
         isLoading={isFeatching}
         noContentsText='作成したフォルダはありません'
       />
-    </Box>
+    </>
+  )
+
+  useEffect(() => {
+    fetchMyFolders('old')
+  }, [])
+
+  return (
+    <>
+      {isDesktopScreen ? (
+        <Container maxWidth='sm'>{renderContent}</Container>
+      ) : (
+        <>{renderContent}</>
+      )}
+    </>
   )
 }

@@ -61,7 +61,7 @@ export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({ handleCloseDia
       <DialogTitle>新しいフォルダを作成</DialogTitle>
       <DialogContent>
         {errorMessage !== '' && (
-          <Alert severity='error' sx={{ mb: 2 }}>
+          <Alert icon={false} severity='error' sx={{ mb: 2 }}>
             {errorMessage}
           </Alert>
         )}

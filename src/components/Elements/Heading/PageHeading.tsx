@@ -5,7 +5,7 @@ type PageHeadingProps = {
   text?: string
 }
 
-export const PageHeading: FC<PageHeadingProps> = ({ text = '...' }) => (
+export const PageHeading: FC<PageHeadingProps> = ({ text }) => (
   <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold' }}>
     {text}
   </Typography>

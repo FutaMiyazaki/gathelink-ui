@@ -1,6 +1,6 @@
 import AddLinkOutlinedIcon from '@mui/icons-material/AddLinkOutlined'
 import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined'
-import StarTwoToneIcon from '@mui/icons-material/StarTwoTone'
+import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -63,17 +63,14 @@ export const Header: FC = () => {
             Gathelink
           </Typography>
         </Link>
-        <Box sx={{ flexGrow: 1 }} />
-        {isDesktopScreen && <GlobalMenu />}
-        {authenticated && <HeaderAccountMenu />}
         {authenticated && isDesktopScreen && (
           <>
             <Button
               disableElevation
-              startIcon={<StarTwoToneIcon />}
+              startIcon={<CreateOutlinedIcon />}
               onClick={handleOpenMenu}
               variant='contained'
-              sx={{ borderRadius: 5, fontWeight: 'bold', ml: 1 }}
+              sx={{ borderRadius: 5, fontWeight: 'bold', ml: 38 }}
             >
               追加
             </Button>
@@ -92,6 +89,9 @@ export const Header: FC = () => {
             />
           </>
         )}
+        <Box sx={{ flexGrow: 1 }} />
+        {isDesktopScreen && <GlobalMenu />}
+        {authenticated && <HeaderAccountMenu />}
         {!authenticated && !isDesktopScreen && (
           <Stack alignItems='center' direction='row' spacing={1}>
             {buttonItems.map((item) => (

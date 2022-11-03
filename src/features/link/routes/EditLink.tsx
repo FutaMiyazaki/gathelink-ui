@@ -95,8 +95,8 @@ export const EditLink: FC = () => {
           open={openDialog}
         />
       )}
-      {errorMessage?.length !== 0 && (
-        <Alert severity='error' sx={{ mb: 2 }}>
+      {errorMessage !== '' && (
+        <Alert icon={false} severity='error' sx={{ mb: 2 }}>
           {errorMessage}
         </Alert>
       )}

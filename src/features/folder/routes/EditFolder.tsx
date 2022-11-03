@@ -20,6 +20,7 @@ import { folderValidationRules } from '@/features/folder/utils/folderValidationR
 
 type Inputs = {
   name: string
+  description: string
 }
 
 type RouterParams = {
@@ -35,6 +36,7 @@ export const EditFolder: FC = () => {
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
     const folder = {
       name: data.name,
+      description: data.description,
     }
     updateFolder(folder, folderId as string)
   }
@@ -50,8 +52,8 @@ export const EditFolder: FC = () => {
       <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold', mb: 3 }}>
         フォルダの編集
       </Typography>
-      {errorMessage?.length !== 0 && (
-        <Alert severity='error' sx={{ mb: 2 }}>
+      {errorMessage !== '' && (
+        <Alert icon={false} severity='error' sx={{ mb: 2 }}>
           {errorMessage}
         </Alert>
       )}
@@ -70,10 +72,9 @@ export const EditFolder: FC = () => {
                 fullWidth
                 autoFocus
                 size='small'
-                variant='standard'
                 error={fieldState.invalid}
                 helperText={fieldState.error?.message}
-                sx={{ mb: 4, px: 2 }}
+                sx={{ mb: 4 }}
               />
             )}
           />
@@ -82,7 +83,24 @@ export const EditFolder: FC = () => {
             <Switch checked={true} />
           </Stack>
           <InputLabel labelTitle='説明' />
-          <TextField fullWidth multiline size='small' variant='standard' sx={{ mb: 4, px: 2 }} />
+          <Controller
+            name='description'
+            control={control}
+            defaultValue={folder?.description}
+            rules={folderValidationRules.description}
+            render={({ field, fieldState }) => (
+              <TextField
+                {...field}
+                type='text'
+                fullWidth
+                multiline
+                size='small'
+                error={fieldState.invalid}
+                helperText={fieldState.error?.message}
+                sx={{ mb: 4 }}
+              />
+            )}
+          />
           <Grid container alignItems='center' justifyContent='center' spacing={1}>
             <Grid item xs={6}>
               <LinkButton

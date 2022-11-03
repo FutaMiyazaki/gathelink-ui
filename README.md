@@ -2,8 +2,6 @@
 
 ## 概要
 
-## 機能
-
 ## ディレクトリ構成
 
 ```
@@ -20,3 +18,23 @@ src/ ............. React に関するソースコード
 ```
 
 ## 使用ライブラリ
+
+| library name    | Version | 備考     |
+| --------------- | ------- | -------- |
+| React           | 18.2.0  |          |
+| React Router    | 6.4.2   |          |
+| Typescript      | 4.8.4   |          |
+| ESLint          | 8.25.0  |          |
+| Prettier        | 2.7.1   |          |
+| MUI             | 5.10.9  |          |
+| axios           | 1.1.3   |          |
+| moment          | 2.29.4  |          |
+| nookies         | 2.5.2   |          |
+| React-hook-form | 7.37.0  |          |
+| Recoil          | 0.7.6   |          |
+| SWR             |         | 追加予定 |
+| Storybook       |         | 追加予定 |
+
+## インフラ
+
+[こちら](https://github.com/FutaMiyazaki/gathelink-api)を参照
