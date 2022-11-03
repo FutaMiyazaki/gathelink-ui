@@ -24,15 +24,6 @@ export const FolderLinkButton: FC<FolderLinkButtonProps> = ({ folderId, link, ow
   const uid = cookie.uid
   const authenticated = useRecoilValue(isAuthenticatedState)
 
-  const getDomain = (url: string): string | undefined => {
-    const domain = url.match(/^https?:\/{2,}(.*?)(?:\/|\?|#|$)/)
-    if (domain != null) {
-      return domain[1]
-    } else {
-      return undefined
-    }
-  }
-
   return (
     <ListItem
       disableGutters
@@ -59,7 +50,7 @@ export const FolderLinkButton: FC<FolderLinkButtonProps> = ({ folderId, link, ow
           secondary={
             <>
               <Typography color='black' component='span' sx={{ display: 'block', ml: 2 }}>
-                {getDomain(link.url)}
+                {link.url.substring(link.url.indexOf('/') + 2)}
               </Typography>
               <Typography component='span' variant='caption' sx={{ display: 'block', ml: 2 }}>
                 {moment(link.updated_at).format('YYYY/MM/DD')} 更新
