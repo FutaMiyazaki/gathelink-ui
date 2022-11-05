@@ -31,8 +31,10 @@ export const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
           <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
-          {location.pathname === '/signup' && <PageHeading text='新規登録' />}
-          {location.pathname === '/login' && <PageHeading text='ログイン' />}
+          <PageHeading
+            text={location.pathname === 'signup' ? '新規登録' : 'ログイン'}
+            sx={{ mb: 3 }}
+          />
         </Box>
         {children}
         <Stack direction='column' justifyContent='center' sx={{ textAlign: 'center' }}>
