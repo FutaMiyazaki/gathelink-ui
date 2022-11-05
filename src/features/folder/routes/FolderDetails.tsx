@@ -48,7 +48,7 @@ export const FolderDetails: FC = () => {
   }
 
   return (
-    <Container maxWidth='sm'>
+    <Container maxWidth='md'>
       {errorMessage !== '' && (
         <Alert icon={false} severity='error' sx={{ mb: 4 }}>
           {errorMessage}
