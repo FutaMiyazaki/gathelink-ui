@@ -1,11 +1,7 @@
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
-import Grid from '@mui/material/Grid'
-import Stack from '@mui/material/Stack'
-import Switch from '@mui/material/Switch'
 import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
 import { FC, useEffect } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
@@ -13,6 +9,7 @@ import { useParams } from 'react-router-dom'
 import { Button } from '@/components/Elements/Button'
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
 import { InputLabel } from '@/components/Elements/Form/InputLabel'
+import { PageHeading } from '@/components/Elements/Heading/PageHeading'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { useFetchFolder } from '@/features/folder/hooks/useFetchFolder'
 import { useUpdateFolder } from '@/features/folder/hooks/useUpdateFolder'
@@ -49,9 +46,7 @@ export const EditFolder: FC = () => {
 
   return (
     <Container maxWidth='sm'>
-      <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold', mb: 3 }}>
-        フォルダの編集
-      </Typography>
+      <PageHeading text='フォルダを編集' sx={{ mb: 3 }} />
       {errorMessage !== '' && (
         <Alert icon={false} severity='error' sx={{ mb: 2 }}>
           {errorMessage}
@@ -78,11 +73,7 @@ export const EditFolder: FC = () => {
               />
             )}
           />
-          <Stack direction='row' justifyContent='space-between' sx={{ mb: 2 }}>
-            <InputLabel labelTitle='非公開にする' />
-            <Switch checked={true} />
-          </Stack>
-          <InputLabel labelTitle='説明' />
+          <InputLabel labelTitle='説明' required={false} />
           <Controller
             name='description'
             control={control}
@@ -101,20 +92,13 @@ export const EditFolder: FC = () => {
               />
             )}
           />
-          <Grid container alignItems='center' justifyContent='center' spacing={1}>
-            <Grid item xs={6}>
-              <LinkButton
-                color='secondary'
-                fullWidth={true}
-                label='キャンセル'
-                path={`/folder/${folderId as string}`}
-                variant='contained'
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Button isLoading={isLoading} fullWidth={true} label='保存する' type='submit' />
-            </Grid>
-          </Grid>
+          <Button isLoading={isLoading} label='保存する' type='submit' sx={{ mr: 2 }} />
+          <LinkButton
+            color='secondary'
+            label='キャンセル'
+            path={`/folder/${folderId as string}`}
+            variant='contained'
+          />
         </Box>
       </Box>
     </Container>

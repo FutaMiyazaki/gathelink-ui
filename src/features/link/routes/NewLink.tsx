@@ -50,7 +50,7 @@ export const NewLink: FC = () => {
           {errorMessage}
         </Alert>
       )}
-      <PageHeading text='リンク追加' />
+      <PageHeading text='リンク追加' sx={{ mb: 3 }} />
       <Box
         component='form'
         noValidate

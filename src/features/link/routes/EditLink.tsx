@@ -4,10 +4,8 @@ import Alert from '@mui/material/Alert'
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
-import Grid from '@mui/material/Grid'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
 import { FC, useEffect, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
@@ -15,6 +13,7 @@ import { useParams } from 'react-router-dom'
 import { Button } from '@/components/Elements/Button'
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
 import { InputLabel } from '@/components/Elements/Form/InputLabel'
+import { PageHeading } from '@/components/Elements/Heading/PageHeading'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { Folder } from '@/features/folder/types/Folder'
 import { DeleteLinkDialog } from '@/features/link/components/DeleteLinkDialog'
@@ -76,9 +75,7 @@ export const EditLink: FC = () => {
   return (
     <Container maxWidth='sm'>
       <Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ mb: 3 }}>
-        <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold' }}>
-          リンクの編集
-        </Typography>
+        <PageHeading text='リンクを編集' />
         <Button
           color='warning'
           icon={<DeleteForeverOutlinedIcon />}
@@ -102,7 +99,11 @@ export const EditLink: FC = () => {
       )}
       <Box sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 3 }}>
         <Box component='form' noValidate onSubmit={handleSubmit(onSubmit)}>
-          <InputLabel labelTitle='タイトル' />
+          <InputLabel
+            labelTitle='タイトル'
+            inputRequirement='未入力の場合は、URL のタイトルで作成されます'
+            required={false}
+          />
           <Controller
             name='title'
             control={control}
@@ -174,20 +175,13 @@ export const EditLink: FC = () => {
               )}
             />
           )}
-          <Grid container alignItems='center' justifyContent='center' spacing={1}>
-            <Grid item xs={6}>
-              <LinkButton
-                color='secondary'
-                fullWidth={true}
-                label='キャンセル'
-                path={`/folder/${folderId as string}`}
-                variant='contained'
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Button isLoading={isUpdating} fullWidth={true} label='保存する' type='submit' />
-            </Grid>
-          </Grid>
+          <Button isLoading={isUpdating} label='保存する' type='submit' sx={{ mr: 2 }} />
+          <LinkButton
+            color='secondary'
+            label='キャンセル'
+            path={`/folder/${folderId as string}`}
+            variant='contained'
+          />
         </Box>
       </Box>
     </Container>
