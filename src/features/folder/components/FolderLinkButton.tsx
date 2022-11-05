@@ -40,33 +40,45 @@ export const FolderLinkButton: FC<FolderLinkButtonProps> = ({ folderId, link, ow
       }
       sx={{ p: 0, mb: 0 }}
     >
-      <MuiLink href={link.url} target='_blank' underline='none'>
-        <ListItemText
-          primary={
-            <Typography
-              component='span'
-              variant='subtitle1'
-              sx={{ color: 'black', fontWeight: 'bold' }}
-            >
-              {link.title}
-            </Typography>
-          }
-          secondary={
-            <>
-              <Typography
-                color='#8AB4F8'
-                component='span'
-                sx={{ display: 'block', textDecorationLine: 'underline' }}
-              >
-                {link.url.substring(link.url.indexOf('/') + 2)}
-              </Typography>
-              <Typography component='span' variant='caption' sx={{ display: 'block' }}>
-                {moment(link.updated_at).format('YYYY/MM/DD')} 更新
-              </Typography>
-            </>
-          }
-        />
-      </MuiLink>
+      <ListItemText sx={{ my: 0, pr: 4 }}>
+        <Typography
+          component='span'
+          variant='subtitle2'
+          sx={{
+            color: 'black',
+            display: 'block',
+            fontWeight: 'bold',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+        >
+          {link.title}
+        </Typography>
+        <MuiLink href={link.url} target='_blank' underline='none'>
+          <Typography
+            color='#8AB4F8'
+            component='span'
+            variant='body1'
+            sx={{
+              display: 'block',
+              textDecorationLine: 'underline',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            {link.url.substring(link.url.indexOf('/') + 2)}
+          </Typography>
+        </MuiLink>
+        <Typography
+          component='span'
+          variant='caption'
+          sx={{ color: 'secondary.dark', display: 'block' }}
+        >
+          {moment(link.updated_at).format('YYYY/MM/DD')} 更新
+        </Typography>
+      </ListItemText>
     </ListItem>
   )
 }
