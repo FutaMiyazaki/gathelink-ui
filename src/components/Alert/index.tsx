@@ -16,7 +16,7 @@ export const AppAlert: FC = () => {
       open={alert.isShow}
       autoHideDuration={4000}
       onClose={handleCloseAlert}
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
     >
       <Alert
         onClose={handleCloseAlert}
