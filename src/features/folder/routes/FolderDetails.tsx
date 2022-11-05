@@ -96,7 +96,7 @@ export const FolderDetails: FC = () => {
                 icon={<DeleteForeverOutlinedIcon />}
                 label='削除'
                 onClick={() => setOpenDialog(true)}
-                variant='outlined'
+                variant='text'
               />
             </Stack>
             <DeleteFolderDialog
