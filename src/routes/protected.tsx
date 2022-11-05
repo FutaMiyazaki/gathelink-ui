@@ -6,6 +6,7 @@ import { FavoritedFolders } from '@/features/favoriteFolder/routes/FavoritedFold
 import { EditFolder } from '@/features/folder/routes/EditFolder'
 import { MyFolders } from '@/features/folder/routes/MyFolders'
 import { EditLink } from '@/features/link/routes/EditLink'
+import { NewLink } from '@/features/link/routes/NewLink'
 
 const Main: FC = () => (
   <MainLayout>
@@ -28,6 +29,10 @@ export const protectedRoutes = [
       {
         path: '/folder/:folderId/edit',
         element: <EditFolder />,
+      },
+      {
+        path: '/new/link',
+        element: <NewLink />,
       },
       {
         path: '/folder/:folderId/link/:linkId',
