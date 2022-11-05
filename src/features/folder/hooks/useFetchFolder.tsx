@@ -30,7 +30,7 @@ export const useFetchFolder = (): UseFetchFolder => {
       .then((res) => {
         setResStatus(res.status)
         setFolder(res.data)
-        setFolderHasLinks(res.data.links)
+        setFolderHasLinks(res.data.old_order_links)
       })
       .catch((err) => {
         setResStatus(err.response.status)
