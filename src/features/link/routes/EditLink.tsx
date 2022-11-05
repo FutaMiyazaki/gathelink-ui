@@ -1,9 +1,11 @@
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
 import FolderOpenTwoToneIcon from '@mui/icons-material/FolderOpenTwoTone'
 import Alert from '@mui/material/Alert'
 import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
+import IconButton from '@mui/material/IconButton'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import { FC, useEffect, useState } from 'react'
@@ -11,9 +13,9 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 
 import { Button } from '@/components/Elements/Button'
-import { LinkButton } from '@/components/Elements/Button/LinkButton'
 import { InputLabel } from '@/components/Elements/Form/InputLabel'
 import { PageHeading } from '@/components/Elements/Heading/PageHeading'
+import { Link } from '@/components/Elements/Link'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { Folder } from '@/features/folder/types/Folder'
 import { DeleteLinkDialog } from '@/features/link/components/DeleteLinkDialog'
@@ -75,7 +77,14 @@ export const EditLink: FC = () => {
   return (
     <Container maxWidth='sm'>
       <Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ mb: 3 }}>
-        <PageHeading text='リンクを編集' />
+        <Box sx={{ alignItems: 'center', display: 'flex', mb: 3 }}>
+          <Link path={`/folder/${folderId as string}`}>
+            <IconButton component='span'>
+              <ArrowBackIcon />
+            </IconButton>
+          </Link>
+          <PageHeading text='リンクを編集' sx={{ ml: 1 }} />
+        </Box>
         <Button
           color='warning'
           icon={<DeleteForeverOutlinedIcon />}
@@ -176,12 +185,6 @@ export const EditLink: FC = () => {
             />
           )}
           <Button isLoading={isUpdating} label='保存する' type='submit' sx={{ mr: 2 }} />
-          <LinkButton
-            color='secondary'
-            label='キャンセル'
-            path={`/folder/${folderId as string}`}
-            variant='contained'
-          />
         </Box>
       </Box>
     </Container>

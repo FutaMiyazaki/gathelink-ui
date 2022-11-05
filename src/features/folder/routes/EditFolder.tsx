@@ -1,15 +1,17 @@
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
+import IconButton from '@mui/material/IconButton'
 import TextField from '@mui/material/TextField'
 import { FC, useEffect } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 
 import { Button } from '@/components/Elements/Button'
-import { LinkButton } from '@/components/Elements/Button/LinkButton'
 import { InputLabel } from '@/components/Elements/Form/InputLabel'
 import { PageHeading } from '@/components/Elements/Heading/PageHeading'
+import { Link } from '@/components/Elements/Link'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { useFetchFolder } from '@/features/folder/hooks/useFetchFolder'
 import { useUpdateFolder } from '@/features/folder/hooks/useUpdateFolder'
@@ -46,7 +48,14 @@ export const EditFolder: FC = () => {
 
   return (
     <Container maxWidth='sm'>
-      <PageHeading text='フォルダを編集' sx={{ mb: 3 }} />
+      <Box sx={{ alignItems: 'center', display: 'flex', mb: 3 }}>
+        <Link path={`/folder/${folderId as string}`}>
+          <IconButton component='span'>
+            <ArrowBackIcon />
+          </IconButton>
+        </Link>
+        <PageHeading text='フォルダを編集' sx={{ ml: 1 }} />
+      </Box>
       {errorMessage !== '' && (
         <Alert icon={false} severity='error' sx={{ mb: 2 }}>
           {errorMessage}
@@ -93,12 +102,6 @@ export const EditFolder: FC = () => {
             )}
           />
           <Button isLoading={isLoading} label='保存する' type='submit' sx={{ mr: 2 }} />
-          <LinkButton
-            color='secondary'
-            label='キャンセル'
-            path={`/folder/${folderId as string}`}
-            variant='contained'
-          />
         </Box>
       </Box>
     </Container>
