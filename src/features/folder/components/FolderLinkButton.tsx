@@ -43,16 +43,24 @@ export const FolderLinkButton: FC<FolderLinkButtonProps> = ({ folderId, link, ow
       <MuiLink href={link.url} target='_blank' underline='none'>
         <ListItemText
           primary={
-            <Typography component='span' variant='subtitle1' sx={{ fontWeight: 'bold' }}>
+            <Typography
+              component='span'
+              variant='subtitle1'
+              sx={{ color: 'black', fontWeight: 'bold' }}
+            >
               {link.title}
             </Typography>
           }
           secondary={
             <>
-              <Typography color='black' component='span' sx={{ display: 'block', ml: 2 }}>
+              <Typography
+                color='#8AB4F8'
+                component='span'
+                sx={{ display: 'block', textDecorationLine: 'underline' }}
+              >
                 {link.url.substring(link.url.indexOf('/') + 2)}
               </Typography>
-              <Typography component='span' variant='caption' sx={{ display: 'block', ml: 2 }}>
+              <Typography component='span' variant='caption' sx={{ display: 'block' }}>
                 {moment(link.updated_at).format('YYYY/MM/DD')} 更新
               </Typography>
             </>
