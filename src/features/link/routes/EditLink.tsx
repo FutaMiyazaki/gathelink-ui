@@ -77,7 +77,7 @@ export const EditLink: FC = () => {
   return (
     <Container maxWidth='sm'>
       <Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ mb: 3 }}>
-        <Box sx={{ alignItems: 'center', display: 'flex', mb: 3 }}>
+        <Box sx={{ alignItems: 'center', display: 'flex' }}>
           <Link path={`/folder/${folderId as string}`}>
             <IconButton component='span'>
               <ArrowBackIcon />
