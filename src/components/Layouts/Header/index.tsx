@@ -8,6 +8,7 @@ import Stack from '@mui/material/Stack'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import { FC, MouseEvent, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
@@ -18,16 +19,15 @@ import { GlobalMenu } from '@/components/Layouts/GlobamMenu'
 import { HeaderAccountMenu } from '@/components/Layouts/Header/AccountMenu'
 import { buttonItems } from '@/components/Layouts/LeadAuthorization/buttonItems'
 import { CreateFolderDialog } from '@/features/folder/components/CreateFolderDialog'
-import { AddLinkDialog } from '@/features/link/components/addLinkDialog'
 import { useMedia } from '@/hooks/useMedia'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 
 export const Header: FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [openFolderDialog, setOpenFolderDialog] = useState(false)
-  const [openLinkDialog, setOpenLinkDialog] = useState(false)
   const authenticated = useRecoilValue(isAuthenticatedState)
   const { isDesktopScreen } = useMedia()
+  const navigate = useNavigate()
 
   const handleOpenMenu = (event: MouseEvent<HTMLElement>): void => {
     setAnchorEl(event.currentTarget)
@@ -37,7 +37,7 @@ export const Header: FC = () => {
     {
       icon: <AddLinkOutlinedIcon sx={{ mr: 1 }} />,
       onClick: () => {
-        setOpenLinkDialog(true)
+        navigate('/new/link')
         setAnchorEl(null)
       },
       text: 'リンクを追加',
@@ -84,10 +84,6 @@ export const Header: FC = () => {
               anchorEl={anchorEl}
               handleCloseMenu={() => setAnchorEl(null)}
               menuItems={headerAddActions}
-            />
-            <AddLinkDialog
-              handleCloseDialog={() => setOpenLinkDialog(false)}
-              open={openLinkDialog}
             />
             <CreateFolderDialog
               handleCloseDialog={() => setOpenFolderDialog(false)}
