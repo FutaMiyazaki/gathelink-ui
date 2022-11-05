@@ -1,9 +1,10 @@
 import AddIcon from '@mui/icons-material/Add'
 import AddLinkOutlinedIcon from '@mui/icons-material/AddLinkOutlined'
 import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined'
-import { Avatar, IconButton } from '@mui/material'
+import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
+import Fab from '@mui/material/Fab'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { FC, useState } from 'react'
@@ -55,20 +56,17 @@ export const FloatingActionButton: FC = () => {
               right: 0,
             }}
           >
-            <IconButton
+            <Fab
+              color='primary'
               onClick={() => setOpenDrawer(true)}
-              size='large'
               sx={{
-                backgroundColor: 'primary.main',
-                boxShadow: 8,
                 position: 'absolute',
                 bottom: 16,
                 right: 16,
-                p: 1,
               }}
             >
-              <AddIcon sx={{ color: 'white', fontSize: 40 }} />
-            </IconButton>
+              <AddIcon sx={{ fontWeight: 'bold' }} />
+            </Fab>
           </Box>
           <Drawer anchor='bottom' open={openDrawer} onClose={() => setOpenDrawer(false)}>
             <Grid
