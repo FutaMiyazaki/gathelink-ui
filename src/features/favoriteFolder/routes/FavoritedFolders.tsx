@@ -60,7 +60,7 @@ export const FavoritedFolders: FC = () => {
   return (
     <>
       {isDesktopScreen ? (
-        <Container maxWidth='sm'>{renderContent}</Container>
+        <Container maxWidth='md'>{renderContent}</Container>
       ) : (
         <>{renderContent}</>
       )}
