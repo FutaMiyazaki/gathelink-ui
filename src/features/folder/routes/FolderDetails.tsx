@@ -5,6 +5,7 @@ import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import { parseISO } from 'date-fns'
 import { parseCookies } from 'nookies'
 import { useEffect, FC, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -22,6 +23,7 @@ import { Link } from '@/features/link/types/Link'
 import { NotFound } from '@/features/misc/routes/NotFound'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 import { folderHasLinksState } from '@/states/FolderHasLinksAtom'
+import { diffTime } from '@/utils/date'
 
 type RouterParams = {
   folderId: string
@@ -66,7 +68,7 @@ export const FolderDetails: FC = () => {
               作成者：{folder?.user?.name}
             </Typography>
             <Typography color='secondary.dark' variant='body2'>
-              {folder?.updated_at} 更新
+              {diffTime(new Date(), parseISO(folder?.created_at as string))}
             </Typography>
           </Box>
           <FavoriteFolderButton

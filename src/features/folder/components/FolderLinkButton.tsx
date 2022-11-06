@@ -4,6 +4,7 @@ import MuiLink from '@mui/material/Link'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
+import { parseISO } from 'date-fns'
 import { parseCookies } from 'nookies'
 import { FC } from 'react'
 import { useRecoilValue } from 'recoil'
@@ -11,6 +12,7 @@ import { useRecoilValue } from 'recoil'
 import { Link } from '@/components/Elements/Link'
 import { Link as LinkType } from '@/features/link/types/Link'
 import { isAuthenticatedState } from '@/states/AuthAtom'
+import { diffTime } from '@/utils/date'
 
 type FolderLinkButtonProps = {
   folderId: string
@@ -75,7 +77,7 @@ export const FolderLinkButton: FC<FolderLinkButtonProps> = ({ folderId, link, ow
           variant='caption'
           sx={{ color: 'secondary.dark', display: 'block' }}
         >
-          {link.updated_at} 更新
+          {diffTime(new Date(), parseISO(link.created_at as string))}
         </Typography>
       </ListItemText>
     </ListItem>
