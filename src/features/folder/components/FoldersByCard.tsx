@@ -16,20 +16,25 @@ type FolderCardProps = {
   folder: Folder
 }
 
-const FolderCard: FC<FolderCardProps> = ({ folder }) => (
-  <Card>
-    <CardActionArea component={Link} to={`/folder/${folder.id}`}>
-      <Box sx={{ backgroundColor: 'secondary.main', textAlign: 'center', py: 3 }}>
-        <FolderOutlinedIcon />
-      </Box>
-      <Box sx={{ p: 1 }}>
-        <Typography variant='subtitle1' sx={{ lineHeight: 1 }}>
-          {folder.name}
-        </Typography>
-      </Box>
-    </CardActionArea>
-  </Card>
-)
+const FolderCard: FC<FolderCardProps> = ({ folder }) => {
+  return (
+    <Card>
+      <CardActionArea component={Link} to={`/folder/${folder.id}`}>
+        <Box sx={{ backgroundColor: 'secondary.main', textAlign: 'center', py: 2 }}>
+          <FolderOutlinedIcon fontSize='large' />
+        </Box>
+        <Box sx={{ p: 1 }}>
+          <Typography component='span' variant='subtitle1' sx={{ lineHeight: 1 }}>
+            {folder.name}
+          </Typography>
+          <Typography component='span' variant='subtitle1' sx={{ lineHeight: 1 }}>
+            {folder.updated_at}
+          </Typography>
+        </Box>
+      </CardActionArea>
+    </Card>
+  )
+}
 
 type FoldersByCardProps = {
   errorMessage: string
