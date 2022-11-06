@@ -1,4 +1,5 @@
 import Button from '@mui/material/Button'
+import { SxProps } from '@mui/material/styles'
 import { FC, ReactNode } from 'react'
 
 import { Link } from '@/components/Elements/Link'
@@ -10,6 +11,7 @@ type LinkButtonProps = {
   label: string
   path: string
   size?: 'small' | 'medium' | 'large'
+  sx?: SxProps
   variant?: 'text' | 'outlined' | 'contained'
 }
 
@@ -20,6 +22,7 @@ export const LinkButton: FC<LinkButtonProps> = ({
   label,
   path,
   size = 'medium',
+  sx,
   variant = 'contained',
 }) => {
   return (
@@ -32,7 +35,7 @@ export const LinkButton: FC<LinkButtonProps> = ({
         size={size}
         startIcon={icon}
         variant={variant}
-        sx={{ fontWeight: 'bold', borderRadius: 5 }}
+        sx={{ borderRadius: 5, fontWeight: 'bold', ...sx }}
       >
         {label}
       </Button>

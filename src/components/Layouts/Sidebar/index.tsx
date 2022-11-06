@@ -35,7 +35,7 @@ export const Sidebar: FC = () => {
           disableElevation
           fullWidth
           href='https://github.com/FutaMiyazaki/gathelink'
-          startIcon={<GitHubIcon width={22} height={22} />}
+          startIcon={<GitHubIcon />}
           target='_blank'
           variant='outlined'
           sx={{ borderRadius: 5, fontWeight: 'bold' }}
