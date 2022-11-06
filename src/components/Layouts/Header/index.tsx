@@ -18,7 +18,7 @@ import { MenuItems } from '@/components/Elements/Menu/MenuItems'
 import { GlobalMenu } from '@/components/Layouts/GlobamMenu'
 import { HeaderAccountMenu } from '@/components/Layouts/Header/AccountMenu'
 import { buttonItems } from '@/components/Layouts/LeadAuthorization/buttonItems'
-import { CreateFolderDialog } from '@/features/folder/components/CreateFolderDialog'
+import { CreateFolderDialog } from '@/features/folder/components/Dialog/CreateFolderDialog'
 import { useMedia } from '@/hooks/useMedia'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 
