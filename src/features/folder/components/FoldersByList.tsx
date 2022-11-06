@@ -13,6 +13,47 @@ import { Link } from '@/components/Elements/Link'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { Folder } from '@/features/folder/types/Folder'
 
+type FolderListItemProps = {
+  folder: Folder
+}
+
+const FolderListItem: FC<FolderListItemProps> = ({ folder }) => (
+  <Link key={folder.id} color='black' path={`/folder/${folder.id}`}>
+    <ListItem
+      color='#ffffff'
+      dense
+      disableGutters
+      secondaryAction={
+        folder?.links?.length !== undefined && (
+          <Typography variant='caption' sx={{ pr: 2 }}>
+            {folder?.links.length > 0 && folder?.links.length}
+          </Typography>
+        )
+      }
+      sx={{ px: 0 }}
+    >
+      <ListItemButton>
+        <ListItemIcon>
+          <FolderTwoToneIcon />
+        </ListItemIcon>
+        <ListItemText>
+          <Typography
+            variant='body2'
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {folder?.name}
+          </Typography>
+        </ListItemText>
+      </ListItemButton>
+    </ListItem>
+    <Divider />
+  </Link>
+)
+
 type FoldersByListProps = {
   errorMessage: string
   folders: Folder[]
@@ -34,41 +75,7 @@ export const FoldersByList: FC<FoldersByListProps> = ({
         <List>
           <Divider />
           {folders.map((folder: Folder) => {
-            return (
-              <Link key={folder.id} color='black' path={`/folder/${folder.id}`}>
-                <ListItem
-                  color='#ffffff'
-                  dense
-                  disableGutters
-                  secondaryAction={
-                    folder?.links?.length !== undefined && (
-                      <Typography variant='caption' sx={{ pr: 2 }}>
-                        {folder?.links.length > 0 && folder?.links.length}
-                      </Typography>
-                    )
-                  }
-                >
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <FolderTwoToneIcon />
-                    </ListItemIcon>
-                    <ListItemText>
-                      <Typography
-                        variant='body2'
-                        sx={{
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                        }}
-                      >
-                        {folder?.name}
-                      </Typography>
-                    </ListItemText>
-                  </ListItemButton>
-                </ListItem>
-                <Divider />
-              </Link>
-            )
+            return <FolderListItem key={folder.id} folder={folder} />
           })}
         </List>
       ) : (
