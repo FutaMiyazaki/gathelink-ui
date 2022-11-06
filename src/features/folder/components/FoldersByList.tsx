@@ -7,11 +7,13 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
+import { parseISO } from 'date-fns'
 import { FC } from 'react'
 
 import { Link } from '@/components/Elements/Link'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { Folder } from '@/features/folder/types/Folder'
+import { diffTime } from '@/utils/date'
 
 type FolderListItemProps = {
   folder: Folder
@@ -30,24 +32,31 @@ const FolderListItem: FC<FolderListItemProps> = ({ folder }) => (
           </Typography>
         )
       }
-      sx={{ px: 0 }}
+      sx={{ p: 0 }}
     >
       <ListItemButton>
         <ListItemIcon>
           <FolderTwoToneIcon />
         </ListItemIcon>
-        <ListItemText>
-          <Typography
-            variant='body2'
-            sx={{
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            {folder?.name}
-          </Typography>
-        </ListItemText>
+        <ListItemText
+          primary={
+            <Typography
+              variant='subtitle1'
+              sx={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {folder?.name}
+            </Typography>
+          }
+          secondary={
+            <Typography component='span' variant='body2' sx={{ color: 'secondary.dark' }}>
+              {diffTime(new Date(), parseISO(folder.created_at))}
+            </Typography>
+          }
+        />
       </ListItemButton>
     </ListItem>
     <Divider />
