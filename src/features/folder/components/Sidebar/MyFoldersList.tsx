@@ -8,7 +8,7 @@ import { useRecoilValue } from 'recoil'
 
 import { Menu } from '@/components/Elements/Menu'
 import { MenuItems } from '@/components/Elements/Menu/MenuItems'
-import { FoldersList } from '@/features/folder/components/FoldersList'
+import { FoldersList } from '@/features/folder/components/Sidebar/FoldersList'
 import { useFetchMyFolders } from '@/features/folder/hooks/useFetchMyFolders'
 import { FoldersSortType } from '@/features/folder/types/FoldersSortType'
 import { myFoldersState } from '@/states/MyFoldersAtom'

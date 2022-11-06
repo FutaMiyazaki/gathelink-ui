@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography'
 import { FC, useEffect } from 'react'
 import { useRecoilValue } from 'recoil'
 
-import { FoldersList } from '@/features/folder/components/FoldersList'
+import { FoldersList } from '@/features/folder/components/Sidebar/FoldersList'
 import { useFetchFavoritedFolders } from '@/features/folder/hooks/useFetchFavoritedFolders'
 import { favoritedFoldersState } from '@/states/FavoritedFoldersAtom'
 
