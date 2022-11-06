@@ -1,10 +1,10 @@
 import MuiButton from '@mui/material/Button'
 import CircularProgress from '@mui/material/CircularProgress'
 import { SxProps } from '@mui/material/styles'
-import { FC, ReactNode } from 'react'
+import { FC, MouseEventHandler, ReactNode } from 'react'
 
 type ButtonProps = {
-  onClick?: () => void
+  onClick?: MouseEventHandler<HTMLButtonElement> | undefined
   color?: 'primary' | 'inherit' | 'secondary' | 'success' | 'error' | 'info' | 'warning'
   disabled?: boolean
   fullWidth?: boolean
