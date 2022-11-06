@@ -59,7 +59,7 @@ export const EditLink: FC = () => {
   }
 
   const setDefaultFolder = (myFolders: Folder[]): Folder => {
-    let defaultFolder: Folder = { id: 0, name: '', updated_at: '' }
+    let defaultFolder: Folder = { id: 0, name: '', created_at: '', updated_at: '' }
     myFolders.forEach((folder) => {
       if (folder.id === parseInt(folderId as string, 10)) {
         defaultFolder = folder

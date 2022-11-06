@@ -10,6 +10,7 @@ export const myFoldersState = atom<myFolders>({
     {
       id: 0,
       name: '',
+      created_at: '',
       updated_at: '',
       links: undefined,
       user: undefined,
