@@ -10,10 +10,10 @@ import { favoritedFoldersState } from '@/states/FavoritedFoldersAtom'
 
 export const FavoritedFoldersList: FC = () => {
   const favoritedFolders = useRecoilValue(favoritedFoldersState)
-  const { errorMessage, fetchFetchFavoritedFolders, isFeatching } = useFetchFavoritedFolders()
+  const { errorMessage, fetchFavoritedFolders, isFeatching } = useFetchFavoritedFolders()
 
   useEffect(() => {
-    fetchFetchFavoritedFolders('old')
+    fetchFavoritedFolders('old')
   }, [])
 
   return (

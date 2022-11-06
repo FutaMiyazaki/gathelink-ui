@@ -13,7 +13,7 @@ import { favoritedFoldersState } from '@/states/FavoritedFoldersAtom'
 
 export const FavoritedFolders: FC = () => {
   const favoritedFolders = useRecoilValue(favoritedFoldersState)
-  const { errorMessage, fetchFetchFavoritedFolders, isFeatching } = useFetchFavoritedFolders()
+  const { errorMessage, fetchFavoritedFolders, isFeatching } = useFetchFavoritedFolders()
   const [displayFormat, setDisplayFormat] = useState('list')
   const { isDesktopScreen } = useMedia()
 
@@ -54,7 +54,7 @@ export const FavoritedFolders: FC = () => {
   )
 
   useEffect(() => {
-    fetchFetchFavoritedFolders('old')
+    fetchFavoritedFolders('old')
   }, [])
 
   return (
