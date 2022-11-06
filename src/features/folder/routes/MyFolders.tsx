@@ -23,6 +23,7 @@ export const MyFolders: FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [displayFormat, setDisplayFormat] = useState('list')
   const { isDesktopScreen } = useMedia()
+  const noContentsText = '作成したフォルダはありません'
 
   const handleChangeDisplay = (e: ChangeEvent<HTMLInputElement>): void => {
     setDisplayFormat((e.target as HTMLInputElement).value)
@@ -72,7 +73,7 @@ export const MyFolders: FC = () => {
           errorMessage={errorMessage}
           folders={myFolders}
           isLoading={isFeatching}
-          noContentsText='作成したフォルダはありません'
+          noContentsText={noContentsText}
         />
       )}
       {displayFormat === 'card' && (
@@ -80,7 +81,7 @@ export const MyFolders: FC = () => {
           errorMessage={errorMessage}
           folders={myFolders}
           isLoading={isFeatching}
-          noContentsText='作成したフォルダはありません'
+          noContentsText={noContentsText}
         />
       )}
     </>
