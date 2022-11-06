@@ -1,4 +1,4 @@
-import { Chip } from '@mui/material'
+import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 import { FC } from 'react'
 

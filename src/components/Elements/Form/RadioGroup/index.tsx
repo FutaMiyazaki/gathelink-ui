@@ -1,10 +1,12 @@
 import GridViewIcon from '@mui/icons-material/GridView'
 import ListIcon from '@mui/icons-material/List'
-import { Box, Menu, Typography } from '@mui/material'
+import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import Menu from '@mui/material/Menu'
 import Radio from '@mui/material/Radio'
 import MuiRadioGroup from '@mui/material/RadioGroup'
+import Typography from '@mui/material/Typography'
 import { ChangeEvent, FC, MouseEvent, useState } from 'react'
 
 import { Button } from '@/components/Elements/Button'

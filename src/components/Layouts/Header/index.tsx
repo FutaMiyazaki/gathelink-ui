@@ -3,7 +3,6 @@ import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutl
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
@@ -11,6 +10,7 @@ import { FC, MouseEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
+import { Button } from '@/components/Elements/Button'
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
 import { Link } from '@/components/Elements/Link'
 import { Menu } from '@/components/Elements/Menu'
@@ -72,14 +72,12 @@ export const Header: FC = () => {
         {authenticated && isDesktopScreen && (
           <>
             <Button
-              disableElevation
-              startIcon={<CreateOutlinedIcon />}
+              icon={<CreateOutlinedIcon />}
+              label='追加'
               onClick={handleOpenMenu}
               variant='contained'
-              sx={{ borderRadius: 5, fontWeight: 'bold', ml: 38 }}
-            >
-              追加
-            </Button>
+              sx={{ ml: 38 }}
+            />
             <Menu
               anchorEl={anchorEl}
               handleCloseMenu={() => setAnchorEl(null)}
