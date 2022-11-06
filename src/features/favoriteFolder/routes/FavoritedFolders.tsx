@@ -6,7 +6,7 @@ import { useRecoilValue } from 'recoil'
 import { DisplayTypeMenu } from '@/components/Elements/Form/RadioGroup'
 import { PageHeading } from '@/components/Elements/Heading/PageHeading'
 import { FoldersByCard } from '@/features/folder/components/FoldersByCard'
-import { FoldersListForMobile } from '@/features/folder/components/FoldersListForMobile'
+import { FoldersByList } from '@/features/folder/components/FoldersByList'
 import { useFetchFavoritedFolders } from '@/features/folder/hooks/useFetchFavoritedFolders'
 import { useMedia } from '@/hooks/useMedia'
 import { favoritedFoldersState } from '@/states/FavoritedFoldersAtom'
@@ -35,7 +35,7 @@ export const FavoritedFolders: FC = () => {
         <DisplayTypeMenu handleChange={handleChangeDisplay} displayFormat={displayFormat} />
       </Stack>
       {displayFormat === 'list' && (
-        <FoldersListForMobile
+        <FoldersByList
           errorMessage={errorMessage}
           folders={favoritedFolders}
           isLoading={isFeatching}

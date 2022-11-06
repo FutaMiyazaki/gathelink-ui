@@ -11,7 +11,7 @@ import { PageHeading } from '@/components/Elements/Heading/PageHeading'
 import { Menu } from '@/components/Elements/Menu'
 import { MenuItems } from '@/components/Elements/Menu/MenuItems'
 import { FoldersByCard } from '@/features/folder/components/FoldersByCard'
-import { FoldersListForMobile } from '@/features/folder/components/FoldersListForMobile'
+import { FoldersByList } from '@/features/folder/components/FoldersByList'
 import { useFetchMyFolders } from '@/features/folder/hooks/useFetchMyFolders'
 import { FoldersSortType } from '@/features/folder/types/FoldersSortType'
 import { useMedia } from '@/hooks/useMedia'
@@ -69,7 +69,7 @@ export const MyFolders: FC = () => {
         </Box>
       </Stack>
       {displayFormat === 'list' && (
-        <FoldersListForMobile
+        <FoldersByList
           errorMessage={errorMessage}
           folders={myFolders}
           isLoading={isFeatching}

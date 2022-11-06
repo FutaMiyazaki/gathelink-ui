@@ -13,14 +13,14 @@ import { Link } from '@/components/Elements/Link'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { Folder } from '@/features/folder/types/Folder'
 
-type FoldersListProps = {
+type FoldersByListProps = {
   errorMessage: string
   folders: Folder[]
   isLoading: boolean
   noContentsText: string
 }
 
-export const FoldersListForMobile: FC<FoldersListProps> = ({
+export const FoldersByList: FC<FoldersByListProps> = ({
   errorMessage,
   folders,
   isLoading,
