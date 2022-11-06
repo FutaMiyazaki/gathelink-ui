@@ -1,13 +1,16 @@
 import SortIcon from '@mui/icons-material/Sort'
+import { Box } from '@mui/material'
 import Container from '@mui/material/Container'
-import IconButton from '@mui/material/IconButton'
 import Stack from '@mui/material/Stack'
-import { FC, MouseEvent, useEffect, useState } from 'react'
+import { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
+import { Button } from '@/components/Elements/Button'
+import { DisplayTypeMenu } from '@/components/Elements/Form/RadioGroup'
 import { PageHeading } from '@/components/Elements/Heading/PageHeading'
 import { Menu } from '@/components/Elements/Menu'
 import { MenuItems } from '@/components/Elements/Menu/MenuItems'
+import { FoldersByCard } from '@/features/folder/components/FoldersByCard'
 import { FoldersListForMobile } from '@/features/folder/components/FoldersListForMobile'
 import { useFetchMyFolders } from '@/features/folder/hooks/useFetchMyFolders'
 import { FoldersSortType } from '@/features/folder/types/FoldersSortType'
@@ -18,7 +21,12 @@ export const MyFolders: FC = () => {
   const myFolders = useRecoilValue(myFoldersState)
   const { errorMessage, fetchMyFolders, isFeatching } = useFetchMyFolders()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [displayFormat, setDisplayFormat] = useState('list')
   const { isDesktopScreen } = useMedia()
+
+  const handleChangeDisplay = (e: ChangeEvent<HTMLInputElement>): void => {
+    setDisplayFormat((e.target as HTMLInputElement).value)
+  }
 
   const handleChangeSort = (sortType: FoldersSortType): void => {
     fetchMyFolders(sortType)
@@ -36,23 +44,45 @@ export const MyFolders: FC = () => {
 
   const renderContent = (
     <>
-      <Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ px: 1.5 }}>
+      <Stack
+        alignItems='center'
+        direction='row'
+        justifyContent='space-between'
+        sx={{ mb: 3, px: 1.5 }}
+      >
         <PageHeading text='マイフォルダ' />
-        <IconButton onClick={handleOpenSortMenu}>
-          <SortIcon />
-        </IconButton>
-        <Menu
-          anchorEl={anchorEl}
-          handleCloseMenu={() => setAnchorEl(null)}
-          menuItems={sortMenuItems}
-        />
+        <Box>
+          <DisplayTypeMenu handleChange={handleChangeDisplay} displayFormat={displayFormat} />
+          <Button
+            onClick={handleOpenSortMenu}
+            icon={<SortIcon />}
+            label='並び順'
+            variant='text'
+            sx={{ color: 'secondary.dark', ml: 1 }}
+          />
+          <Menu
+            anchorEl={anchorEl}
+            handleCloseMenu={() => setAnchorEl(null)}
+            menuItems={sortMenuItems}
+          />
+        </Box>
       </Stack>
-      <FoldersListForMobile
-        errorMessage={errorMessage}
-        folders={myFolders}
-        isLoading={isFeatching}
-        noContentsText='作成したフォルダはありません'
-      />
+      {displayFormat === 'list' && (
+        <FoldersListForMobile
+          errorMessage={errorMessage}
+          folders={myFolders}
+          isLoading={isFeatching}
+          noContentsText='作成したフォルダはありません'
+        />
+      )}
+      {displayFormat === 'card' && (
+        <FoldersByCard
+          errorMessage={errorMessage}
+          folders={myFolders}
+          isLoading={isFeatching}
+          noContentsText='作成したフォルダはありません'
+        />
+      )}
     </>
   )
 
@@ -63,7 +93,7 @@ export const MyFolders: FC = () => {
   return (
     <>
       {isDesktopScreen ? (
-        <Container maxWidth='sm'>{renderContent}</Container>
+        <Container maxWidth='md'>{renderContent}</Container>
       ) : (
         <>{renderContent}</>
       )}
