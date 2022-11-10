@@ -32,7 +32,7 @@ type RouterParams = {
 
 export const FolderDetails: FC = () => {
   const folderHasLinks = useRecoilValue(folderHasLinksState)
-  const [openDialog, setOpenDialog] = useState<boolean>(false)
+  const [openDialog, setOpenDialog] = useState(false)
   const [displayFormat, setDisplayFormat] = useState('list')
   const { folderId } = useParams<RouterParams>()
   const { errorMessage, fetchFolder, folder, isFeatchLoading, isOwner, resStatus } =
