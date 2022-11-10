@@ -5,23 +5,25 @@ import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import Grid from '@mui/material/Unstable_Grid2'
 import { parseISO } from 'date-fns'
 import { parseCookies } from 'nookies'
-import { useEffect, FC, useState } from 'react'
+import { useEffect, FC, useState, ChangeEvent } from 'react'
 import { useParams } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
 import { Button } from '@/components/Elements/Button'
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
+import { DisplayTypeMenu } from '@/components/Elements/Form/RadioGroup'
 import { PageHeading } from '@/components/Elements/Heading/PageHeading'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { FavoriteFolderButton } from '@/features/favoriteFolder/components/FavoriteFolderButton'
 import { DeleteFolderDialog } from '@/features/folder/components/Dialog/DeleteFolderDialog'
-import { FolderLinkButton } from '@/features/folder/components/FolderLinkButton'
 import { useFetchFolder } from '@/features/folder/hooks/useFetchFolder'
+import { LinkCard } from '@/features/link/components/LinkCard'
+import { LinkListItem } from '@/features/link/components/LinkListItem'
 import { Link } from '@/features/link/types/Link'
 import { NotFound } from '@/features/misc/routes/NotFound'
-import { isAuthenticatedState } from '@/states/AuthAtom'
 import { folderHasLinksState } from '@/states/FolderHasLinksAtom'
 import { diffTime } from '@/utils/date'
 
@@ -32,11 +34,15 @@ type RouterParams = {
 export const FolderDetails: FC = () => {
   const folderHasLinks = useRecoilValue(folderHasLinksState)
   const [openDialog, setOpenDialog] = useState<boolean>(false)
+  const [displayFormat, setDisplayFormat] = useState('list')
   const cookie = parseCookies()
-  const uid = cookie.uid
   const { folderId } = useParams<RouterParams>()
-  const authenticated = useRecoilValue(isAuthenticatedState)
-  const { errorMessage, fetchFolder, folder, isFeatchLoading, resStatus } = useFetchFolder()
+  const { errorMessage, fetchFolder, folder, isFeatchLoading, isOwner, resStatus } =
+    useFetchFolder()
+
+  const handleChangeDisplay = (e: ChangeEvent<HTMLInputElement>): void => {
+    setDisplayFormat((e.target as HTMLInputElement).value)
+  }
 
   useEffect(() => {
     folderId !== undefined && fetchFolder(folderId)
@@ -49,7 +55,7 @@ export const FolderDetails: FC = () => {
   }
 
   return (
-    <Container maxWidth='md'>
+    <Container maxWidth='lg'>
       {errorMessage !== '' && (
         <Alert icon={false} severity='error' sx={{ mb: 4 }}>
           {errorMessage}
@@ -76,7 +82,7 @@ export const FolderDetails: FC = () => {
             favoritedData={folder?.folder_favorites}
           />
         </Stack>
-        {authenticated && folder?.user?.email === uid && folderId !== undefined && (
+        {isOwner && (
           <>
             <Stack
               direction='row'
@@ -89,7 +95,7 @@ export const FolderDetails: FC = () => {
                 color='secondary'
                 icon={<EditOutlinedIcon />}
                 label='編集'
-                path={`/folder/${folderId}/edit`}
+                path={`/folder/${folderId as string}/edit`}
                 variant='contained'
               />
               <Button
@@ -101,26 +107,48 @@ export const FolderDetails: FC = () => {
               />
             </Stack>
             <DeleteFolderDialog
-              folderId={folderId}
+              folderId={folderId as string}
               handleCloseDialog={() => setOpenDialog(false)}
               open={openDialog}
             />
           </>
         )}
       </Box>
+      <Stack direction='row' justifyContent='flex-end'>
+        <DisplayTypeMenu handleChange={handleChangeDisplay} displayFormat={displayFormat} />
+      </Stack>
       {folderHasLinks.length > 0 ? (
-        <Stack direction='column' spacing={3} sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 3 }}>
-          {folderHasLinks?.map((link: Link) => {
-            return (
-              <FolderLinkButton
-                key={link.id}
-                folderId={folderId as string}
-                link={link}
-                ownerId={folder?.user?.email}
-              />
-            )
-          })}
-        </Stack>
+        <>
+          {displayFormat === 'list' && (
+            <Stack
+              direction='column'
+              spacing={3}
+              sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 3 }}
+            >
+              {folderHasLinks?.map((link: Link) => {
+                return (
+                  <LinkListItem
+                    key={link.id}
+                    folderId={folderId as string}
+                    link={link}
+                    isOwner={isOwner}
+                  />
+                )
+              })}
+            </Stack>
+          )}
+          {displayFormat === 'card' && (
+            <Grid container columns={{ xs: 2, sm: 2, md: 3, lg: 4 }} spacing={2} sx={{ mx: 0.5 }}>
+              {folderHasLinks?.map((link: Link) => {
+                return (
+                  <Grid key={link.id} xs={1}>
+                    <LinkCard folderId={folderId as string} isOwner={isOwner} link={link} />
+                  </Grid>
+                )
+              })}
+            </Grid>
+          )}
+        </>
       ) : (
         <Box sx={{ textAlign: 'center', mt: 2 }}>
           <Typography variant='body2'>リンクはありません</Typography>
