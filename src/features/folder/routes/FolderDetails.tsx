@@ -7,7 +7,6 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Unstable_Grid2'
 import { parseISO } from 'date-fns'
-import { parseCookies } from 'nookies'
 import { useEffect, FC, useState, ChangeEvent } from 'react'
 import { useParams } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
@@ -35,7 +34,6 @@ export const FolderDetails: FC = () => {
   const folderHasLinks = useRecoilValue(folderHasLinksState)
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const [displayFormat, setDisplayFormat] = useState('list')
-  const cookie = parseCookies()
   const { folderId } = useParams<RouterParams>()
   const { errorMessage, fetchFolder, folder, isFeatchLoading, isOwner, resStatus } =
     useFetchFolder()
