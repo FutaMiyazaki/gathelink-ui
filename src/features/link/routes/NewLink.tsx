@@ -17,7 +17,7 @@ import { Folder } from '@/features/folder/types/Folder'
 import { useAddLink } from '@/features/link/hooks/useAddLink'
 import { linkValidationRules } from '@/features/link/utils/linkValidationRules'
 import { myFoldersState } from '@/states/MyFoldersAtom'
-
+import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
 type Inputs = {
   title: string
   url: string
@@ -44,7 +44,7 @@ export const NewLink: FC = () => {
   }, [])
 
   return (
-    <Container maxWidth='sm'>
+    <Container maxWidth='md'>
       {errorMessage !== '' && (
         <Alert icon={false} severity='error' sx={{ mb: 2 }}>
           {errorMessage}
@@ -55,7 +55,7 @@ export const NewLink: FC = () => {
         component='form'
         noValidate
         onSubmit={handleSubmit(onSubmit)}
-        sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 3 }}
+        sx={{ ...whiteBackgroundProps }}
       >
         <InputLabel
           labelTitle='タイトル'

@@ -18,6 +18,7 @@ import { DeleteFolderDialog } from '@/features/folder/components/Dialog/DeleteFo
 import { useFetchFolder } from '@/features/folder/hooks/useFetchFolder'
 import { useUpdateFolder } from '@/features/folder/hooks/useUpdateFolder'
 import { folderValidationRules } from '@/features/folder/utils/folderValidationRules'
+import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
 
 type Inputs = {
   name: string
@@ -72,48 +73,51 @@ export const EditFolder: FC = () => {
           {errorMessage}
         </Alert>
       )}
-      <Box sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 3 }}>
-        <Box component='form' noValidate onSubmit={handleSubmit(onSubmit)}>
-          <InputLabel labelTitle='フォルダ名' />
-          <Controller
-            name='name'
-            control={control}
-            defaultValue={folder?.name}
-            rules={folderValidationRules.name}
-            render={({ field, fieldState }) => (
-              <TextField
-                {...field}
-                type='text'
-                fullWidth
-                autoFocus
-                size='small'
-                error={fieldState.invalid}
-                helperText={fieldState.error?.message}
-                sx={{ mb: 4 }}
-              />
-            )}
-          />
-          <InputLabel labelTitle='説明' required={false} />
-          <Controller
-            name='description'
-            control={control}
-            defaultValue={folder?.description}
-            rules={folderValidationRules.description}
-            render={({ field, fieldState }) => (
-              <TextField
-                {...field}
-                type='text'
-                fullWidth
-                multiline
-                size='small'
-                error={fieldState.invalid}
-                helperText={fieldState.error?.message}
-                sx={{ mb: 4 }}
-              />
-            )}
-          />
-          <Button isLoading={isLoading} label='保存する' type='submit' sx={{ mr: 2 }} />
-        </Box>
+      <Box
+        component='form'
+        noValidate
+        onSubmit={handleSubmit(onSubmit)}
+        sx={{ ...whiteBackgroundProps }}
+      >
+        <InputLabel labelTitle='フォルダ名' />
+        <Controller
+          name='name'
+          control={control}
+          defaultValue={folder?.name}
+          rules={folderValidationRules.name}
+          render={({ field, fieldState }) => (
+            <TextField
+              {...field}
+              type='text'
+              fullWidth
+              autoFocus
+              size='small'
+              error={fieldState.invalid}
+              helperText={fieldState.error?.message}
+              sx={{ mb: 4 }}
+            />
+          )}
+        />
+        <InputLabel labelTitle='説明' required={false} />
+        <Controller
+          name='description'
+          control={control}
+          defaultValue={folder?.description}
+          rules={folderValidationRules.description}
+          render={({ field, fieldState }) => (
+            <TextField
+              {...field}
+              type='text'
+              fullWidth
+              multiline
+              size='small'
+              error={fieldState.invalid}
+              helperText={fieldState.error?.message}
+              sx={{ mb: 4 }}
+            />
+          )}
+        />
+        <Button isLoading={isLoading} label='保存する' type='submit' sx={{ mr: 2 }} />
       </Box>
       <DeleteFolderDialog
         folderId={folderId as string}
