@@ -33,8 +33,8 @@ export const NewLink: FC = () => {
 
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
     const link = {
-      title: data.title,
       url: data.url,
+      title: data.title,
       folder_id: data.folder != null ? data.folder.id : 0,
     }
     addLink(link)
@@ -60,6 +60,25 @@ export const NewLink: FC = () => {
         onSubmit={handleSubmit(onSubmit)}
         sx={{ ...whiteBackgroundProps }}
       >
+        <InputLabel labelTitle='URL' />
+        <Controller
+          control={control}
+          defaultValue={''}
+          name='url'
+          rules={linkValidationRules.url}
+          render={({ field, fieldState }) => (
+            <TextField
+              {...field}
+              error={fieldState.invalid}
+              autoFocus
+              fullWidth
+              helperText={fieldState.error?.message}
+              size='small'
+              type='text'
+              sx={{ mb: 4 }}
+            />
+          )}
+        />
         <InputLabel
           labelTitle='タイトル'
           inputRequirement='未入力の場合は、URL のタイトルで作成されます'
@@ -70,25 +89,6 @@ export const NewLink: FC = () => {
           defaultValue={''}
           name='title'
           rules={linkValidationRules.title}
-          render={({ field, fieldState }) => (
-            <TextField
-              {...field}
-              autoFocus
-              error={fieldState.invalid}
-              fullWidth
-              helperText={fieldState.error?.message}
-              size='small'
-              type='text'
-              sx={{ mb: 4 }}
-            />
-          )}
-        />
-        <InputLabel labelTitle='URL' />
-        <Controller
-          control={control}
-          defaultValue={''}
-          name='url'
-          rules={linkValidationRules.url}
           render={({ field, fieldState }) => (
             <TextField
               {...field}
