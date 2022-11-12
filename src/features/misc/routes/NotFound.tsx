@@ -26,7 +26,7 @@ export const NotFound: FC = () => (
         alt='not-found-image'
         className={NotFoundModule['Not-found-image']}
       />
-      <LinkButton label='トップページへ戻る' path='/' />
+      <LinkButton label='トップページへ戻る' path='/' size='large' variant='text' />
     </Stack>
   </Container>
 )
