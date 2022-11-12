@@ -6,7 +6,6 @@ import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import IconButton from '@mui/material/IconButton'
-import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import { FC, useEffect, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
@@ -16,6 +15,7 @@ import { Button } from '@/components/Elements/Button'
 import { InputLabel } from '@/components/Elements/Form/InputLabel'
 import { PageHeading } from '@/components/Elements/Heading/PageHeading'
 import { Link } from '@/components/Elements/Link'
+import { WhiteBackgroundBox } from '@/components/Layouts/Box/WhiteBackgroundBox'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { Folder } from '@/features/folder/types/Folder'
 import { DeleteLinkDialog } from '@/features/link/components/DeleteLinkDialog'
@@ -75,24 +75,23 @@ export const EditLink: FC = () => {
   if (isFeatchLoading) <PageLoading />
 
   return (
-    <Container maxWidth='sm'>
-      <Stack alignItems='center' direction='row' justifyContent='space-between' sx={{ mb: 3 }}>
-        <Box sx={{ alignItems: 'center', display: 'flex' }}>
-          <Link path={`/folder/${folderId as string}`}>
-            <IconButton component='span'>
-              <ArrowBackIcon />
-            </IconButton>
-          </Link>
-          <PageHeading text='リンクを編集' sx={{ ml: 1 }} />
-        </Box>
+    <Container maxWidth='md'>
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+        <Link path={`/folder/${folderId as string}`}>
+          <IconButton component='span'>
+            <ArrowBackIcon />
+          </IconButton>
+        </Link>
+        <PageHeading text='リンクを編集' sx={{ ml: 1 }} />
         <Button
           color='warning'
           icon={<DeleteForeverOutlinedIcon />}
           label='削除'
           onClick={handleOpenDialog}
           variant='text'
+          sx={{ ml: 'auto' }}
         />
-      </Stack>
+      </Box>
       {folderId !== undefined && linkId !== undefined && (
         <DeleteLinkDialog
           folderId={folderId}
@@ -106,11 +105,11 @@ export const EditLink: FC = () => {
           {errorMessage}
         </Alert>
       )}
-      <Box sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 3 }}>
+      <WhiteBackgroundBox>
         <Box component='form' noValidate onSubmit={handleSubmit(onSubmit)}>
           <InputLabel
             labelTitle='タイトル'
-            inputRequirement='未入力の場合は、URL のタイトルで作成されます'
+            inputRequirement='未入力の場合は、URL のタイトルで保存されます'
             required={false}
           />
           <Controller
@@ -186,7 +185,7 @@ export const EditLink: FC = () => {
           )}
           <Button isLoading={isUpdating} label='保存する' type='submit' sx={{ mr: 2 }} />
         </Box>
-      </Box>
+      </WhiteBackgroundBox>
     </Container>
   )
 }
