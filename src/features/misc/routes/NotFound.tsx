@@ -2,10 +2,10 @@ import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import { Image } from 'mui-image'
 import { FC } from 'react'
 
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
-import NotFoundModule from '@/features/misc/css/NotFound.module.css'
 
 export const NotFound: FC = () => (
   <Container maxWidth='sm'>
@@ -21,10 +21,11 @@ export const NotFound: FC = () => (
       <Typography component='h1' variant='subtitle1'>
         このページはすでに削除されているか、URLが間違っている可能性があります。
       </Typography>
-      <img
+      <Image
         src={`${process.env.PUBLIC_URL}/notfound.png`}
         alt='not-found-image'
-        className={NotFoundModule['Not-found-image']}
+        duration={2000}
+        style={{ pointerEvents: 'none', maxWidth: '100%' }}
       />
       <LinkButton label='トップページへ戻る' path='/' size='large' variant='text' />
     </Stack>
