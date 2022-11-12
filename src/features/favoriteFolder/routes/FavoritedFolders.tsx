@@ -1,10 +1,10 @@
 import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
 import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import { DisplayTypeMenu } from '@/components/Elements/Form/RadioGroup'
-import { PageHeading } from '@/components/Elements/Heading/PageHeading'
 import { FoldersByCard } from '@/features/folder/components/FoldersByCard'
 import { FoldersByList } from '@/features/folder/components/FoldersByList'
 import { useFetchFavoritedFolders } from '@/features/folder/hooks/useFetchFavoritedFolders'
@@ -31,7 +31,7 @@ export const FavoritedFolders: FC = () => {
         justifyContent='space-between'
         sx={{ mb: 3, px: 1.5 }}
       >
-        <PageHeading text='お気に入りフォルダ' />
+        <Typography variant='h1'>お気に入りフォルダ</Typography>
         <DisplayTypeMenu handleChange={handleChangeDisplay} displayFormat={displayFormat} />
       </Stack>
       {displayFormat === 'list' && (

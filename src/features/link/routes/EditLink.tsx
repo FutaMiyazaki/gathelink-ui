@@ -7,13 +7,13 @@ import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import IconButton from '@mui/material/IconButton'
 import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
 import { FC, useEffect, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 
 import { Button } from '@/components/Elements/Button'
 import { InputLabel } from '@/components/Elements/Form/InputLabel'
-import { PageHeading } from '@/components/Elements/Heading/PageHeading'
 import { Link } from '@/components/Elements/Link'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { Folder } from '@/features/folder/types/Folder'
@@ -82,7 +82,9 @@ export const EditLink: FC = () => {
             <ArrowBackIcon />
           </IconButton>
         </Link>
-        <PageHeading text='リンクを編集' sx={{ ml: 1 }} />
+        <Typography variant='h1' sx={{ ml: 1 }}>
+          リンクを編集
+        </Typography>
         <Button
           color='warning'
           icon={<DeleteForeverOutlinedIcon />}

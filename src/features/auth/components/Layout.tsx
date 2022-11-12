@@ -4,11 +4,11 @@ import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Divider from '@mui/material/Divider'
 import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
 import { FC, ReactNode } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
-import { PageHeading } from '@/components/Elements/Heading/PageHeading'
 import { Link } from '@/components/Elements/Link'
 
 type AuthLayoutProps = {
@@ -31,10 +31,9 @@ export const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
           <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
-          <PageHeading
-            text={location.pathname === 'signup' ? '新規登録' : 'ログイン'}
-            sx={{ mb: 3 }}
-          />
+          <Typography variant='h1' sx={{ mb: 3 }}>
+            {location.pathname === '/signup' ? '新規登録' : 'ログイン'}
+          </Typography>
         </Box>
         {children}
         <Stack direction='column' justifyContent='center' sx={{ textAlign: 'center' }}>

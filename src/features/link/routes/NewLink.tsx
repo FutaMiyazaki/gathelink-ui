@@ -5,19 +5,20 @@ import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
 import { FC, useEffect } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { useRecoilValue } from 'recoil'
 
 import { Button } from '@/components/Elements/Button'
 import { InputLabel } from '@/components/Elements/Form/InputLabel'
-import { PageHeading } from '@/components/Elements/Heading/PageHeading'
 import { useFetchMyFolders } from '@/features/folder/hooks/useFetchMyFolders'
 import { Folder } from '@/features/folder/types/Folder'
 import { useAddLink } from '@/features/link/hooks/useAddLink'
 import { linkValidationRules } from '@/features/link/utils/linkValidationRules'
 import { myFoldersState } from '@/states/MyFoldersAtom'
 import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
+
 type Inputs = {
   title: string
   url: string
@@ -50,7 +51,9 @@ export const NewLink: FC = () => {
           {errorMessage}
         </Alert>
       )}
-      <PageHeading text='リンク追加' sx={{ mb: 3 }} />
+      <Typography variant='h1' sx={{ mb: 3 }}>
+        リンクを追加
+      </Typography>
       <Box
         component='form'
         noValidate

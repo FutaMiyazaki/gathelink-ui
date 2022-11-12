@@ -2,12 +2,12 @@ import SortIcon from '@mui/icons-material/Sort'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
 import { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import { Button } from '@/components/Elements/Button'
 import { DisplayTypeMenu } from '@/components/Elements/Form/RadioGroup'
-import { PageHeading } from '@/components/Elements/Heading/PageHeading'
 import { Menu } from '@/components/Elements/Menu'
 import { MenuItems } from '@/components/Elements/Menu/MenuItems'
 import { FoldersByCard } from '@/features/folder/components/FoldersByCard'
@@ -51,7 +51,7 @@ export const MyFolders: FC = () => {
         justifyContent='space-between'
         sx={{ mb: 3, px: 1.5 }}
       >
-        <PageHeading text='マイフォルダ' />
+        <Typography variant='h1'>マイフォルダ</Typography>
         <Box>
           <DisplayTypeMenu handleChange={handleChangeDisplay} displayFormat={displayFormat} />
           <Button
