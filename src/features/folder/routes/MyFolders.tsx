@@ -49,7 +49,7 @@ export const MyFolders: FC = () => {
         alignItems='center'
         direction='row'
         justifyContent='space-between'
-        sx={{ mb: 3, px: 1.5 }}
+        sx={{ mb: 3, px: 1 }}
       >
         <Typography variant='h1'>マイフォルダ</Typography>
         <Box>
@@ -59,7 +59,7 @@ export const MyFolders: FC = () => {
             icon={<SortIcon />}
             label='並び順'
             variant='text'
-            sx={{ color: 'secondary.dark', ml: 1 }}
+            sx={{ color: 'secondary.dark', ml: 0.5 }}
           />
           <Menu
             anchorEl={anchorEl}
