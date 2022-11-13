@@ -1,39 +1,47 @@
 import AddIcon from '@mui/icons-material/Add'
-import { Avatar, IconButton } from '@mui/material'
+import AddLinkOutlinedIcon from '@mui/icons-material/AddLinkOutlined'
+import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined'
+import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
+import Fab from '@mui/material/Fab'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { FC, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
-import { Button } from '@/components/Elements/Button'
-import { actions } from '@/components/Layouts/FloatingActionButton/actions'
-import { CreateFolderDialog } from '@/features/folder/components/CreateFolderDialog'
-import { AddLinkDialog } from '@/features/link/components/addLinkDialog'
+import { CreateFolderDialog } from '@/features/folder/components/Dialog/CreateFolderDialog'
 import { useMedia } from '@/hooks/useMedia'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 
 export type DialogType = 'addLink' | 'createFolder'
 
-type OpenDialog = {
-  type: DialogType
-  open: boolean
-}
-
 export const FloatingActionButton: FC = () => {
   const { isMobileScreen } = useMedia()
   const [openDrawer, setOpenDrawer] = useState(false)
-  const [openDialog, setOpenDialog] = useState<OpenDialog>({
-    type: 'addLink',
-    open: false,
-  })
+  const [openDialog, setOpenDialog] = useState(false)
   const isAuthenticated = useRecoilValue(isAuthenticatedState)
+  const navigate = useNavigate()
 
-  const handleOpenDialog = (actionType: DialogType): void => {
-    setOpenDrawer(false)
-    setOpenDialog({ type: actionType, open: true })
-  }
+  const actions = [
+    {
+      icon: <AddLinkOutlinedIcon sx={{ color: 'secondary.dark' }} />,
+      name: 'リンクを追加',
+      onClick: () => {
+        navigate('/new/link')
+        setOpenDrawer(false)
+      },
+    },
+    {
+      icon: <CreateNewFolderOutlinedIcon sx={{ color: 'secondary.dark' }} />,
+      name: 'フォルダを作成',
+      onClick: () => {
+        setOpenDrawer(false)
+        setOpenDialog(true)
+      },
+    },
+  ]
 
   return (
     <>
@@ -48,58 +56,56 @@ export const FloatingActionButton: FC = () => {
               right: 0,
             }}
           >
-            <IconButton
+            <Fab
+              color='primary'
               onClick={() => setOpenDrawer(true)}
-              size='large'
-              sx={{ boxShadow: 5, position: 'absolute', bottom: 16, right: 16, p: 0 }}
+              sx={{
+                position: 'absolute',
+                bottom: 16,
+                right: 16,
+              }}
             >
-              <Avatar sx={{ backgroundColor: 'primary.main' }}>
-                <AddIcon />
-              </Avatar>
-            </IconButton>
+              <AddIcon sx={{ fontWeight: 'bold' }} />
+            </Fab>
           </Box>
           <Drawer anchor='bottom' open={openDrawer} onClose={() => setOpenDrawer(false)}>
             <Grid
               container
               alignItems='center'
               justifyContent='center'
-              spacing={1}
-              sx={{ textAlign: 'center', px: 3, py: 2 }}
+              sx={{ textAlign: 'center', p: 3 }}
             >
-              <Grid item xs={12}>
+              <Grid item xs={12} sx={{ mb: 2 }}>
                 <Typography variant='h6'>新規作成</Typography>
               </Grid>
-              {actions.map((action) => (
-                <Grid
-                  key={action.name}
-                  item
-                  xs={6}
-                  sx={{ display: 'flex', flexDirection: 'column' }}
-                >
-                  <IconButton onClick={() => handleOpenDialog(action.type)}>
-                    {action.icon}
-                  </IconButton>
-                  <Button
-                    label={action.name}
-                    onClick={() => handleOpenDialog(action.type)}
-                    variant='text'
-                  />
-                </Grid>
-              ))}
+              {actions.map((item) => {
+                return (
+                  <Grid
+                    key={item.name}
+                    item
+                    xs={6}
+                    onClick={item.onClick}
+                    sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}
+                  >
+                    <Avatar
+                      sx={{
+                        backgroundColor: 'white',
+                        border: 1,
+                        borderColor: 'secondary.dark',
+                        mb: 1,
+                      }}
+                    >
+                      {item.icon}
+                    </Avatar>
+                    <Typography color='primary' variant='subtitle1'>
+                      {item.name}
+                    </Typography>
+                  </Grid>
+                )
+              })}
             </Grid>
           </Drawer>
-          {openDialog.type === 'addLink' && (
-            <AddLinkDialog
-              handleCloseDialog={() => setOpenDialog({ type: 'addLink', open: false })}
-              open={openDialog.open}
-            />
-          )}
-          {openDialog.type === 'createFolder' && (
-            <CreateFolderDialog
-              handleCloseDialog={() => setOpenDialog({ type: 'createFolder', open: false })}
-              open={openDialog.open}
-            />
-          )}
+          <CreateFolderDialog handleCloseDialog={() => setOpenDialog(false)} open={openDialog} />
         </>
       )}
     </>

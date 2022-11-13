@@ -1,41 +1,66 @@
 import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
-import { FC, useEffect } from 'react'
+import Typography from '@mui/material/Typography'
+import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
-import { PageHeading } from '@/components/Elements/Heading/PageHeading'
-import { FoldersListForMobile } from '@/features/folder/components/FoldersListForMobile'
+import { DisplayTypeMenu } from '@/components/Elements/Form/RadioGroup'
+import { FoldersByCard } from '@/features/folder/components/FoldersByCard'
+import { FoldersByList } from '@/features/folder/components/FoldersByList'
 import { useFetchFavoritedFolders } from '@/features/folder/hooks/useFetchFavoritedFolders'
 import { useMedia } from '@/hooks/useMedia'
 import { favoritedFoldersState } from '@/states/FavoritedFoldersAtom'
 
 export const FavoritedFolders: FC = () => {
   const favoritedFolders = useRecoilValue(favoritedFoldersState)
-  const { errorMessage, fetchFetchFavoritedFolders, isFeatching } = useFetchFavoritedFolders()
+  const { errorMessage, fetchFavoritedFolders, isFeatching } = useFetchFavoritedFolders()
+  const [displayFormat, setDisplayFormat] = useState('list')
   const { isDesktopScreen } = useMedia()
+
+  const noContentsText = 'お気に入りフォルダはありません'
+
+  const handleChangeDisplay = (e: ChangeEvent<HTMLInputElement>): void => {
+    setDisplayFormat((e.target as HTMLInputElement).value)
+  }
 
   const renderContent = (
     <>
-      <Stack alignItems='center' direction='row' sx={{ px: 1.5 }}>
-        <PageHeading text='お気に入りフォルダ' />
+      <Stack
+        alignItems='center'
+        direction='row'
+        justifyContent='space-between'
+        sx={{ mb: 3, px: 1.5 }}
+      >
+        <Typography variant='h1'>お気に入りフォルダ</Typography>
+        <DisplayTypeMenu handleChange={handleChangeDisplay} displayFormat={displayFormat} />
       </Stack>
-      <FoldersListForMobile
-        errorMessage={errorMessage}
-        folders={favoritedFolders}
-        isLoading={isFeatching}
-        noContentsText='お気に入りフォルダはありません'
-      />
+      {displayFormat === 'list' && (
+        <FoldersByList
+          errorMessage={errorMessage}
+          folders={favoritedFolders}
+          isLoading={isFeatching}
+          noContentsText={noContentsText}
+        />
+      )}
+      {displayFormat === 'card' && (
+        <FoldersByCard
+          errorMessage={errorMessage}
+          folders={favoritedFolders}
+          isLoading={isFeatching}
+          noContentsText={noContentsText}
+        />
+      )}
     </>
   )
 
   useEffect(() => {
-    fetchFetchFavoritedFolders('old')
+    fetchFavoritedFolders('old')
   }, [])
 
   return (
     <>
       {isDesktopScreen ? (
-        <Container maxWidth='sm'>{renderContent}</Container>
+        <Container maxWidth='md'>{renderContent}</Container>
       ) : (
         <>{renderContent}</>
       )}

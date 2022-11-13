@@ -10,6 +10,7 @@ export const favoritedFoldersState = atom<FavoritedFolders>({
     {
       id: 0,
       name: '',
+      created_at: '',
       updated_at: '',
       links: undefined,
       user: undefined,

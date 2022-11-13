@@ -9,8 +9,8 @@ import { useRecoilValue } from 'recoil'
 
 import { Link } from '@/components/Elements/Link'
 import { LeadAuthorization } from '@/components/Layouts/LeadAuthorization'
-import { FavoritedFoldersList } from '@/features/favoriteFolder/components/FavoritedFoldersList'
-import { MyFoldersList } from '@/features/folder/components/MyFoldersList'
+import { FavoritedFoldersList } from '@/features/folder/components/Sidebar/FavoritedFoldersList'
+import { MyFoldersList } from '@/features/folder/components/Sidebar/MyFoldersList'
 import { useMedia } from '@/hooks/useMedia'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 import { DRAWER_WIDTH } from '@/utils/const'
@@ -35,7 +35,7 @@ export const Sidebar: FC = () => {
           disableElevation
           fullWidth
           href='https://github.com/FutaMiyazaki/gathelink'
-          startIcon={<GitHubIcon width={22} height={22} />}
+          startIcon={<GitHubIcon />}
           target='_blank'
           variant='outlined'
           sx={{ borderRadius: 5, fontWeight: 'bold' }}

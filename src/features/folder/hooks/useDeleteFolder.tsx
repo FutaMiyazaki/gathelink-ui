@@ -34,7 +34,7 @@ export const useDeleteFolder = (): UseDeleteFolder => {
         })
         setResStatus(res.status)
         setMyFolders(afterFolders)
-        navigate('/')
+        navigate('/myfolders')
         setAlert({
           isShow: true,
           message: 'フォルダを削除しました',

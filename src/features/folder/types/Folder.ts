@@ -6,8 +6,9 @@ export type Folder = {
   id: number
   name: string
   description?: string
+  user_id?: number
   updated_at: string
-  created_at?: string
+  created_at: string
   links?: Link[]
   user?: User
   folder_favorites?: FolderFavorites[]

@@ -1,5 +1,5 @@
 import FolderOpenRoundedIcon from '@mui/icons-material/FolderOpenRounded'
-import FolderRoundedIcon from '@mui/icons-material/FolderRounded'
+import FolderTwoToneIcon from '@mui/icons-material/FolderTwoTone'
 import Alert from '@mui/material/Alert'
 import CircularProgress from '@mui/material/CircularProgress'
 import List from '@mui/material/List'
@@ -46,7 +46,7 @@ const MyFolderListItem: FC<myFolderListItemProps> = ({ active, folderLinks, fold
     >
       <ListItemButton>
         <ListItemIcon>
-          {active ? <FolderOpenRoundedIcon sx={{ color: '#ffffff' }} /> : <FolderRoundedIcon />}
+          {active ? <FolderOpenRoundedIcon sx={{ color: '#ffffff' }} /> : <FolderTwoToneIcon />}
         </ListItemIcon>
         <ListItemText>
           <Typography

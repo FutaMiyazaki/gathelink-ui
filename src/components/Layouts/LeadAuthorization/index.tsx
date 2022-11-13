@@ -8,6 +8,7 @@ import { LinkButton } from '@/components/Elements/Button/LinkButton'
 import { buttonItems } from '@/components/Layouts/LeadAuthorization/buttonItems'
 import { useGuestLogin } from '@/features/auth/hooks/useGuestLogin'
 import { isAuthenticatedState } from '@/states/AuthAtom'
+import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
 
 export const LeadAuthorization: FC = () => {
   const { isLoading, guestLogin } = useGuestLogin()
@@ -20,15 +21,7 @@ export const LeadAuthorization: FC = () => {
   if (authenticated) return null
 
   return (
-    <Stack
-      direction='column'
-      spacing={2}
-      sx={{
-        bgcolor: '#ffffff',
-        borderRadius: 4,
-        p: 3,
-      }}
-    >
+    <Stack direction='column' spacing={2} sx={{ ...whiteBackgroundProps }}>
       <Typography variant='body2'>
         新規登録・ログインをすると便利に Gathelink を使うことができます！
       </Typography>
