@@ -8,7 +8,7 @@ import { authHeaders } from '@/utils/authHeaders'
 
 type UseFetchFavoritedFolders = {
   errorMessage: string
-  fetchFetchFavoritedFolders: (sortType: FoldersSortType) => Promise<void>
+  fetchFavoritedFolders: (sortType: FoldersSortType) => Promise<void>
   isFeatching: boolean
 }
 
@@ -18,7 +18,7 @@ export const useFetchFavoritedFolders = (): UseFetchFavoritedFolders => {
   const setFavoritedFolders = useSetRecoilState(favoritedFoldersState)
   const headers = authHeaders()
 
-  const fetchFetchFavoritedFolders = async (sortType: FoldersSortType): Promise<void> => {
+  const fetchFavoritedFolders = async (sortType: FoldersSortType): Promise<void> => {
     setIsFeatching(true)
     setErrorMessage('')
 
@@ -37,7 +37,7 @@ export const useFetchFavoritedFolders = (): UseFetchFavoritedFolders => {
 
   return {
     errorMessage,
-    fetchFetchFavoritedFolders,
+    fetchFavoritedFolders,
     isFeatching,
   }
 }

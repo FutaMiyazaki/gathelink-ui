@@ -3,13 +3,14 @@ import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutl
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import { FC, MouseEvent, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
+import { Button } from '@/components/Elements/Button'
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
 import { Link } from '@/components/Elements/Link'
 import { Menu } from '@/components/Elements/Menu'
@@ -17,17 +18,16 @@ import { MenuItems } from '@/components/Elements/Menu/MenuItems'
 import { GlobalMenu } from '@/components/Layouts/GlobamMenu'
 import { HeaderAccountMenu } from '@/components/Layouts/Header/AccountMenu'
 import { buttonItems } from '@/components/Layouts/LeadAuthorization/buttonItems'
-import { CreateFolderDialog } from '@/features/folder/components/CreateFolderDialog'
-import { AddLinkDialog } from '@/features/link/components/addLinkDialog'
+import { CreateFolderDialog } from '@/features/folder/components/Dialog/CreateFolderDialog'
 import { useMedia } from '@/hooks/useMedia'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 
 export const Header: FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [openFolderDialog, setOpenFolderDialog] = useState(false)
-  const [openLinkDialog, setOpenLinkDialog] = useState(false)
   const authenticated = useRecoilValue(isAuthenticatedState)
   const { isDesktopScreen } = useMedia()
+  const navigate = useNavigate()
 
   const handleOpenMenu = (event: MouseEvent<HTMLElement>): void => {
     setAnchorEl(event.currentTarget)
@@ -36,12 +36,18 @@ export const Header: FC = () => {
   const headerAddActions: MenuItems = [
     {
       icon: <AddLinkOutlinedIcon sx={{ mr: 1 }} />,
-      onClick: () => setOpenLinkDialog(true),
+      onClick: () => {
+        navigate('/new/link')
+        setAnchorEl(null)
+      },
       text: 'リンクを追加',
     },
     {
       icon: <CreateNewFolderOutlinedIcon sx={{ mr: 1 }} />,
-      onClick: () => setOpenFolderDialog(true),
+      onClick: () => {
+        setOpenFolderDialog(true)
+        setAnchorEl(null)
+      },
       text: 'フォルダを作成',
     },
   ]
@@ -66,22 +72,16 @@ export const Header: FC = () => {
         {authenticated && isDesktopScreen && (
           <>
             <Button
-              disableElevation
-              startIcon={<CreateOutlinedIcon />}
+              icon={<CreateOutlinedIcon />}
+              label='追加'
               onClick={handleOpenMenu}
               variant='contained'
-              sx={{ borderRadius: 5, fontWeight: 'bold', ml: 38 }}
-            >
-              追加
-            </Button>
+              sx={{ ml: 38 }}
+            />
             <Menu
               anchorEl={anchorEl}
               handleCloseMenu={() => setAnchorEl(null)}
               menuItems={headerAddActions}
-            />
-            <AddLinkDialog
-              handleCloseDialog={() => setOpenLinkDialog(false)}
-              open={openLinkDialog}
             />
             <CreateFolderDialog
               handleCloseDialog={() => setOpenFolderDialog(false)}

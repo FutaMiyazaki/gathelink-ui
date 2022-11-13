@@ -1,22 +1,24 @@
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
-import Grid from '@mui/material/Grid'
-import Stack from '@mui/material/Stack'
-import Switch from '@mui/material/Switch'
+import IconButton from '@mui/material/IconButton'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 
 import { Button } from '@/components/Elements/Button'
-import { LinkButton } from '@/components/Elements/Button/LinkButton'
 import { InputLabel } from '@/components/Elements/Form/InputLabel'
+import { Link } from '@/components/Elements/Link'
 import { PageLoading } from '@/components/Layouts/PageLoading'
+import { DeleteFolderDialog } from '@/features/folder/components/Dialog/DeleteFolderDialog'
 import { useFetchFolder } from '@/features/folder/hooks/useFetchFolder'
 import { useUpdateFolder } from '@/features/folder/hooks/useUpdateFolder'
 import { folderValidationRules } from '@/features/folder/utils/folderValidationRules'
+import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
 
 type Inputs = {
   name: string
@@ -28,6 +30,7 @@ type RouterParams = {
 }
 
 export const EditFolder: FC = () => {
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false)
   const { control, handleSubmit } = useForm<Inputs>()
   const { folderId } = useParams<RouterParams>()
   const { fetchFolder, folder, isFeatchLoading } = useFetchFolder()
@@ -48,75 +51,81 @@ export const EditFolder: FC = () => {
   if (isFeatchLoading) return <PageLoading />
 
   return (
-    <Container maxWidth='sm'>
-      <Typography component='h1' variant='h6' sx={{ fontWeight: 'bold', mb: 3 }}>
-        フォルダの編集
-      </Typography>
+    <Container maxWidth='md'>
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+        <Link path={`/folder/${folderId as string}`}>
+          <IconButton component='span'>
+            <ArrowBackIcon />
+          </IconButton>
+        </Link>
+        <Typography variant='h1' sx={{ ml: 1 }}>
+          フォルダを編集
+        </Typography>
+        <Button
+          color='warning'
+          icon={<DeleteForeverOutlinedIcon />}
+          label='削除'
+          onClick={() => setOpenConfirmDialog(true)}
+          variant='text'
+          sx={{ ml: 'auto' }}
+        />
+      </Box>
       {errorMessage !== '' && (
         <Alert icon={false} severity='error' sx={{ mb: 2 }}>
           {errorMessage}
         </Alert>
       )}
-      <Box sx={{ bgcolor: '#ffffff', borderRadius: 4, p: 3 }}>
-        <Box component='form' noValidate onSubmit={handleSubmit(onSubmit)}>
-          <InputLabel labelTitle='フォルダ名' />
-          <Controller
-            name='name'
-            control={control}
-            defaultValue={folder?.name}
-            rules={folderValidationRules.name}
-            render={({ field, fieldState }) => (
-              <TextField
-                {...field}
-                type='text'
-                fullWidth
-                autoFocus
-                size='small'
-                error={fieldState.invalid}
-                helperText={fieldState.error?.message}
-                sx={{ mb: 4 }}
-              />
-            )}
-          />
-          <Stack direction='row' justifyContent='space-between' sx={{ mb: 2 }}>
-            <InputLabel labelTitle='非公開にする' />
-            <Switch checked={true} />
-          </Stack>
-          <InputLabel labelTitle='説明' />
-          <Controller
-            name='description'
-            control={control}
-            defaultValue={folder?.description}
-            rules={folderValidationRules.description}
-            render={({ field, fieldState }) => (
-              <TextField
-                {...field}
-                type='text'
-                fullWidth
-                multiline
-                size='small'
-                error={fieldState.invalid}
-                helperText={fieldState.error?.message}
-                sx={{ mb: 4 }}
-              />
-            )}
-          />
-          <Grid container alignItems='center' justifyContent='center' spacing={1}>
-            <Grid item xs={6}>
-              <LinkButton
-                color='secondary'
-                fullWidth={true}
-                label='キャンセル'
-                path={`/folder/${folderId as string}`}
-                variant='contained'
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Button isLoading={isLoading} fullWidth={true} label='保存する' type='submit' />
-            </Grid>
-          </Grid>
-        </Box>
+      <Box
+        component='form'
+        noValidate
+        onSubmit={handleSubmit(onSubmit)}
+        sx={{ ...whiteBackgroundProps }}
+      >
+        <InputLabel labelTitle='フォルダ名' />
+        <Controller
+          name='name'
+          control={control}
+          defaultValue={folder?.name}
+          rules={folderValidationRules.name}
+          render={({ field, fieldState }) => (
+            <TextField
+              {...field}
+              type='text'
+              fullWidth
+              autoFocus
+              size='small'
+              error={fieldState.invalid}
+              helperText={fieldState.error?.message}
+              sx={{ mb: 4 }}
+            />
+          )}
+        />
+        <InputLabel labelTitle='説明' required={false} />
+        <Controller
+          name='description'
+          control={control}
+          defaultValue={folder?.description}
+          rules={folderValidationRules.description}
+          render={({ field, fieldState }) => (
+            <TextField
+              {...field}
+              type='text'
+              fullWidth
+              multiline
+              size='small'
+              error={fieldState.invalid}
+              helperText={fieldState.error?.message}
+              sx={{ mb: 4 }}
+            />
+          )}
+        />
+        <Button isLoading={isLoading} label='保存する' type='submit' sx={{ mr: 2 }} />
       </Box>
+      <DeleteFolderDialog
+        folderId={folderId as string}
+        handleCloseDialog={() => setOpenConfirmDialog(false)}
+        open={openConfirmDialog}
+      />
     </Container>
   )
 }

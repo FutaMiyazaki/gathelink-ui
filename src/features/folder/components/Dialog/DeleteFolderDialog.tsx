@@ -12,7 +12,6 @@ import { useEffect, FC } from 'react'
 
 import { Button } from '@/components/Elements/Button'
 import { useDeleteFolder } from '@/features/folder/hooks/useDeleteFolder'
-import { useMedia } from '@/hooks/useMedia'
 
 type DeleteFolderDialogProps = {
   folderId: string
@@ -26,7 +25,6 @@ export const DeleteFolderDialog: FC<DeleteFolderDialogProps> = ({
   open,
 }) => {
   const { deleteFolder, errorMessage, isLoading, resStatus } = useDeleteFolder()
-  const { isMobileScreen } = useMedia()
 
   const onClickDeleteButton = (): void => {
     deleteFolder(folderId)
@@ -40,7 +38,6 @@ export const DeleteFolderDialog: FC<DeleteFolderDialogProps> = ({
 
   return (
     <Dialog
-      fullScreen={isMobileScreen}
       fullWidth
       maxWidth='xs'
       onClose={() => handleCloseDialog()}
