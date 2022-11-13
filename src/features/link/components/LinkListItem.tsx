@@ -1,17 +1,18 @@
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone'
+import EditIcon from '@mui/icons-material/Edit'
 import ImageNotSupportedTwoToneIcon from '@mui/icons-material/ImageNotSupportedTwoTone'
-import Avatar from '@mui/material/Avatar'
-import IconButton from '@mui/material/IconButton'
+import Card from '@mui/material/Card'
+import CardActionArea from '@mui/material/CardActionArea'
+import CardContent from '@mui/material/CardContent'
+import Chip from '@mui/material/Chip'
 import MuiLink from '@mui/material/Link'
-import ListItem from '@mui/material/ListItem'
-import ListItemAvatar from '@mui/material/ListItemAvatar'
-import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
 import { parseISO } from 'date-fns'
+import { Image } from 'mui-image'
 import { FC } from 'react'
+import { Link } from 'react-router-dom'
 
-import { Link } from '@/components/Elements/Link'
 import { Link as LinkType } from '@/features/link/types/Link'
+import { useMedia } from '@/hooks/useMedia'
 import { diffTime } from '@/utils/date'
 
 type LinkListItemProps = {
@@ -20,74 +21,75 @@ type LinkListItemProps = {
   link: LinkType
 }
 
-export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link }) => (
-  <ListItem
-    disableGutters
-    secondaryAction={
-      isOwner && (
-        <Link path={`/folder/${folderId}/link/${link.id}`}>
-          <IconButton component='span' size='small'>
-            <EditTwoToneIcon />
-          </IconButton>
-        </Link>
-      )
-    }
-    sx={{ p: 0, mb: 0 }}
-  >
-    <ListItemAvatar>
-      {link.image_url === null ? (
-        <Avatar
-          variant='rounded'
-          sx={{ width: 48, height: 48, bgcolor: 'white', color: 'primary.main' }}
+export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link }) => {
+  const { isDesktopScreen } = useMedia()
+
+  return (
+    <Card
+      elevation={0}
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
+      <Image
+        src={link?.image_url !== null ? (link.image_url as string) : '/notImage'}
+        width={isDesktopScreen ? '10vw' : 40}
+        fit={isDesktopScreen ? 'contain' : 'cover'}
+        errorIcon={<ImageNotSupportedTwoToneIcon />}
+        style={{ pointerEvents: 'none', minWidth: 40 }}
+      />
+      <CardContent sx={{ minWidth: 0, pr: 0, py: 0 }}>
+        <CardActionArea
+          component={MuiLink}
+          href={link.url}
+          target='_blank'
+          underline='none'
+          sx={{ minWidth: 0, mb: 1 }}
         >
-          <ImageNotSupportedTwoToneIcon />
-        </Avatar>
-      ) : (
-        <Avatar
-          variant='rounded'
-          src={link.image_url}
-          sx={{ width: 48, height: 48, pointerEvents: 'none' }}
-        />
-      )}
-    </ListItemAvatar>
-    <ListItemText sx={{ my: 0, pr: 4 }}>
-      <Typography
-        component='span'
-        variant='subtitle2'
-        sx={{
-          display: 'block',
-          color: 'black',
-          fontWeight: 'bold',
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-        }}
-      >
-        {link.title}
-      </Typography>
-      <MuiLink href={link.url} target='_blank' underline='none'>
-        <Typography
-          color='#0072e5'
-          component='span'
-          variant='body1'
-          sx={{
-            display: 'block',
-            textDecorationLine: 'underline',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-          }}
-        >
-          {link.url.substring(link.url.indexOf('/') + 2)}
+          <Typography
+            component='span'
+            variant='subtitle2'
+            sx={{
+              display: 'block',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            {link.title}
+          </Typography>
+          <Typography
+            color='#0072e5'
+            component='span'
+            variant='body1'
+            sx={{
+              display: 'block',
+              textDecorationLine: 'underline',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            {link.url.substring(link.url.indexOf('/') + 2)}
+          </Typography>
+        </CardActionArea>
+        <Typography component='span' variant='caption' sx={{ color: 'secondary.dark' }}>
+          {diffTime(new Date(), parseISO(link.created_at as string))}
         </Typography>
-      </MuiLink>
-      <Typography
-        component='span'
-        variant='caption'
-        sx={{ display: 'block', mt: 0.5, color: 'secondary.dark' }}
-      >
-        {diffTime(new Date(), parseISO(link.created_at as string))}
-      </Typography>
-    </ListItemText>
-  </ListItem>
-)
+        {isOwner && (
+          <Chip
+            component={Link}
+            to={`/folder/${folderId}/link/${link.id}`}
+            icon={<EditIcon />}
+            label='編集する'
+            size='small'
+            variant='outlined'
+            clickable
+            sx={{ ml: 2 }}
+          />
+        )}
+      </CardContent>
+    </Card>
+  )
+}

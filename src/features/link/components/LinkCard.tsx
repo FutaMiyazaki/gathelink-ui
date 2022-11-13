@@ -3,12 +3,12 @@ import ImageNotSupportedTwoToneIcon from '@mui/icons-material/ImageNotSupportedT
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
-import CardMedia from '@mui/material/CardMedia'
 import IconButton from '@mui/material/IconButton'
 import MuiLink from '@mui/material/Link'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { parseISO } from 'date-fns'
+import { Image } from 'mui-image'
 import { FC } from 'react'
 
 import { Link } from '@/components/Elements/Link'
@@ -38,12 +38,11 @@ export const LinkCard: FC<LinkCardProps> = ({ folderId, isOwner, link }) => {
             <ImageNotSupportedTwoToneIcon fontSize='large' />
           </Box>
         ) : (
-          <CardMedia
-            component='img'
-            height='100'
-            image={link.image_url}
+          <Image
+            src={link.image_url !== null ? (link.image_url as string) : '/notImage'}
+            height={100}
             alt={`${link.title} image`}
-            sx={{ pointerEvents: 'none' }}
+            style={{ pointerEvents: 'none' }}
           />
         )}
         <Box sx={{ p: 1 }}>
@@ -62,7 +61,12 @@ export const LinkCard: FC<LinkCardProps> = ({ folderId, isOwner, link }) => {
           </Typography>
         </Box>
       </CardActionArea>
-      <Stack direction='row' justifyContent='space-between' alignItems='center' sx={{ p: 1 }}>
+      <Stack
+        direction='row'
+        justifyContent='space-between'
+        alignItems='center'
+        sx={{ px: 1, pb: 1 }}
+      >
         <Typography component='span' variant='body2' sx={{ color: 'secondary.dark' }}>
           {diffTime(new Date(), parseISO(link.created_at as string))}
         </Typography>
