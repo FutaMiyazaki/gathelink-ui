@@ -33,7 +33,7 @@ export const DisplayTypeMenu: FC<DisplayTypeMenuProps> = ({ handleChange, displa
     <>
       <Button
         icon={displayFormat === 'list' ? <ListIcon /> : <GridViewIcon />}
-        label='表示形式'
+        label='表示'
         onClick={handleOpenMenu}
         variant='text'
         sx={{ color: 'secondary.dark' }}
