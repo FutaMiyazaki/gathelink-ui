@@ -1,95 +1,114 @@
-import EditIcon from '@mui/icons-material/Edit'
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import ImageNotSupportedTwoToneIcon from '@mui/icons-material/ImageNotSupportedTwoTone'
-import Card from '@mui/material/Card'
-import CardActionArea from '@mui/material/CardActionArea'
-import CardContent from '@mui/material/CardContent'
-import Chip from '@mui/material/Chip'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import IconButton from '@mui/material/IconButton'
 import MuiLink from '@mui/material/Link'
+import ListItem from '@mui/material/ListItem'
+import ListItemAvatar from '@mui/material/ListItemAvatar'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
 import { parseISO } from 'date-fns'
 import { Image } from 'mui-image'
-import { FC } from 'react'
-import { Link } from 'react-router-dom'
+import { FC, MouseEvent, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
+import { Menu } from '@/components/Elements/Menu'
+import { MenuItems } from '@/components/Elements/Menu/MenuItems'
 import { Link as LinkType } from '@/features/link/types/Link'
 import { useMedia } from '@/hooks/useMedia'
 import { diffTime } from '@/utils/date'
 
 type LinkListItemProps = {
+  divider?: boolean
   folderId: string
   isOwner: boolean
   link: LinkType
 }
 
 export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link }) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const { isDesktopScreen } = useMedia()
+  const navigate = useNavigate()
+
+  const handleOpenMenu = (event: MouseEvent<HTMLElement>): void => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const headerAddActions: MenuItems = [
+    {
+      icon: <EditOutlinedIcon sx={{ mr: 1 }} />,
+      onClick: () => {
+        navigate(`/folder/${folderId}/link/${link.id}`)
+        setAnchorEl(null)
+      },
+      text: '編集',
+    },
+  ]
 
   return (
-    <Card
-      elevation={0}
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
-      <Image
-        src={link?.image_url !== null ? (link.image_url as string) : '/notImage'}
-        width={isDesktopScreen ? '10vw' : 40}
-        fit={isDesktopScreen ? 'contain' : 'cover'}
-        errorIcon={<ImageNotSupportedTwoToneIcon />}
-        style={{ pointerEvents: 'none', minWidth: 40 }}
-      />
-      <CardContent sx={{ minWidth: 0, pr: 0, py: 0 }}>
-        <CardActionArea
-          component={MuiLink}
-          href={link.url}
-          target='_blank'
-          underline='none'
-          sx={{ minWidth: 0, mb: 1 }}
-        >
-          <Typography
-            component='span'
-            variant='subtitle2'
-            sx={{
-              display: 'block',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}
-          >
-            {link.title}
-          </Typography>
-          <Typography
-            color='#0072e5'
-            component='span'
-            variant='body1'
-            sx={{
-              display: 'block',
-              textDecorationLine: 'underline',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}
-          >
-            {link.url.substring(link.url.indexOf('/') + 2)}
-          </Typography>
-        </CardActionArea>
-        <Typography component='span' variant='caption' sx={{ color: 'secondary.dark' }}>
-          {diffTime(new Date(), parseISO(link.created_at as string))}
-        </Typography>
-        {isOwner && (
-          <Chip
-            component={Link}
-            to={`/folder/${folderId}/link/${link.id}`}
-            icon={<EditIcon />}
-            label='編集する'
-            size='small'
-            variant='outlined'
-            clickable
-            sx={{ ml: 2 }}
+    <ListItem disableGutters disablePadding>
+      <ListItemButton
+        component={MuiLink}
+        href={link.url}
+        target='_blank'
+        underline='none'
+        sx={{ borderRadius: 3 }}
+      >
+        <ListItemAvatar sx={{ mr: 1 }}>
+          <Image
+            src={link?.image_url !== null ? (link.image_url as string) : '/notImage'}
+            width={isDesktopScreen ? '2vw' : '6vw'}
+            height='3vh'
+            fit='contain'
+            errorIcon={<ImageNotSupportedTwoToneIcon />}
+            alt={`${link.title} image`}
+            duration={0}
+            style={{ pointerEvents: 'none', minWidth: 40, minHeight: 40 }}
           />
-        )}
-      </CardContent>
-    </Card>
+        </ListItemAvatar>
+        <ListItemText
+          primary={
+            <Typography
+              variant='subtitle2'
+              sx={{
+                display: 'block',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+            >
+              {link.title}
+            </Typography>
+          }
+          secondary={
+            <>
+              <Typography
+                component='span'
+                variant='body2'
+                sx={{ color: 'secondary.dark', fontWeight: 'bold', mr: 2 }}
+              >
+                {link.url.replace(/\\/g, '/').match(/\/\/([^/]*)/)?.[1]}
+              </Typography>
+              <Typography component='span' variant='body2' sx={{ color: 'secondary.dark' }}>
+                {diffTime(new Date(), parseISO(link.updated_at))}
+              </Typography>
+            </>
+          }
+        />
+      </ListItemButton>
+      {isOwner && (
+        <>
+          <IconButton onClick={handleOpenMenu} edge='end' size='small'>
+            <MoreVertIcon />
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            handleCloseMenu={() => setAnchorEl(null)}
+            menuItems={headerAddActions}
+          />
+        </>
+      )}
+    </ListItem>
   )
 }
