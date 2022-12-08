@@ -1,10 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined'
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 import Container from '@mui/material/Container'
 import FormHelperText from '@mui/material/FormHelperText'
+import IconButton from '@mui/material/IconButton'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import Stack from '@mui/material/Stack'
@@ -12,6 +14,7 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { FC, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { number, string, z } from 'zod'
 
@@ -36,6 +39,7 @@ const schema = z.object({
 type Form = z.infer<typeof schema>
 
 export const NewLink: FC = () => {
+  const navigate = useNavigate()
   const { fetchMyFolders, isFeatching } = useFetchMyFolders()
   const myFolders = useRecoilValue(myFoldersState)
   const setIsOpenCreateFolderDialog = useSetRecoilState(isOpenCreateFolderDialogState)
@@ -74,9 +78,12 @@ export const NewLink: FC = () => {
           {errorMessage}
         </Alert>
       )}
-      <Typography variant='h1' sx={{ mb: 3 }}>
-        リンクを追加
-      </Typography>
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+        <IconButton onClick={() => navigate(-1)}>
+          <ArrowBackIcon />
+        </IconButton>
+        <Typography variant='h1'>リンクを追加</Typography>
+      </Box>
       <Box
         component='form'
         noValidate
@@ -86,7 +93,6 @@ export const NewLink: FC = () => {
         <InputLabel labelTitle='URL' />
         <TextField
           fullWidth
-          autoFocus
           size='small'
           type='text'
           error={!(errors.url == null)}
@@ -115,6 +121,7 @@ export const NewLink: FC = () => {
           <Select
             fullWidth
             defaultValue={myFolders[0].id}
+            size='small'
             error={!(errors.folderId == null)}
             {...register('folderId')}
           >
