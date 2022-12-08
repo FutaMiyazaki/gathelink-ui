@@ -9,18 +9,18 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { FC, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 
-import { CreateFolderDialog } from '@/features/folder/components/Dialog/CreateFolderDialog'
 import { useMedia } from '@/hooks/useMedia'
 import { isAuthenticatedState } from '@/states/AuthAtom'
+import { isOpenCreateFolderDialogState } from '@/states/isOpenCreateFolderDialogState'
 
 export type DialogType = 'addLink' | 'createFolder'
 
 export const FloatingActionButton: FC = () => {
   const { isMobileScreen } = useMedia()
   const [openDrawer, setOpenDrawer] = useState(false)
-  const [openDialog, setOpenDialog] = useState(false)
+  const setIsOpenNewFolderDialog = useSetRecoilState(isOpenCreateFolderDialogState)
   const isAuthenticated = useRecoilValue(isAuthenticatedState)
   const navigate = useNavigate()
 
@@ -38,7 +38,7 @@ export const FloatingActionButton: FC = () => {
       name: 'フォルダを作成',
       onClick: () => {
         setOpenDrawer(false)
-        setOpenDialog(true)
+        setIsOpenNewFolderDialog(true)
       },
     },
   ]
@@ -105,7 +105,6 @@ export const FloatingActionButton: FC = () => {
               })}
             </Grid>
           </Drawer>
-          <CreateFolderDialog handleCloseDialog={() => setOpenDialog(false)} open={openDialog} />
         </>
       )}
     </>

@@ -8,7 +8,7 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import { FC, MouseEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { Button } from '@/components/Elements/Button'
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
@@ -18,13 +18,13 @@ import { MenuItems } from '@/components/Elements/Menu/MenuItems'
 import { GlobalMenu } from '@/components/Layouts/GlobamMenu'
 import { HeaderAccountMenu } from '@/components/Layouts/Header/AccountMenu'
 import { buttonItems } from '@/components/Layouts/LeadAuthorization/buttonItems'
-import { CreateFolderDialog } from '@/features/folder/components/Dialog/CreateFolderDialog'
 import { useMedia } from '@/hooks/useMedia'
 import { isAuthenticatedState } from '@/states/AuthAtom'
+import { isOpenCreateFolderDialogState } from '@/states/isOpenCreateFolderDialogState'
 
 export const Header: FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const [openFolderDialog, setOpenFolderDialog] = useState(false)
+  const setIsOpenCreateFolderDialog = useSetRecoilState(isOpenCreateFolderDialogState)
   const authenticated = useRecoilValue(isAuthenticatedState)
   const { isDesktopScreen } = useMedia()
   const navigate = useNavigate()
@@ -45,7 +45,7 @@ export const Header: FC = () => {
     {
       icon: <CreateNewFolderOutlinedIcon sx={{ mr: 1 }} />,
       onClick: () => {
-        setOpenFolderDialog(true)
+        setIsOpenCreateFolderDialog(true)
         setAnchorEl(null)
       },
       text: 'フォルダを作成',
@@ -82,10 +82,6 @@ export const Header: FC = () => {
               anchorEl={anchorEl}
               handleCloseMenu={() => setAnchorEl(null)}
               menuItems={headerAddActions}
-            />
-            <CreateFolderDialog
-              handleCloseDialog={() => setOpenFolderDialog(false)}
-              open={openFolderDialog}
             />
           </>
         )}
