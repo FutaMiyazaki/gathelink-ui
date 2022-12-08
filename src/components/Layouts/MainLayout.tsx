@@ -4,8 +4,8 @@ import { FC, ReactNode } from 'react'
 import { useRecoilState } from 'recoil'
 
 import { AppAlert } from '@/components/Alert'
+import { BottomNavigation } from '@/components/Layouts/BottomNavigation'
 import { FloatingActionButton } from '@/components/Layouts/FloatingActionButton'
-import { GlobalMenu } from '@/components/Layouts/GlobamMenu'
 import { Header } from '@/components/Layouts/Header'
 import { Sidebar } from '@/components/Layouts/Sidebar'
 import { CreateFolderDialog } from '@/features/folder/components/Dialog/CreateFolderDialog'
@@ -38,15 +38,6 @@ export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
           pt: 8,
         }}
       >
-        <Box
-          sx={{
-            borderBottom: 1,
-            borderColor: '#e0e0e0',
-            display: { sx: 'flex', md: 'none' },
-          }}
-        >
-          <GlobalMenu />
-        </Box>
         <Box sx={{ mt: 4, mb: 6 }}>
           {children}
           <Container>
@@ -58,6 +49,7 @@ export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
           </Container>
         </Box>
         <FloatingActionButton />
+        <BottomNavigation />
       </Box>
     </Box>
   )

@@ -52,7 +52,7 @@ export const FloatingActionButton: FC = () => {
               flexGrow: 1,
               position: 'fixed',
               transform: 'translateZ(0px)',
-              bottom: 0,
+              bottom: 60,
               right: 0,
             }}
           >
