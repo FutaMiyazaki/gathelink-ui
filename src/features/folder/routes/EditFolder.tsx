@@ -1,3 +1,4 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
 import Alert from '@mui/material/Alert'
@@ -7,8 +8,9 @@ import IconButton from '@mui/material/IconButton'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { FC, useEffect, useState } from 'react'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
+import { string, z } from 'zod'
 
 import { Button } from '@/components/Elements/Button'
 import { InputLabel } from '@/components/Elements/Form/InputLabel'
@@ -17,26 +19,37 @@ import { PageLoading } from '@/components/Layouts/PageLoading'
 import { DeleteFolderDialog } from '@/features/folder/components/Dialog/DeleteFolderDialog'
 import { useFetchFolder } from '@/features/folder/hooks/useFetchFolder'
 import { useUpdateFolder } from '@/features/folder/hooks/useUpdateFolder'
-import { folderValidationRules } from '@/features/folder/utils/folderValidationRules'
 import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
-
-type Inputs = {
-  name: string
-  description: string
-}
 
 type RouterParams = {
   folderId: string
 }
 
+const schema = z.object({
+  name: string()
+    .min(1, 'フォルダ名は必須です')
+    .max(30, 'フォルダ名は 30 文字以下で入力してください')
+    .trim(),
+  description: string().max(200, '説明は 200 文字以下で入力してください').trim(),
+})
+
+type Form = z.infer<typeof schema>
+
 export const EditFolder: FC = () => {
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false)
-  const { control, handleSubmit } = useForm<Inputs>()
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+  } = useForm<Form>({
+    resolver: zodResolver(schema),
+  })
   const { folderId } = useParams<RouterParams>()
   const { fetchFolder, folder, isFeatchLoading } = useFetchFolder()
   const { updateFolder, errorMessage, isLoading } = useUpdateFolder()
 
-  const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
+  const onSubmit: SubmitHandler<Form> = (data) => {
     const folder = {
       name: data.name,
       description: data.description,
@@ -47,6 +60,13 @@ export const EditFolder: FC = () => {
   useEffect(() => {
     folderId !== undefined && fetchFolder(folderId)
   }, [folderId])
+
+  useEffect(() => {
+    folder !== undefined && setValue('name', folder.name)
+    folder?.description !== undefined && folder?.description !== null
+      ? setValue('description', folder.description)
+      : setValue('description', '')
+  }, [folder])
 
   if (isFeatchLoading) return <PageLoading />
 
@@ -81,43 +101,25 @@ export const EditFolder: FC = () => {
         onSubmit={handleSubmit(onSubmit)}
         sx={{ ...whiteBackgroundProps }}
       >
-        <InputLabel labelTitle='フォルダ名' />
-        <Controller
-          name='name'
-          control={control}
-          defaultValue={folder?.name}
-          rules={folderValidationRules.name}
-          render={({ field, fieldState }) => (
-            <TextField
-              {...field}
-              type='text'
-              fullWidth
-              autoFocus
-              size='small'
-              error={fieldState.invalid}
-              helperText={fieldState.error?.message}
-              sx={{ mb: 4 }}
-            />
-          )}
+        <InputLabel labelTitle='フォルダ名' inputRequirement='最大 30 文字' />
+        <TextField
+          fullWidth
+          size='small'
+          type='text'
+          error={!(errors.name == null)}
+          helperText={errors.name != null ? errors.name.message : ''}
+          sx={{ mb: 4 }}
+          {...register('name')}
         />
         <InputLabel labelTitle='説明' required={false} />
-        <Controller
-          name='description'
-          control={control}
-          defaultValue={folder?.description}
-          rules={folderValidationRules.description}
-          render={({ field, fieldState }) => (
-            <TextField
-              {...field}
-              type='text'
-              fullWidth
-              multiline
-              size='small'
-              error={fieldState.invalid}
-              helperText={fieldState.error?.message}
-              sx={{ mb: 4 }}
-            />
-          )}
+        <TextField
+          fullWidth
+          size='small'
+          type='text'
+          error={!(errors.description == null)}
+          helperText={errors.description != null ? errors.description.message : ''}
+          sx={{ mb: 4 }}
+          {...register('description')}
         />
         <Button isLoading={isLoading} label='保存する' type='submit' sx={{ mr: 2 }} />
       </Box>

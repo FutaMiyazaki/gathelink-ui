@@ -1,48 +1,71 @@
-import FolderOpenTwoToneIcon from '@mui/icons-material/FolderOpenTwoTone'
+import { zodResolver } from '@hookform/resolvers/zod'
+import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined'
 import Alert from '@mui/material/Alert'
-import Autocomplete from '@mui/material/Autocomplete'
 import Box from '@mui/material/Box'
+import CircularProgress from '@mui/material/CircularProgress'
 import Container from '@mui/material/Container'
+import FormHelperText from '@mui/material/FormHelperText'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { FC, useEffect } from 'react'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import { useRecoilValue } from 'recoil'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { number, string, z } from 'zod'
 
 import { Button } from '@/components/Elements/Button'
 import { InputLabel } from '@/components/Elements/Form/InputLabel'
 import { useFetchMyFolders } from '@/features/folder/hooks/useFetchMyFolders'
-import { Folder } from '@/features/folder/types/Folder'
 import { useAddLink } from '@/features/link/hooks/useAddLink'
-import { linkValidationRules } from '@/features/link/utils/linkValidationRules'
+import { isOpenCreateFolderDialogState } from '@/states/isOpenCreateFolderDialogState'
 import { myFoldersState } from '@/states/MyFoldersAtom'
 import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
 
-type Inputs = {
-  title: string
-  url: string
-  folder: Folder | null
-}
+const schema = z.object({
+  url: string()
+    .min(1, 'URL は必須です')
+    .max(1000, 'URL は 1000 文字以下で入力してください')
+    .url('URL の形式に誤りがあります')
+    .trim(),
+  title: string().max(100, 'タイトルは 100 文字以下で入力してください').trim(),
+  folderId: number().positive('フォルダは必須です'),
+})
+
+type Form = z.infer<typeof schema>
 
 export const NewLink: FC = () => {
-  const { fetchMyFolders } = useFetchMyFolders()
+  const { fetchMyFolders, isFeatching } = useFetchMyFolders()
   const myFolders = useRecoilValue(myFoldersState)
-  const { control, handleSubmit, setValue } = useForm<Inputs>()
+  const setIsOpenCreateFolderDialog = useSetRecoilState(isOpenCreateFolderDialogState)
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+  } = useForm<Form>({
+    resolver: zodResolver(schema),
+  })
   const { addLink, errorMessage, isLoading } = useAddLink()
 
-  const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
+  const onSubmit: SubmitHandler<Form> = (data) => {
     const link = {
       url: data.url,
       title: data.title,
-      folder_id: data.folder != null ? data.folder.id : 0,
+      folder_id: data.folderId,
     }
     addLink(link)
   }
 
   useEffect(() => {
     fetchMyFolders('old')
+    myFolders.length !== 0 && setValue('folderId', myFolders[0].id)
   }, [])
+
+  useEffect(() => {
+    myFolders.length !== 0 && setValue('folderId', myFolders[0].id)
+  }, [myFolders])
 
   return (
     <Container maxWidth='md'>
@@ -61,82 +84,66 @@ export const NewLink: FC = () => {
         sx={{ ...whiteBackgroundProps }}
       >
         <InputLabel labelTitle='URL' />
-        <Controller
-          control={control}
-          defaultValue={''}
-          name='url'
-          rules={linkValidationRules.url}
-          render={({ field, fieldState }) => (
-            <TextField
-              {...field}
-              error={fieldState.invalid}
-              autoFocus
-              fullWidth
-              helperText={fieldState.error?.message}
-              size='small'
-              type='text'
-              sx={{ mb: 4 }}
-            />
-          )}
+        <TextField
+          fullWidth
+          autoFocus
+          size='small'
+          type='text'
+          error={!(errors.url == null)}
+          helperText={errors.url != null ? errors.url.message : ''}
+          sx={{ mb: 4 }}
+          {...register('url')}
         />
         <InputLabel
           labelTitle='タイトル'
           inputRequirement='未入力の場合は、URL のタイトルで作成されます'
           required={false}
         />
-        <Controller
-          control={control}
-          defaultValue={''}
-          name='title'
-          rules={linkValidationRules.title}
-          render={({ field, fieldState }) => (
-            <TextField
-              {...field}
-              error={fieldState.invalid}
-              fullWidth
-              helperText={fieldState.error?.message}
-              size='small'
-              type='text'
-              sx={{ mb: 4 }}
-            />
-          )}
+        <TextField
+          fullWidth
+          size='small'
+          type='text'
+          error={!(errors.title == null)}
+          helperText={errors.title != null ? errors.title.message : ''}
+          sx={{ mb: 4 }}
+          {...register('title')}
         />
-        <InputLabel inputRequirement='フォルダ名を入力して絞り込む' labelTitle='フォルダを選ぶ' />
-        <Controller
-          control={control}
-          defaultValue={null}
-          name='folder'
-          rules={linkValidationRules.folder}
-          render={({ field, fieldState }) => (
-            <Autocomplete
-              {...field}
-              fullWidth
-              getOptionLabel={(option) => option.name}
-              isOptionEqualToValue={(option, value) => option.id === value.id}
-              onChange={(e, value) => {
-                setValue('folder', value)
-              }}
-              options={myFolders}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  error={fieldState.invalid}
-                  helperText={fieldState.error?.message}
-                  size='small'
-                />
-              )}
-              renderOption={(props, option) => (
-                <Box component='li' {...props} key={option.id}>
-                  <FolderOpenTwoToneIcon sx={{ mr: 1 }} />
-                  {option.name}
-                </Box>
-              )}
-              sx={{ mb: 6 }}
-            />
-          )}
-        />
-        <Stack direction='row' alignItems='flex-start'>
-          <Button isLoading={isLoading} label='追加する' type='submit' />
+        <InputLabel labelTitle='フォルダを選ぶ' />
+        {isFeatching ? (
+          <CircularProgress size={25} />
+        ) : myFolders.length > 0 ? (
+          <Select
+            fullWidth
+            defaultValue={myFolders[0].id}
+            error={!(errors.folderId == null)}
+            {...register('folderId')}
+          >
+            {myFolders.map((folder) => {
+              return (
+                <MenuItem key={folder.id} value={folder.id}>
+                  {folder.name}
+                </MenuItem>
+              )
+            })}
+          </Select>
+        ) : (
+          <Button
+            label='新しいフォルダを作成する'
+            icon={<CreateNewFolderOutlinedIcon />}
+            variant='text'
+            onClick={() => setIsOpenCreateFolderDialog(true)}
+          />
+        )}
+        {errors.folderId != null && (
+          <FormHelperText error>{errors.folderId.message}</FormHelperText>
+        )}
+        <Stack direction='row' sx={{ mt: 6 }}>
+          <Button
+            disabled={myFolders.length === 0}
+            isLoading={isLoading}
+            label='追加する'
+            type='submit'
+          />
         </Stack>
       </Box>
     </Container>

@@ -1,11 +1,22 @@
 import { parseCookies } from 'nookies'
 import { FC, useEffect } from 'react'
-import { useRoutes } from 'react-router-dom'
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 
-import { commonRoutes } from '@/routes/common'
-import { protectedRoutes } from '@/routes/protected'
-import { publicRoutes } from '@/routes/public'
+import { MainLayout } from '@/components/Layouts/MainLayout'
+import { AuthHeader } from '@/features/auth/components/Header'
+import { AuthLayout } from '@/features/auth/components/Layout'
+import { Login } from '@/features/auth/routes/Login'
+import { Signup } from '@/features/auth/routes/Signup'
+import { FavoritedFolders } from '@/features/favoriteFolder/routes/FavoritedFolders'
+import { EditFolder } from '@/features/folder/routes/EditFolder'
+import { FolderDetails } from '@/features/folder/routes/FolderDetails'
+import { MyFolders } from '@/features/folder/routes/MyFolders'
+import { EditLink } from '@/features/link/routes/EditLink'
+import { NewLink } from '@/features/link/routes/NewLink'
+import { Home } from '@/features/misc/routes/Home'
+import { NotFound } from '@/features/misc/routes/NotFound'
+import { AuthGuard } from '@/routes/AuthGuard'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 
 export const AppRoutes: FC = () => {
@@ -23,8 +34,46 @@ export const AppRoutes: FC = () => {
     }
   }, [authenticated])
 
-  const routes = authenticated ? protectedRoutes : publicRoutes
-  const element = useRoutes([...routes, ...commonRoutes])
+  const MainLayoutPage: FC = () => {
+    return (
+      <MainLayout>
+        <Outlet />
+      </MainLayout>
+    )
+  }
 
-  return <>{element}</>
+  const AuthPage: FC = () => {
+    if (authenticated) return <Navigate to='/myfolders' replace={false} />
+
+    return (
+      <>
+        <AuthHeader />
+        <AuthLayout>
+          <Outlet />
+        </AuthLayout>
+      </>
+    )
+  }
+
+  return (
+    <Routes>
+      <Route element={<AuthPage />}>
+        <Route path='/signup' element={<Signup />} />
+        <Route path='/login' element={<Login />} />
+      </Route>
+      <Route element={<MainLayoutPage />}>
+        <Route path='*' element={<NotFound />} />
+        <Route path='/' element={<Home />} />
+        <Route path='/folder/:folderId' element={<FolderDetails />} />
+        <Route path='/myfolders' element={<AuthGuard component={<MyFolders />} />} />
+        <Route path='/favorited' element={<AuthGuard component={<FavoritedFolders />} />} />
+        <Route path='/folder/:folderId/edit' element={<AuthGuard component={<EditFolder />} />} />
+        <Route path='/new/link' element={<AuthGuard component={<NewLink />} />} />
+        <Route
+          path='/folder/:folderId/link/:linkId'
+          element={<AuthGuard component={<EditLink />} />}
+        />
+      </Route>
+    </Routes>
+  )
 }

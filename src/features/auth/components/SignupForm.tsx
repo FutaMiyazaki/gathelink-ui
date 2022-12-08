@@ -1,3 +1,4 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import Alert from '@mui/material/Alert'
@@ -6,25 +7,40 @@ import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
 import { FC, useState } from 'react'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { string, z } from 'zod'
 
 import { Button } from '@/components/Elements/Button'
 import { InputLabel } from '@/components/Elements/Form/InputLabel'
 import { useSignup } from '@/features/auth/hooks/useSignup'
-import { authValidationRules } from '@/features/auth/utils/authValidationRules'
 
-type Inputs = {
-  email: string
-  password: string
-  name: string
-}
+const schema = z.object({
+  email: string()
+    .min(1, 'メールアドレスは必須です')
+    .email('メールアドレスの形式が正しくありません')
+    .trim(),
+  password: string()
+    .min(1, 'パスワードは必須です')
+    .min(8, 'パスワードは 8 文字以上で入力してください')
+    .max(32, 'パスワードは 32 文字以下で入力してください')
+    .trim(),
+  name: string().max(32, '名前は 20 文字以下で入力してください').trim(),
+})
+
+type Form = z.infer<typeof schema>
 
 export const SignupForm: FC = () => {
   const { isLoading, errorMessage, signup } = useSignup()
-  const { control, handleSubmit } = useForm<Inputs>()
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<Form>({
+    resolver: zodResolver(schema),
+  })
   const [showPassword, setShowPassword] = useState(false)
 
-  const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
+  const onSubmit: SubmitHandler<Form> = (data) => {
     const params = {
       email: data.email,
       password: data.password,
@@ -54,81 +70,55 @@ export const SignupForm: FC = () => {
           inputRequirement='半角英数字でご利用中のメールアドレスを入力してください'
           labelTitle='メールアドレス'
         />
-        <Controller
-          name='email'
-          control={control}
-          defaultValue={''}
-          rules={authValidationRules.email}
-          render={({ field, fieldState }) => (
-            <TextField
-              {...field}
-              type='text'
-              fullWidth
-              autoComplete='email'
-              autoFocus
-              size='small'
-              error={fieldState.invalid}
-              helperText={fieldState.error?.message}
-              sx={{ mb: 4 }}
-            />
-          )}
+        <TextField
+          fullWidth
+          required
+          autoFocus
+          autoComplete='email'
+          size='small'
+          type='email'
+          error={!(errors.email == null)}
+          helperText={errors.email != null ? errors.email.message : ''}
+          sx={{ mb: 3 }}
+          {...register('email')}
         />
         <InputLabel
           inputRequirement='アルファベットと数字を組み合わせて8文字以上で入力してください'
           labelTitle='パスワード'
         />
-        <Controller
-          name='password'
-          control={control}
-          defaultValue={''}
-          rules={authValidationRules.password}
-          render={({ field, fieldState }) => (
-            <TextField
-              {...field}
-              hidden
-              required
-              fullWidth
-              autoComplete='current-password'
-              size='small'
-              error={fieldState.invalid}
-              helperText={fieldState.error?.message}
-              type={showPassword ? 'text' : 'password'}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position='end'>
-                    <IconButton
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                    >
-                      {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              sx={{ mb: 4 }}
-            />
-          )}
+        <TextField
+          fullWidth
+          hidden
+          required
+          autoComplete='current-password'
+          size='small'
+          type={showPassword ? 'text' : 'password'}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position='end'>
+                <IconButton onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword}>
+                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+          error={!(errors.password == null)}
+          helperText={errors.password != null ? errors.password.message : ''}
+          sx={{ mb: 3 }}
+          {...register('password')}
         />
         <InputLabel
           inputRequirement='20文字以下で入力してください'
           labelTitle='名前 (ニックネーム)'
         />
-        <Controller
-          name='name'
-          control={control}
-          defaultValue={''}
-          rules={authValidationRules.name}
-          render={({ field, fieldState }) => (
-            <TextField
-              {...field}
-              type='text'
-              fullWidth
-              size='small'
-              error={fieldState.invalid}
-              helperText={fieldState.error?.message}
-              sx={{ mb: 6 }}
-            />
-          )}
+        <TextField
+          fullWidth
+          size='small'
+          type='text'
+          error={!(errors.name == null)}
+          helperText={errors.name != null ? errors.name.message : ''}
+          sx={{ mb: 6 }}
+          {...register('name')}
         />
         <Button
           disabled={isLoading}

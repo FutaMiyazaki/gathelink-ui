@@ -9,6 +9,7 @@ import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Container from '@mui/material/Container'
 import IconButton from '@mui/material/IconButton'
+import List from '@mui/material/List'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Unstable_Grid2'
@@ -59,7 +60,7 @@ export const FolderDetails: FC = () => {
   }
 
   return (
-    <Container maxWidth='lg'>
+    <Container maxWidth='xl'>
       {errorMessage !== '' && (
         <Alert icon={false} severity='error' sx={{ mb: 4 }}>
           {errorMessage}
@@ -140,7 +141,7 @@ export const FolderDetails: FC = () => {
             <DisplayTypeMenu handleChange={handleChangeDisplay} displayFormat={displayFormat} />
           </Stack>
           {displayFormat === 'list' && (
-            <Stack direction='column' spacing={3} sx={{ ...whiteBackgroundProps, p: 2 }}>
+            <List sx={{ ...whiteBackgroundProps, p: 2 }}>
               {folderHasLinks?.map((link: Link) => {
                 return (
                   <LinkListItem
@@ -151,10 +152,10 @@ export const FolderDetails: FC = () => {
                   />
                 )
               })}
-            </Stack>
+            </List>
           )}
           {displayFormat === 'card' && (
-            <Grid container columns={{ xs: 2, sm: 2, md: 3, lg: 4 }} spacing={1}>
+            <Grid container columns={{ xs: 2, sm: 2, md: 3, lg: 4, xl: 5 }} spacing={3}>
               {folderHasLinks?.map((link: Link) => {
                 return (
                   <Grid key={link.id} xs={1}>
