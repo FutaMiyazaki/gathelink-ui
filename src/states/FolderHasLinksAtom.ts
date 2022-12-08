@@ -11,6 +11,7 @@ export const folderHasLinksState = atom<FolderHasLinks>({
       id: 0,
       title: '',
       url: '',
+      folder_id: 0,
       updated_at: '',
     },
   ],
