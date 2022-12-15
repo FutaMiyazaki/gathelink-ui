@@ -1,5 +1,3 @@
-import GridViewIcon from '@mui/icons-material/GridView'
-import ListIcon from '@mui/icons-material/List'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -11,17 +9,19 @@ import { ChangeEvent, FC, MouseEvent, useState } from 'react'
 
 import { Button } from '@/components/Elements/Button'
 
-const displayFormatItems = [
-  { value: 'list', icon: <ListIcon fontSize='small' />, label: 'リスト' },
-  { value: 'card', icon: <GridViewIcon fontSize='small' />, label: 'カード' },
-]
-
-type DisplayTypeMenuProps = {
+type RadioGroupProps = {
+  buttonLabel: string
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void
-  displayFormat: string
+  radioGroupItems: Array<{ value: string; icon: JSX.Element; label: string }>
+  value: string
 }
 
-export const DisplayTypeMenu: FC<DisplayTypeMenuProps> = ({ handleChange, displayFormat }) => {
+export const RadioGroup: FC<RadioGroupProps> = ({
+  buttonLabel,
+  handleChange,
+  radioGroupItems,
+  value,
+}) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
 
@@ -32,8 +32,7 @@ export const DisplayTypeMenu: FC<DisplayTypeMenuProps> = ({ handleChange, displa
   return (
     <>
       <Button
-        icon={displayFormat === 'list' ? <ListIcon /> : <GridViewIcon />}
-        label='表示'
+        label={buttonLabel}
         onClick={handleOpenMenu}
         variant='text'
         sx={{ color: 'secondary.dark' }}
@@ -43,13 +42,14 @@ export const DisplayTypeMenu: FC<DisplayTypeMenuProps> = ({ handleChange, displa
           <MuiRadioGroup
             aria-labelledby='demo-controlled-radio-buttons-group'
             name='controlled-radio-buttons-group'
-            value={displayFormat}
+            value={value}
             onChange={handleChange}
           >
-            {displayFormatItems.map((item) => {
+            {radioGroupItems.map((item) => {
               return (
                 <FormControlLabel
                   key={item.label}
+                  onClick={() => setAnchorEl(null)}
                   value={item.value}
                   control={<Radio size='small' />}
                   label={

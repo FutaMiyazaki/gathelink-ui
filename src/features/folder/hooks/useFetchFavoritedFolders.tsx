@@ -1,14 +1,13 @@
 import { useState } from 'react'
 import { useSetRecoilState } from 'recoil'
 
-import { FoldersSortType } from '@/features/folder/types/FoldersSortType'
 import { apiClient } from '@/lib/axios/apiClient'
 import { favoritedFoldersState } from '@/states/FavoritedFoldersAtom'
 import { authHeaders } from '@/utils/authHeaders'
 
 type UseFetchFavoritedFolders = {
   errorMessage: string
-  fetchFavoritedFolders: (sortType: FoldersSortType) => Promise<void>
+  fetchFavoritedFolders: (sortType: string) => Promise<void>
   isFeatching: boolean
 }
 
@@ -18,7 +17,7 @@ export const useFetchFavoritedFolders = (): UseFetchFavoritedFolders => {
   const setFavoritedFolders = useSetRecoilState(favoritedFoldersState)
   const headers = authHeaders()
 
-  const fetchFavoritedFolders = async (sortType: FoldersSortType): Promise<void> => {
+  const fetchFavoritedFolders = async (sortType: string): Promise<void> => {
     setIsFeatching(true)
     setErrorMessage('')
 

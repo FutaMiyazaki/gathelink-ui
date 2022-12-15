@@ -10,7 +10,6 @@ import { Menu } from '@/components/Elements/Menu'
 import { MenuItems } from '@/components/Elements/Menu/MenuItems'
 import { FoldersList } from '@/features/folder/components/Sidebar/FoldersList'
 import { useFetchMyFolders } from '@/features/folder/hooks/useFetchMyFolders'
-import { FoldersSortType } from '@/features/folder/types/FoldersSortType'
 import { myFoldersState } from '@/states/MyFoldersAtom'
 
 export const MyFoldersList: FC = () => {
@@ -18,7 +17,7 @@ export const MyFoldersList: FC = () => {
   const { errorMessage, fetchMyFolders, isFeatching } = useFetchMyFolders()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
-  const handleChangeSort = (sortType: FoldersSortType): void => {
+  const handleChangeSort = (sortType: string): void => {
     fetchMyFolders(sortType)
     setAnchorEl(null)
   }
@@ -30,8 +29,10 @@ export const MyFoldersList: FC = () => {
   }
 
   const sortMenuItems: MenuItems = [
-    { onClick: () => handleChangeSort('old'), text: '作成日時が古い順' },
-    { onClick: () => handleChangeSort('latest'), text: '作成日時が新しい順' },
+    { onClick: () => handleChangeSort('created_asc'), text: '作成日時が古い順' },
+    { onClick: () => handleChangeSort('created_desc'), text: '作成日時が新しい順' },
+    { onClick: () => handleChangeSort('name_asc'), text: '名前順 (A-Z)' },
+    { onClick: () => handleChangeSort('name_desc'), text: '名前順 (Z-A)' },
   ]
 
   useEffect(() => {

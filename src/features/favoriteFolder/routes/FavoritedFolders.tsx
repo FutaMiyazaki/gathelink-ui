@@ -1,23 +1,30 @@
+import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
-import { DisplayTypeMenu } from '@/components/Elements/Form/RadioGroup'
+import { RadioGroup } from '@/components/Elements/Form/RadioGroup'
 import { FoldersByCard } from '@/features/folder/components/FoldersByCard'
 import { FoldersByList } from '@/features/folder/components/FoldersByList'
 import { useFetchFavoritedFolders } from '@/features/folder/hooks/useFetchFavoritedFolders'
+import { linkSortItems } from '@/features/link/utils/linkSortItems'
 import { useMedia } from '@/hooks/useMedia'
 import { favoritedFoldersState } from '@/states/FavoritedFoldersAtom'
+import { displayFormatItems } from '@/utils/displayFormatItems'
 
 export const FavoritedFolders: FC = () => {
   const favoritedFolders = useRecoilValue(favoritedFoldersState)
   const { errorMessage, fetchFavoritedFolders, isFeatching } = useFetchFavoritedFolders()
+  const [sortType, setSortType] = useState('created_asc')
   const [displayFormat, setDisplayFormat] = useState('list')
-  const { isDesktopScreen } = useMedia()
-
+  const { isMobileScreen } = useMedia()
   const noContentsText = 'お気に入りフォルダはありません'
+
+  const handleChangeSort = (e: ChangeEvent<HTMLInputElement>): void => {
+    setSortType((e.target as HTMLInputElement).value)
+  }
 
   const handleChangeDisplay = (e: ChangeEvent<HTMLInputElement>): void => {
     setDisplayFormat((e.target as HTMLInputElement).value)
@@ -25,15 +32,23 @@ export const FavoritedFolders: FC = () => {
 
   const renderContent = (
     <>
-      <Stack
-        alignItems='center'
-        direction='row'
-        justifyContent='space-between'
-        sx={{ mb: 3, px: 1.5 }}
-      >
+      <Box sx={{ mx: 1.5, mb: 3 }}>
         <Typography variant='h1'>お気に入りフォルダ</Typography>
-        <DisplayTypeMenu handleChange={handleChangeDisplay} displayFormat={displayFormat} />
-      </Stack>
+        <Stack direction='row' justifyContent='flex-end'>
+          <RadioGroup
+            buttonLabel='並び順'
+            handleChange={handleChangeSort}
+            radioGroupItems={linkSortItems}
+            value={sortType}
+          />
+          <RadioGroup
+            buttonLabel='表示形式'
+            handleChange={handleChangeDisplay}
+            radioGroupItems={displayFormatItems}
+            value={displayFormat}
+          />
+        </Stack>
+      </Box>
       {displayFormat === 'list' && (
         <FoldersByList
           errorMessage={errorMessage}
@@ -54,16 +69,10 @@ export const FavoritedFolders: FC = () => {
   )
 
   useEffect(() => {
-    fetchFavoritedFolders('old')
-  }, [])
+    fetchFavoritedFolders(sortType)
+  }, [sortType])
 
-  return (
-    <>
-      {isDesktopScreen ? (
-        <Container maxWidth='md'>{renderContent}</Container>
-      ) : (
-        <>{renderContent}</>
-      )}
-    </>
-  )
+  if (isMobileScreen) return <>{renderContent}</>
+
+  return <Container maxWidth='md'>{renderContent}</Container>
 }
