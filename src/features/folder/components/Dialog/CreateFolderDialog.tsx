@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
+import { Stack } from '@mui/material'
 import Alert from '@mui/material/Alert'
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
@@ -7,7 +8,6 @@ import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
-import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { FC, useEffect } from 'react'
@@ -94,19 +94,10 @@ export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({ handleCloseDia
             {...register('name')}
           />
           <DialogActions sx={{ mt: 3, p: 0 }}>
-            <Grid container alignItems='center' justifyContent='center' spacing={1}>
-              <Grid item xs={6}>
-                <Button
-                  color='secondary'
-                  fullWidth={true}
-                  label='キャンセル'
-                  onClick={() => handleCloseDialog()}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Button fullWidth={true} isLoading={isLoading} label='作成する' type='submit' />
-              </Grid>
-            </Grid>
+            <Stack direction='row' justifyContent='flex-end' spacing={2}>
+              <Button color='secondary' label='キャンセル' onClick={() => handleCloseDialog()} />
+              <Button isLoading={isLoading} label='作成する' type='submit' />
+            </Stack>
           </DialogActions>
         </Box>
       </DialogContent>

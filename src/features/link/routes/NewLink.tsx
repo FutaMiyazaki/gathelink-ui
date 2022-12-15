@@ -144,7 +144,7 @@ export const NewLink: FC = () => {
         {errors.folderId != null && (
           <FormHelperText error>{errors.folderId.message}</FormHelperText>
         )}
-        <Stack direction='row' sx={{ mt: 6 }}>
+        <Stack direction='row' justifyContent='flex-end' sx={{ mt: 6 }}>
           <Button
             disabled={myFolders.length === 0}
             isLoading={isLoading}
