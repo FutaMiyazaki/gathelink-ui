@@ -6,8 +6,10 @@ import MuiBottomNavigation from '@mui/material/BottomNavigation'
 import BottomNavigationAction from '@mui/material/BottomNavigationAction'
 import { FC, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useRecoilValue } from 'recoil'
 
 import { useMedia } from '@/hooks/useMedia'
+import { isAuthenticatedState } from '@/states/AuthAtom'
 
 type NaviAction = {
   label: string
@@ -16,18 +18,19 @@ type NaviAction = {
 }
 
 export const BottomNavigation: FC = () => {
-  const { isDesktopScreen } = useMedia()
   const [value, setValue] = useState('')
   const navigate = useNavigate()
+  const isAuthenticated = useRecoilValue(isAuthenticatedState)
+  const { isDesktopScreen } = useMedia()
 
   const naviActions: readonly NaviAction[] = [
-    { label: 'Home', icon: <HomeRoundedIcon />, path: '' },
-    { label: 'Favorite', icon: <StarRoundedIcon />, path: 'favorited' },
-    { label: 'Myfolder', icon: <FolderRoundedIcon />, path: 'myfolders' },
-    { label: 'Search', icon: <SearchRoundedIcon />, path: 'seacrh' },
+    { label: 'ホーム', icon: <HomeRoundedIcon />, path: '' },
+    { label: 'お気に入り', icon: <StarRoundedIcon />, path: 'favorited' },
+    { label: 'マイフォルダ', icon: <FolderRoundedIcon />, path: 'myfolders' },
+    { label: '探す', icon: <SearchRoundedIcon />, path: 'seacrh' },
   ]
 
-  if (isDesktopScreen) return null
+  if (isDesktopScreen || !isAuthenticated) return null
 
   return (
     <MuiBottomNavigation

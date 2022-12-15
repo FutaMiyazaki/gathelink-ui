@@ -43,70 +43,68 @@ export const FloatingActionButton: FC = () => {
     },
   ]
 
+  if (!isAuthenticated || !isMobileScreen) return null
+
   return (
     <>
-      {isAuthenticated && isMobileScreen && (
-        <>
-          <Box
-            sx={{
-              flexGrow: 1,
-              position: 'fixed',
-              transform: 'translateZ(0px)',
-              bottom: 60,
-              right: 0,
-            }}
-          >
-            <Fab
-              color='primary'
-              onClick={() => setOpenDrawer(true)}
-              sx={{
-                position: 'absolute',
-                bottom: 16,
-                right: 16,
-              }}
-            >
-              <AddIcon sx={{ fontWeight: 'bold' }} />
-            </Fab>
-          </Box>
-          <Drawer anchor='bottom' open={openDrawer} onClose={() => setOpenDrawer(false)}>
-            <Grid
-              container
-              alignItems='center'
-              justifyContent='center'
-              sx={{ textAlign: 'center', p: 3 }}
-            >
-              <Grid item xs={12} sx={{ mb: 2 }}>
-                <Typography variant='h6'>新規作成</Typography>
+      <Box
+        sx={{
+          flexGrow: 1,
+          position: 'fixed',
+          transform: 'translateZ(0px)',
+          bottom: 60,
+          right: 0,
+        }}
+      >
+        <Fab
+          color='primary'
+          onClick={() => setOpenDrawer(true)}
+          sx={{
+            position: 'absolute',
+            bottom: 16,
+            right: 16,
+          }}
+        >
+          <AddIcon sx={{ fontWeight: 'bold' }} />
+        </Fab>
+      </Box>
+      <Drawer anchor='bottom' open={openDrawer} onClose={() => setOpenDrawer(false)}>
+        <Grid
+          container
+          alignItems='center'
+          justifyContent='center'
+          sx={{ textAlign: 'center', p: 3 }}
+        >
+          <Grid item xs={12} sx={{ mb: 2 }}>
+            <Typography variant='h6'>新規作成</Typography>
+          </Grid>
+          {actions.map((item) => {
+            return (
+              <Grid
+                key={item.name}
+                item
+                xs={6}
+                onClick={item.onClick}
+                sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}
+              >
+                <Avatar
+                  sx={{
+                    backgroundColor: 'white',
+                    border: 1,
+                    borderColor: 'secondary.dark',
+                    mb: 1,
+                  }}
+                >
+                  {item.icon}
+                </Avatar>
+                <Typography color='primary' variant='subtitle1'>
+                  {item.name}
+                </Typography>
               </Grid>
-              {actions.map((item) => {
-                return (
-                  <Grid
-                    key={item.name}
-                    item
-                    xs={6}
-                    onClick={item.onClick}
-                    sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}
-                  >
-                    <Avatar
-                      sx={{
-                        backgroundColor: 'white',
-                        border: 1,
-                        borderColor: 'secondary.dark',
-                        mb: 1,
-                      }}
-                    >
-                      {item.icon}
-                    </Avatar>
-                    <Typography color='primary' variant='subtitle1'>
-                      {item.name}
-                    </Typography>
-                  </Grid>
-                )
-              })}
-            </Grid>
-          </Drawer>
-        </>
-      )}
+            )
+          })}
+        </Grid>
+      </Drawer>
     </>
   )
 }
