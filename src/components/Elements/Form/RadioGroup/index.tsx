@@ -37,10 +37,16 @@ export const RadioGroup: FC<RadioGroupProps> = ({
         variant='text'
         sx={{ color: 'secondary.dark' }}
       />
-      <Menu anchorEl={anchorEl} onClose={() => setAnchorEl(null)} open={open} sx={{ mt: 1 }}>
+      <Menu
+        anchorEl={anchorEl}
+        onClose={() => setAnchorEl(null)}
+        open={open}
+        PaperProps={{
+          style: { borderRadius: 15 },
+        }}
+      >
         <FormControl sx={{ px: 2 }}>
           <MuiRadioGroup
-            aria-labelledby='demo-controlled-radio-buttons-group'
             name='controlled-radio-buttons-group'
             value={value}
             onChange={handleChange}
