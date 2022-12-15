@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
-import { Stack } from '@mui/material'
 import Alert from '@mui/material/Alert'
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
@@ -8,6 +7,7 @@ import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
+import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { FC, useEffect } from 'react'
@@ -16,7 +16,6 @@ import { string, z } from 'zod'
 
 import { Button } from '@/components/Elements/Button'
 import { useCreateFolder } from '@/features/folder/hooks/useCreateFolder'
-import { useMedia } from '@/hooks/useMedia'
 
 type CreateFolderDialogProps = {
   handleCloseDialog: () => void
@@ -42,7 +41,6 @@ export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({ handleCloseDia
     resolver: zodResolver(schema),
   })
   const { createFolder, errorMessage, isLoading, resStatus } = useCreateFolder()
-  const { isMobileScreen } = useMedia()
 
   const onSubmit: SubmitHandler<Form> = (data) => {
     const folder = {
@@ -60,11 +58,13 @@ export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({ handleCloseDia
 
   return (
     <Dialog
-      fullScreen={isMobileScreen}
       fullWidth
       maxWidth='sm'
       onClose={() => handleCloseDialog()}
       open={open}
+      PaperProps={{
+        style: { borderRadius: 15 },
+      }}
     >
       <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column', mt: 2 }}>
         <Avatar sx={{ bgcolor: 'primary.main' }}>
