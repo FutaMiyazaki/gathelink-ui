@@ -3,7 +3,7 @@ import NorthRoundedIcon from '@mui/icons-material/NorthRounded'
 import SouthRoundedIcon from '@mui/icons-material/SouthRounded'
 import UpdateRoundedIcon from '@mui/icons-material/UpdateRounded'
 
-export const linkSortItems = [
+export const folderSortItems = [
   {
     value: 'created_asc',
     icon: <HistoryRoundedIcon fontSize='small' />,
@@ -15,12 +15,12 @@ export const linkSortItems = [
     label: '作成日時が新しい順',
   },
   {
-    value: 'title_asc',
+    value: 'name_asc',
     icon: <NorthRoundedIcon fontSize='small' />,
     label: '名前順 (A-Z)',
   },
   {
-    value: 'title_desc',
+    value: 'name_desc',
     icon: <SouthRoundedIcon fontSize='small' />,
     label: '名前順 (Z-A)',
   },

@@ -9,7 +9,7 @@ import { RadioGroup } from '@/components/Elements/Form/RadioGroup'
 import { FoldersByCard } from '@/features/folder/components/FoldersByCard'
 import { FoldersByList } from '@/features/folder/components/FoldersByList'
 import { useFetchFavoritedFolders } from '@/features/folder/hooks/useFetchFavoritedFolders'
-import { linkSortItems } from '@/features/link/utils/linkSortItems'
+import { folderSortItems } from '@/features/folder/utils/folderSortItems'
 import { useMedia } from '@/hooks/useMedia'
 import { favoritedFoldersState } from '@/states/FavoritedFoldersAtom'
 import { displayFormatItems } from '@/utils/displayFormatItems'
@@ -38,7 +38,7 @@ export const FavoritedFolders: FC = () => {
           <RadioGroup
             buttonLabel='並び順'
             handleChange={handleChangeSort}
-            radioGroupItems={linkSortItems}
+            radioGroupItems={folderSortItems}
             value={sortType}
           />
           <RadioGroup
