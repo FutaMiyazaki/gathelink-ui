@@ -20,24 +20,24 @@ import { useRecoilValue } from 'recoil'
 
 import { Button } from '@/components/Elements/Button'
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
-import { DisplayTypeMenu } from '@/components/Elements/Form/RadioGroup'
+import { RadioGroup } from '@/components/Elements/Form/RadioGroup'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { FavoriteFolderButton } from '@/features/favoriteFolder/components/FavoriteFolderButton'
 import { useFetchFolder } from '@/features/folder/hooks/useFetchFolder'
 import { LinkCard } from '@/features/link/components/LinkCard'
 import { LinkListItem } from '@/features/link/components/LinkListItem'
 import { Link } from '@/features/link/types/Link'
+import { linkSortItems } from '@/features/link/utils/linkSortItems'
 import { NotFound } from '@/features/misc/routes/NotFound'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 import { folderHasLinksState } from '@/states/FolderHasLinksAtom'
+import { RouterParams } from '@/types'
 import { diffTime } from '@/utils/date'
+import { displayFormatItems } from '@/utils/displayFormatItems'
 import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
 
-type RouterParams = {
-  folderId: string
-}
-
 export const FolderDetails: FC = () => {
+  const [sortType, setSortType] = useState('created_asc')
   const [displayFormat, setDisplayFormat] = useState('list')
   const folderHasLinks = useRecoilValue(folderHasLinksState)
   const authenticated = useRecoilValue(isAuthenticatedState)
@@ -45,13 +45,17 @@ export const FolderDetails: FC = () => {
   const { errorMessage, fetchFolder, folder, isFeatchLoading, isOwner, resStatus } =
     useFetchFolder()
 
+  const handleChangeSort = (e: ChangeEvent<HTMLInputElement>): void => {
+    setSortType((e.target as HTMLInputElement).value)
+  }
+
   const handleChangeDisplay = (e: ChangeEvent<HTMLInputElement>): void => {
     setDisplayFormat((e.target as HTMLInputElement).value)
   }
 
   useEffect(() => {
-    folderId !== undefined && fetchFolder(folderId)
-  }, [folderId])
+    folderId !== undefined && fetchFolder(folderId, sortType)
+  }, [folderId, sortType])
 
   if (isFeatchLoading) return <PageLoading />
 
@@ -138,7 +142,18 @@ export const FolderDetails: FC = () => {
       {folderHasLinks.length > 0 ? (
         <>
           <Stack direction='row' justifyContent='flex-end' sx={{ mb: 1 }}>
-            <DisplayTypeMenu handleChange={handleChangeDisplay} displayFormat={displayFormat} />
+            <RadioGroup
+              buttonLabel='並び順'
+              handleChange={handleChangeSort}
+              radioGroupItems={linkSortItems}
+              value={sortType}
+            />
+            <RadioGroup
+              buttonLabel='表示形式'
+              handleChange={handleChangeDisplay}
+              radioGroupItems={displayFormatItems}
+              value={displayFormat}
+            />
           </Stack>
           {displayFormat === 'list' && (
             <List sx={{ ...whiteBackgroundProps, p: 2 }}>

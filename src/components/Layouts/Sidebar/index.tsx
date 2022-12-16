@@ -30,7 +30,7 @@ export const Sidebar: FC = () => {
           <MyFoldersList />
         </>
       )}
-      <Box sx={{ m: 2 }}>
+      <Box sx={{ mx: 2, mt: 4, mb: 2 }}>
         <MuiButton
           disableElevation
           fullWidth

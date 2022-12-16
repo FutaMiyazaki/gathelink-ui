@@ -19,11 +19,8 @@ import { PageLoading } from '@/components/Layouts/PageLoading'
 import { DeleteFolderDialog } from '@/features/folder/components/Dialog/DeleteFolderDialog'
 import { useFetchFolder } from '@/features/folder/hooks/useFetchFolder'
 import { useUpdateFolder } from '@/features/folder/hooks/useUpdateFolder'
+import { RouterParams } from '@/types'
 import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
-
-type RouterParams = {
-  folderId: string
-}
 
 const schema = z.object({
   name: string()

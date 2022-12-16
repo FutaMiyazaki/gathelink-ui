@@ -12,7 +12,6 @@ import { useEffect, FC } from 'react'
 
 import { Button } from '@/components/Elements/Button'
 import { useDeleteLink } from '@/features/link/hooks/useDeleteLink'
-import { useMedia } from '@/hooks/useMedia'
 
 type DeleteLinkDialogProps = {
   folderId: string
@@ -28,7 +27,6 @@ export const DeleteLinkDialog: FC<DeleteLinkDialogProps> = ({
   open,
 }) => {
   const { deleteLink, errorMessage, isLoading, resStatus } = useDeleteLink()
-  const { isMobileScreen } = useMedia()
 
   const onClickDeleteButton = (): void => {
     deleteLink(folderId, linkId)
@@ -42,11 +40,13 @@ export const DeleteLinkDialog: FC<DeleteLinkDialogProps> = ({
 
   return (
     <Dialog
-      fullScreen={isMobileScreen}
       fullWidth
       maxWidth='xs'
       onClose={() => handleCloseDialog()}
       open={open}
+      PaperProps={{
+        style: { borderRadius: 15 },
+      }}
       sx={{ textAlign: 'center' }}
     >
       <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column', mt: 2 }}>

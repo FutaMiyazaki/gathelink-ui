@@ -1,4 +1,3 @@
-import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import ImageNotSupportedTwoToneIcon from '@mui/icons-material/ImageNotSupportedTwoTone'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import IconButton from '@mui/material/IconButton'
@@ -15,6 +14,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Menu } from '@/components/Elements/Menu'
 import { MenuItems } from '@/components/Elements/Menu/MenuItems'
+import { DeleteLinkDialog } from '@/features/link/components/DeleteLinkDialog'
 import { Link as LinkType } from '@/features/link/types/Link'
 import { useMedia } from '@/hooks/useMedia'
 import { diffTime } from '@/utils/date'
@@ -29,6 +29,7 @@ type LinkListItemProps = {
 export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const { isDesktopScreen } = useMedia()
+  const [openDialog, setOpenDialog] = useState<boolean>(false)
   const navigate = useNavigate()
 
   const handleOpenMenu = (event: MouseEvent<HTMLElement>): void => {
@@ -37,12 +38,25 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link })
 
   const headerAddActions: MenuItems = [
     {
-      icon: <EditOutlinedIcon sx={{ mr: 1 }} />,
+      onClick: () => {
+        navigator.clipboard.writeText(link.url)
+        setAnchorEl(null)
+      },
+      text: 'クリップボードにリンクをコピー',
+    },
+    {
       onClick: () => {
         navigate(`/folder/${folderId}/link/${link.id}`)
         setAnchorEl(null)
       },
       text: '編集',
+    },
+    {
+      onClick: () => {
+        setOpenDialog(true)
+        setAnchorEl(null)
+      },
+      text: '削除',
     },
   ]
 
@@ -107,6 +121,14 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link })
             handleCloseMenu={() => setAnchorEl(null)}
             menuItems={headerAddActions}
           />
+          {folderId !== undefined && link.id !== undefined && (
+            <DeleteLinkDialog
+              folderId={folderId}
+              linkId={link.id.toString()}
+              handleCloseDialog={() => setOpenDialog(false)}
+              open={openDialog}
+            />
+          )}
         </>
       )}
     </ListItem>
