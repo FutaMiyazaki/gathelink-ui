@@ -104,9 +104,7 @@ export const EditLink: FC = () => {
             <ArrowBackIcon />
           </IconButton>
         </Link>
-        <Typography variant='h1' sx={{ ml: 1 }}>
-          リンクを編集
-        </Typography>
+        <Typography variant='h1'>リンクを編集</Typography>
         <Button
           color='warning'
           icon={<DeleteForeverOutlinedIcon />}
@@ -138,7 +136,6 @@ export const EditLink: FC = () => {
         <InputLabel labelTitle='URL' />
         <TextField
           fullWidth
-          autoFocus
           size='small'
           type='text'
           error={!(errors.url == null)}
@@ -165,6 +162,7 @@ export const EditLink: FC = () => {
           <Select
             fullWidth
             defaultValue={link.folder_id}
+            size='small'
             error={!(errors.folderId == null)}
             {...register('folderId')}
           >

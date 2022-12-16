@@ -15,6 +15,7 @@ import { useParams } from 'react-router-dom'
 import { Link } from '@/components/Elements/Link'
 import { Folder } from '@/features/folder/types/Folder'
 import { Link as LinkType } from '@/features/link/types/Link'
+import { RouterParams } from '@/types'
 
 type myFolderListItemProps = {
   active: boolean
@@ -70,10 +71,6 @@ type FoldersListProps = {
   folders: Folder[]
   isLoading: boolean
   noContentsText: string
-}
-
-type RouterParams = {
-  folderId: string
 }
 
 export const FoldersList: FC<FoldersListProps> = ({

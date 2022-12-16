@@ -1,14 +1,13 @@
 import { useState } from 'react'
 import { useSetRecoilState } from 'recoil'
 
-import { FoldersSortType } from '@/features/folder/types/FoldersSortType'
 import { apiClient } from '@/lib/axios/apiClient'
 import { myFoldersState } from '@/states/MyFoldersAtom'
 import { authHeaders } from '@/utils/authHeaders'
 
 type UseFetchMyFolders = {
   errorMessage: string
-  fetchMyFolders: (sortType: FoldersSortType) => Promise<void>
+  fetchMyFolders: (sortType: string) => Promise<void>
   isFeatching: boolean
 }
 
@@ -18,7 +17,7 @@ export const useFetchMyFolders = (): UseFetchMyFolders => {
   const setMyFolders = useSetRecoilState(myFoldersState)
   const headers = authHeaders()
 
-  const fetchMyFolders = async (sortType: FoldersSortType): Promise<void> => {
+  const fetchMyFolders = async (sortType: string): Promise<void> => {
     setIsFeatching(true)
     setErrorMessage('')
 

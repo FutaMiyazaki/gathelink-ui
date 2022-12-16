@@ -1,5 +1,5 @@
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone'
 import ImageNotSupportedTwoToneIcon from '@mui/icons-material/ImageNotSupportedTwoTone'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
@@ -11,9 +11,12 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import { parseISO } from 'date-fns'
 import { Image } from 'mui-image'
-import { FC } from 'react'
+import { FC, MouseEvent, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-import { Link } from '@/components/Elements/Link'
+import { Menu } from '@/components/Elements/Menu'
+import { MenuItems } from '@/components/Elements/Menu/MenuItems'
+import { DeleteLinkDialog } from '@/features/link/components/DeleteLinkDialog'
 import { Link as LinkType } from '@/features/link/types/Link'
 import { LINK_TEXT_COLOR } from '@/utils/const'
 import { diffTime } from '@/utils/date'
@@ -25,7 +28,38 @@ type LinkCardProps = {
 }
 
 export const LinkCard: FC<LinkCardProps> = ({ folderId, isOwner, link }) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [openDialog, setOpenDialog] = useState<boolean>(false)
+  const navigate = useNavigate()
   const IMAGE_HEIGHT = 130
+
+  const handleOpenMenu = (event: MouseEvent<HTMLElement>): void => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const headerAddActions: MenuItems = [
+    {
+      onClick: () => {
+        navigator.clipboard.writeText(link.url)
+        setAnchorEl(null)
+      },
+      text: 'クリップボードにリンクをコピー',
+    },
+    {
+      onClick: () => {
+        navigate(`/folder/${folderId}/link/${link.id}`)
+        setAnchorEl(null)
+      },
+      text: '編集',
+    },
+    {
+      onClick: () => {
+        setOpenDialog(true)
+        setAnchorEl(null)
+      },
+      text: '削除',
+    },
+  ]
 
   return (
     <Card variant='outlined' sx={{ borderRadius: 3 }}>
@@ -94,11 +128,24 @@ export const LinkCard: FC<LinkCardProps> = ({ folderId, isOwner, link }) => {
           {diffTime(new Date(), parseISO(link.updated_at))}
         </Typography>
         {isOwner && (
-          <Link path={`/folder/${folderId}/link/${link.id}`}>
-            <IconButton component='span' size='small'>
-              <EditTwoToneIcon fontSize='small' />
+          <>
+            <IconButton onClick={handleOpenMenu} edge='end' size='small'>
+              <MoreVertIcon />
             </IconButton>
-          </Link>
+            <Menu
+              anchorEl={anchorEl}
+              handleCloseMenu={() => setAnchorEl(null)}
+              menuItems={headerAddActions}
+            />
+            {folderId !== undefined && link.id !== undefined && (
+              <DeleteLinkDialog
+                folderId={folderId}
+                linkId={link.id.toString()}
+                handleCloseDialog={() => setOpenDialog(false)}
+                open={openDialog}
+              />
+            )}
+          </>
         )}
       </CardActions>
     </Card>

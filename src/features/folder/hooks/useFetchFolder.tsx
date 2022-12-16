@@ -8,7 +8,7 @@ import { authHeaders } from '@/utils/authHeaders'
 
 type UseFetchFolder = {
   errorMessage: string
-  fetchFolder: (id: string) => Promise<void>
+  fetchFolder: (id: string, sort?: string) => Promise<void>
   folder?: Folder
   isFeatchLoading: boolean
   isOwner: boolean
@@ -24,18 +24,18 @@ export const useFetchFolder = (): UseFetchFolder => {
   const setFolderHasLinks = useSetRecoilState(folderHasLinksState)
   const headers = authHeaders()
 
-  const fetchFolder = async (id: string): Promise<void> => {
+  const fetchFolder = async (id: string, sort?: string): Promise<void> => {
     setIsLoading(true)
     setResStatus(0)
     setErrorMessage('')
 
     await apiClient
-      .get(`/folders/${id}`, { headers })
+      .get(sort !== undefined ? `/folders/${id}?sort=${sort}` : `/folders/${id}`, { headers })
       .then((res) => {
         setResStatus(res.status)
         setIsOwner(res.data.is_owner)
         setFolder(res.data.folder)
-        setFolderHasLinks(res.data.folder.old_order_links)
+        setFolderHasLinks(res.data.links)
       })
       .catch((err) => {
         setResStatus(err.response.status)
