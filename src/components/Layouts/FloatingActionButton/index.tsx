@@ -68,7 +68,14 @@ export const FloatingActionButton: FC = () => {
           <AddIcon sx={{ fontWeight: 'bold' }} />
         </Fab>
       </Box>
-      <Drawer anchor='bottom' open={openDrawer} onClose={() => setOpenDrawer(false)}>
+      <Drawer
+        anchor='bottom'
+        open={openDrawer}
+        onClose={() => setOpenDrawer(false)}
+        PaperProps={{
+          style: { borderTopLeftRadius: 15, borderTopRightRadius: 15 },
+        }}
+      >
         <Grid
           container
           alignItems='center'

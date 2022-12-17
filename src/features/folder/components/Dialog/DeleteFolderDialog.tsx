@@ -42,6 +42,9 @@ export const DeleteFolderDialog: FC<DeleteFolderDialogProps> = ({
       maxWidth='xs'
       onClose={() => handleCloseDialog()}
       open={open}
+      PaperProps={{
+        style: { borderRadius: 15 },
+      }}
       sx={{ textAlign: 'center' }}
     >
       <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column', mt: 2 }}>
