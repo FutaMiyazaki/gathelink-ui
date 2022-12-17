@@ -36,7 +36,7 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link })
     setAnchorEl(event.currentTarget)
   }
 
-  const headerAddActions: MenuItems = [
+  const ownerMenuItems: MenuItems = [
     {
       onClick: () => {
         navigator.clipboard.writeText(link.url)
@@ -57,6 +57,16 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link })
         setAnchorEl(null)
       },
       text: '削除',
+    },
+  ]
+
+  const notOwnerMenuItems: MenuItems = [
+    {
+      onClick: () => {
+        navigator.clipboard.writeText(link.url)
+        setAnchorEl(null)
+      },
+      text: 'クリップボードにリンクをコピー',
     },
   ]
 
@@ -111,25 +121,21 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link })
           }
         />
       </ListItemButton>
-      {isOwner && (
-        <>
-          <IconButton onClick={handleOpenMenu} edge='end' size='small'>
-            <MoreVertIcon />
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            handleCloseMenu={() => setAnchorEl(null)}
-            menuItems={headerAddActions}
-          />
-          {folderId !== undefined && link.id !== undefined && (
-            <DeleteLinkDialog
-              folderId={folderId}
-              linkId={link.id.toString()}
-              handleCloseDialog={() => setOpenDialog(false)}
-              open={openDialog}
-            />
-          )}
-        </>
+      <IconButton onClick={handleOpenMenu} edge='end' size='small'>
+        <MoreVertIcon />
+      </IconButton>
+      <Menu
+        anchorEl={anchorEl}
+        handleCloseMenu={() => setAnchorEl(null)}
+        menuItems={isOwner ? ownerMenuItems : notOwnerMenuItems}
+      />
+      {isOwner && folderId !== undefined && link.id !== undefined && (
+        <DeleteLinkDialog
+          folderId={folderId}
+          linkId={link.id.toString()}
+          handleCloseDialog={() => setOpenDialog(false)}
+          open={openDialog}
+        />
       )}
     </ListItem>
   )
