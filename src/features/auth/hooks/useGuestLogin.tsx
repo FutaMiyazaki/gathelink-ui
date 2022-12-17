@@ -35,13 +35,12 @@ export const useGuestLogin = (): UseGuestLogin => {
         res.data.data.id != null && setCookie(null, 'userId', res.data.data.id, option)
         setAuthenticated(true)
         navigate('/')
-        setAlert({ isShow: true, message: 'ゲストユーザーでログインしました', severity: 'success' })
+        setAlert({ isShow: true, message: 'ゲストユーザーでログインしました' })
       })
       .catch(() => {
         setAlert({
           isShow: true,
           message: 'ログインに失敗しました。管理者までご連絡ください。',
-          severity: 'error',
         })
       })
     setIsLoading(false)
