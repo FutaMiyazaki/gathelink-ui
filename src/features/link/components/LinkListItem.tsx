@@ -77,7 +77,7 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link })
         href={link.url}
         target='_blank'
         underline='none'
-        sx={{ borderRadius: 3 }}
+        sx={{ borderRadius: 3, pr: 0 }}
       >
         <ListItemAvatar sx={{ mr: 1 }}>
           <Image
@@ -96,10 +96,10 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link })
             <Typography
               variant='subtitle2'
               sx={{
-                display: 'block',
-                whiteSpace: 'nowrap',
+                display: '-webkit-box',
+                WebkitBoxOrient: 'vertical',
+                WebkitLineClamp: 2,
                 overflow: 'hidden',
-                textOverflow: 'ellipsis',
               }}
             >
               {link.title}
@@ -121,7 +121,7 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link })
           }
         />
       </ListItemButton>
-      <IconButton onClick={handleOpenMenu} edge='end' size='small'>
+      <IconButton onClick={handleOpenMenu} edge='end' size='small' sx={{ mr: 0.5 }}>
         <MoreVertIcon />
       </IconButton>
       <Menu

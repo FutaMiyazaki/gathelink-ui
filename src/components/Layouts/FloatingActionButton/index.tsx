@@ -8,12 +8,13 @@ import Fab from '@mui/material/Fab'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { FC, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { useMedia } from '@/hooks/useMedia'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 import { isOpenCreateFolderDialogState } from '@/states/isOpenCreateFolderDialogState'
+import { RouterParams } from '@/types'
 
 export type DialogType = 'addLink' | 'createFolder'
 
@@ -23,6 +24,8 @@ export const FloatingActionButton: FC = () => {
   const setIsOpenNewFolderDialog = useSetRecoilState(isOpenCreateFolderDialogState)
   const isAuthenticated = useRecoilValue(isAuthenticatedState)
   const navigate = useNavigate()
+  const location = useLocation()
+  const { folderId, linkId } = useParams<RouterParams>()
 
   const actions = [
     {
@@ -43,7 +46,14 @@ export const FloatingActionButton: FC = () => {
     },
   ]
 
-  if (!isAuthenticated || !isMobileScreen) return null
+  if (
+    !isAuthenticated ||
+    !isMobileScreen ||
+    location.pathname === '/new/link' ||
+    location.pathname === `/folder/${folderId as string}/edit` ||
+    location.pathname === `/folder/${folderId as string}/link/${linkId as string}`
+  )
+    return null
 
   return (
     <>

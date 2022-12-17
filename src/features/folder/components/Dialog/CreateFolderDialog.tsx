@@ -84,7 +84,6 @@ export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({ handleCloseDia
           </Typography>
           <TextField
             fullWidth
-            autoFocus
             placeholder='フォルダ名を入力'
             size='small'
             type='text'

@@ -9,7 +9,6 @@ import { FC, ReactNode } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
-import { Link } from '@/components/Elements/Link'
 
 type AuthLayoutProps = {
   children: ReactNode
@@ -20,7 +19,7 @@ export const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
 
   return (
     <>
-      <Container component='main' maxWidth='xs' sx={{ my: 10 }}>
+      <Container component='main' maxWidth='xs' sx={{ mt: 3, mb: 10 }}>
         <Box
           sx={{
             display: 'flex',
@@ -38,16 +37,20 @@ export const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
         {children}
         <Stack direction='column' justifyContent='center' sx={{ textAlign: 'center' }}>
           <LinkButton
-            color='secondary'
             fullWidth={true}
             label='パスワードを忘れた場合はこちら'
             path='/reset_password'
-            variant='contained'
+            size='small'
+            variant='text'
           />
           <Divider sx={{ my: 4 }} />
-          <Link path={location.pathname === '/signup' ? '/login' : '/signup'} underline='always'>
-            {location.pathname === '/signup' ? 'ログイン' : '新規登録'}はこちら
-          </Link>
+          <LinkButton
+            fullWidth={true}
+            label={location.pathname === '/signup' ? 'ログイン' : '新規登録'}
+            path={location.pathname === '/signup' ? '/login' : '/signup'}
+            size='small'
+            variant='text'
+          />
         </Stack>
       </Container>
     </>

@@ -156,7 +156,7 @@ export const FolderDetails: FC = () => {
             />
           </Stack>
           {displayFormat === 'list' && (
-            <List sx={{ ...whiteBackgroundProps, p: 2 }}>
+            <List sx={{ ...whiteBackgroundProps, p: 0 }}>
               {folderHasLinks?.map((link: Link) => {
                 return (
                   <LinkListItem

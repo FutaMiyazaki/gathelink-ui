@@ -1,3 +1,4 @@
 export type RouterParams = {
-  folderId: string
+  folderId?: string
+  linkId?: string
 }
