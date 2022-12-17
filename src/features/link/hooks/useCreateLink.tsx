@@ -7,8 +7,8 @@ import { alertState } from '@/states/AlertAtom'
 import { folderHasLinksState } from '@/states/FolderHasLinksAtom'
 import { authHeaders } from '@/utils/authHeaders'
 
-type UseAddLink = {
-  addLink: (link: params) => Promise<void>
+type UseCreateLink = {
+  createLink: (link: params) => Promise<void>
   errorMessage: string
   isLoading: boolean
   resStatus: number
@@ -20,7 +20,7 @@ type params = {
   folder_id: number
 }
 
-export const useAddLink = (): UseAddLink => {
+export const useCreateLink = (): UseCreateLink => {
   const [isLoading, setIsLoading] = useState(false)
   const [resStatus, setResStatus] = useState(0)
   const [errorMessage, setErrorMessage] = useState('')
@@ -29,7 +29,7 @@ export const useAddLink = (): UseAddLink => {
   const setFolderHasLinks = useSetRecoilState(folderHasLinksState)
   const headers = authHeaders()
 
-  const addLink = async (link: params): Promise<void> => {
+  const createLink = async (link: params): Promise<void> => {
     setIsLoading(true)
     setResStatus(0)
     setErrorMessage('')
@@ -58,7 +58,7 @@ export const useAddLink = (): UseAddLink => {
   }
 
   return {
-    addLink,
+    createLink,
     errorMessage,
     isLoading,
     resStatus,
