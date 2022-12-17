@@ -77,7 +77,7 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link })
         href={link.url}
         target='_blank'
         underline='none'
-        sx={{ borderRadius: 3, pr: 0 }}
+        sx={{ borderRadius: 3, pl: 1, pr: 0 }}
       >
         <ListItemAvatar sx={{ mr: 1 }}>
           <Image
