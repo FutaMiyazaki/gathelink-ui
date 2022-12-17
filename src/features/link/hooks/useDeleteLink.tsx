@@ -34,7 +34,6 @@ export const useDeleteLink = (): UseDeleteLink => {
         setAlert({
           isShow: true,
           message: 'フォルダを削除しました',
-          severity: 'success',
         })
         if (folderHasLinks.length !== 0) {
           const afterFolderHasLinks = folderHasLinks.filter((link) => {

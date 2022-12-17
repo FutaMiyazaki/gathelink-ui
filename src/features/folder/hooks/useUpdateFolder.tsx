@@ -34,7 +34,6 @@ export const useUpdateFolder = (): UseUpdateFolder => {
         setAlert({
           isShow: true,
           message: 'フォルダを更新しました',
-          severity: 'success',
         })
         navigate(`/folder/${folderId}`)
       })

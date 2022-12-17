@@ -35,7 +35,6 @@ export const useUpdateLink = (): UseUpdateLink => {
         setAlert({
           isShow: true,
           message: 'リンクを更新しました',
-          severity: 'success',
         })
         navigate(`/folder/${link.folder_id}`)
       })

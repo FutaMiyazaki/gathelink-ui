@@ -8,7 +8,7 @@ import { alertState } from '@/states/AlertAtom'
 export const AppAlert: FC = () => {
   const [alert, setAlert] = useRecoilState(alertState)
   const handleCloseAlert = (): void => {
-    setAlert({ isShow: false, message: '', severity: 'error' })
+    setAlert({ isShow: false, message: '' })
   }
 
   return (
@@ -16,14 +16,14 @@ export const AppAlert: FC = () => {
       open={alert.isShow}
       autoHideDuration={4000}
       onClose={handleCloseAlert}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      sx={{ mt: 10 }}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      sx={{ mb: 9 }}
     >
       <Alert
         onClose={handleCloseAlert}
-        severity={alert.severity}
+        icon={false}
         variant='filled'
-        sx={{ backgroundColor: 'black', borderRadius: 2, color: 'white', fontWeight: 'bold' }}
+        sx={{ backgroundColor: '#323232', borderRadius: 2, color: 'white', fontWeight: 'bold' }}
       >
         {alert.message}
       </Alert>

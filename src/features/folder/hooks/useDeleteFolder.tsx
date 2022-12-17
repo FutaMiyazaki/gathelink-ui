@@ -38,7 +38,6 @@ export const useDeleteFolder = (): UseDeleteFolder => {
         setAlert({
           isShow: true,
           message: 'フォルダを削除しました',
-          severity: 'success',
         })
       })
       .catch((err) => {

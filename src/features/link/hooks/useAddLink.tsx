@@ -42,7 +42,6 @@ export const useAddLink = (): UseAddLink => {
         setAlert({
           isShow: true,
           message: 'リンクを追加しました',
-          severity: 'success',
         })
         setFolderHasLinks((prevFolderHasLinks) => {
           const newFolderHasLinks = [...prevFolderHasLinks, res.data.link]

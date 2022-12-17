@@ -35,10 +35,10 @@ export const useLogout = (): UseLogout => {
         destroyCookie(null, 'userId', option)
         setAuthenticated(false)
         navigate('/')
-        setAlert({ isShow: true, message: 'ログアウトに成功しました', severity: 'success' })
+        setAlert({ isShow: true, message: 'ログアウトに成功しました' })
       })
       .catch(() => {
-        setAlert({ isShow: true, message: 'ログアウトに失敗しました', severity: 'error' })
+        setAlert({ isShow: true, message: 'ログアウトに失敗しました' })
       })
     setIsLoading(false)
   }

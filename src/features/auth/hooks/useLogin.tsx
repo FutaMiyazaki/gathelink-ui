@@ -42,7 +42,7 @@ export const useLogin = (): UseLogin => {
         res.data.data.id != null && setCookie(null, 'userId', res.data.data.id, option)
         setAuthenticated(true)
         navigate('/')
-        setAlert({ isShow: true, message: 'ログインに成功しました', severity: 'success' })
+        setAlert({ isShow: true, message: 'ログインに成功しました' })
       })
       .catch((err) => {
         setErrorMessage(err.response.data.errors.full_messages)
