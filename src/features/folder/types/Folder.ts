@@ -6,6 +6,7 @@ export type Folder = {
   id: number
   name: string
   description?: string
+  color?: string
   user_id?: number
   updated_at: string
   created_at: string

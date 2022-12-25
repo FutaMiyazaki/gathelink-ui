@@ -1,4 +1,4 @@
-import FolderTwoToneIcon from '@mui/icons-material/FolderTwoTone'
+import FolderRoundedIcon from '@mui/icons-material/FolderRounded'
 import Alert from '@mui/material/Alert'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
@@ -36,7 +36,7 @@ const FolderListItem: FC<FolderListItemProps> = ({ folder }) => (
     >
       <ListItemButton>
         <ListItemIcon>
-          <FolderTwoToneIcon />
+          <FolderRoundedIcon sx={{ color: folder.color }} />
         </ListItemIcon>
         <ListItemText
           primary={
