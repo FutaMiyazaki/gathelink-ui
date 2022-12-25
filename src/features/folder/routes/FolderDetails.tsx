@@ -46,7 +46,7 @@ export const FolderDetails: FC = () => {
   const folderHasLinks = useRecoilValue(folderHasLinksState)
   const authenticated = useRecoilValue(isAuthenticatedState)
   const { folderId } = useParams<RouterParams>()
-  const { errorMessage, fetchFolder, folder, setFolder, isFeatchLoading, isOwner, resStatus } =
+  const { errorMessage, fetchFolder, folder, setFolder, isFetching, isOwner, resStatus } =
     useFetchFolder()
 
   const handleChangeSort = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -61,9 +61,9 @@ export const FolderDetails: FC = () => {
     folderId !== undefined && fetchFolder(folderId, sortType)
   }, [folderId, sortType])
 
-  if (isFeatchLoading) return <PageLoading />
+  if (isFetching) return <PageLoading />
 
-  if (!isFeatchLoading && resStatus === 404) return <NotFound />
+  if (!isFetching && resStatus === 404) return <NotFound />
 
   return (
     <Container maxWidth='xl'>

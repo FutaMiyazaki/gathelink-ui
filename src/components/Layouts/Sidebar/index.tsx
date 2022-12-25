@@ -9,7 +9,7 @@ import { useRecoilValue } from 'recoil'
 
 import { Link } from '@/components/Elements/Link'
 import { LeadAuthorization } from '@/components/Layouts/LeadAuthorization'
-import { FavoritedFoldersList } from '@/features/folder/components/Sidebar/FavoritedFoldersList'
+import { FavoriteFoldersList } from '@/features/folder/components/Sidebar/FavoriteFoldersList'
 import { MyFoldersList } from '@/features/folder/components/Sidebar/MyFoldersList'
 import { useMedia } from '@/hooks/useMedia'
 import { isAuthenticatedState } from '@/states/AuthAtom'
@@ -26,7 +26,7 @@ export const Sidebar: FC = () => {
       </Box>
       {authenticated && (
         <>
-          <FavoritedFoldersList />
+          <FavoriteFoldersList />
           <MyFoldersList />
         </>
       )}

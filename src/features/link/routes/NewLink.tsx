@@ -40,7 +40,7 @@ type Form = z.infer<typeof schema>
 
 export const NewLink: FC = () => {
   const navigate = useNavigate()
-  const { fetchMyFolders, isFeatching } = useFetchMyFolders()
+  const { fetchMyFolders, isFetching } = useFetchMyFolders()
   const myFolders = useRecoilValue(myFoldersState)
   const setIsOpenCreateFolderDialog = useSetRecoilState(isOpenCreateFolderDialogState)
   const {
@@ -115,7 +115,7 @@ export const NewLink: FC = () => {
           {...register('title')}
         />
         <InputLabel labelTitle='フォルダを選ぶ' />
-        {isFeatching ? (
+        {isFetching ? (
           <CircularProgress size={25} />
         ) : myFolders.length > 0 ? (
           <Select

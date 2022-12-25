@@ -51,9 +51,9 @@ export const EditLink: FC = () => {
   } = useForm<Form>({
     resolver: zodResolver(schema),
   })
-  const { fetchMyFolders, isFeatching: isMyFoldersFeatching } = useFetchMyFolders()
+  const { fetchMyFolders, isFetching: isFetchingMyFolders } = useFetchMyFolders()
   const myFolders = useRecoilValue(myFoldersState)
-  const { fetchLink, isFeatchLoading, link } = useFetchLink()
+  const { fetchLink, isFetching: isFetchingLink, link } = useFetchLink()
   const { updateLink, errorMessage, isUpdating } = useUpdateLink()
   const [openDialog, setOpenDialog] = useState<boolean>(false)
 
@@ -90,7 +90,7 @@ export const EditLink: FC = () => {
     }
   }, [myFolders])
 
-  if (isFeatchLoading || isMyFoldersFeatching) <PageLoading />
+  if (isFetchingLink || isFetchingMyFolders) <PageLoading />
 
   return (
     <Container maxWidth='md'>

@@ -5,15 +5,15 @@ import { FC, useEffect } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import { FoldersList } from '@/features/folder/components/Sidebar/FoldersList'
-import { useFetchFavoritedFolders } from '@/features/folder/hooks/useFetchFavoritedFolders'
-import { favoritedFoldersState } from '@/states/FavoritedFoldersAtom'
+import { useFetchFavoriteFolders } from '@/features/folder/hooks/useFetchFavoriteFolders'
+import { favoriteFoldersState } from '@/states/FavoriteFolders'
 
-export const FavoritedFoldersList: FC = () => {
-  const favoritedFolders = useRecoilValue(favoritedFoldersState)
-  const { errorMessage, fetchFavoritedFolders, isFeatching } = useFetchFavoritedFolders()
+export const FavoriteFoldersList: FC = () => {
+  const favoriteFolders = useRecoilValue(favoriteFoldersState)
+  const { errorMessage, fetchFavoriteFolders, isFetching } = useFetchFavoriteFolders()
 
   useEffect(() => {
-    fetchFavoritedFolders('old')
+    fetchFavoriteFolders('old')
   }, [])
 
   return (
@@ -25,8 +25,8 @@ export const FavoritedFoldersList: FC = () => {
       </Stack>
       <FoldersList
         errorMessage={errorMessage}
-        folders={favoritedFolders}
-        isLoading={isFeatching}
+        folders={favoriteFolders}
+        isLoading={isFetching}
         noContentsText='お気に入りフォルダはありません'
       />
     </Box>

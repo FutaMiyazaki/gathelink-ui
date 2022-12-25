@@ -10,7 +10,7 @@ import { myFoldersState } from '@/states/MyFoldersAtom'
 
 export const MyFoldersList: FC = () => {
   const myFolders = useRecoilValue(myFoldersState)
-  const { errorMessage, fetchMyFolders, isFeatching } = useFetchMyFolders()
+  const { errorMessage, fetchMyFolders, isFetching } = useFetchMyFolders()
 
   useEffect(() => {
     fetchMyFolders('created_asc')
@@ -31,7 +31,7 @@ export const MyFoldersList: FC = () => {
       <FoldersList
         errorMessage={errorMessage}
         folders={myFolders}
-        isLoading={isFeatching}
+        isLoading={isFetching}
         noContentsText='作成したフォルダはありません'
       />
     </Box>

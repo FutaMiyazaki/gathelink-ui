@@ -5,6 +5,6 @@ export const tabItems = [
   },
   {
     label: 'お気に入り',
-    to: '/favorited',
+    to: '/favorite',
   },
 ]

@@ -16,7 +16,7 @@ import { displayFormatItems } from '@/utils/displayFormatItems'
 
 export const MyFolders: FC = () => {
   const myFolders = useRecoilValue(myFoldersState)
-  const { errorMessage, fetchMyFolders, isFeatching } = useFetchMyFolders()
+  const { errorMessage, fetchMyFolders, isFetching } = useFetchMyFolders()
   const [sortType, setSortType] = useState('created_asc')
   const [displayFormat, setDisplayFormat] = useState('list')
   const { isMobileScreen } = useMedia()
@@ -53,7 +53,7 @@ export const MyFolders: FC = () => {
         <FoldersByList
           errorMessage={errorMessage}
           folders={myFolders}
-          isLoading={isFeatching}
+          isLoading={isFetching}
           noContentsText={noContentsText}
         />
       )}
@@ -61,7 +61,7 @@ export const MyFolders: FC = () => {
         <FoldersByCard
           errorMessage={errorMessage}
           folders={myFolders}
-          isLoading={isFeatching}
+          isLoading={isFetching}
           noContentsText={noContentsText}
         />
       )}

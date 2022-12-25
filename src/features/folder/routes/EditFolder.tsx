@@ -43,7 +43,7 @@ export const EditFolder: FC = () => {
     resolver: zodResolver(schema),
   })
   const { folderId } = useParams<RouterParams>()
-  const { fetchFolder, folder, isFeatchLoading } = useFetchFolder()
+  const { fetchFolder, folder, isFetching } = useFetchFolder()
   const { updateFolder, errorMessage, isLoading } = useUpdateFolder()
 
   const onSubmit: SubmitHandler<Form> = (data) => {
@@ -65,7 +65,7 @@ export const EditFolder: FC = () => {
       : setValue('description', '')
   }, [folder])
 
-  if (isFeatchLoading) return <PageLoading />
+  if (isFetching) return <PageLoading />
 
   return (
     <Container maxWidth='md'>
