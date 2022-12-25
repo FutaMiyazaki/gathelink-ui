@@ -78,6 +78,7 @@ export const DeleteFolderDialog: FC<DeleteFolderDialogProps> = ({
                 color='warning'
                 fullWidth={true}
                 isLoading={isDeleting}
+                disabled={isDeleting}
                 label='削除する'
                 type='submit'
               />

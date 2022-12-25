@@ -175,7 +175,7 @@ export const EditLink: FC = () => {
           <FormHelperText error>{errors.folderId.message}</FormHelperText>
         )}
         <Stack direction='row' sx={{ mt: 6 }}>
-          <Button isLoading={isUpdating} label='保存する' type='submit' />
+          <Button isLoading={isUpdating} disabled={isUpdating} label='保存する' type='submit' />
         </Stack>
       </Box>
     </Container>

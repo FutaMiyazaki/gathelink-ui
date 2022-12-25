@@ -80,6 +80,7 @@ export const DeleteLinkDialog: FC<DeleteLinkDialogProps> = ({
                 color='warning'
                 fullWidth={true}
                 isLoading={isDeleting}
+                disabled={isDeleting}
                 label='削除する'
                 type='submit'
               />

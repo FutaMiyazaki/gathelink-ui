@@ -96,7 +96,7 @@ export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({ handleCloseDia
           <DialogActions sx={{ mt: 3, p: 0 }}>
             <Stack direction='row' justifyContent='flex-end' spacing={2}>
               <Button color='secondary' label='キャンセル' onClick={() => handleCloseDialog()} />
-              <Button isLoading={isPosting} label='作成する' type='submit' />
+              <Button isLoading={isPosting} disabled={isPosting} label='作成する' type='submit' />
             </Stack>
           </DialogActions>
         </Box>

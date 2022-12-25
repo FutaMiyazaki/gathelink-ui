@@ -118,7 +118,13 @@ export const EditFolder: FC = () => {
           sx={{ mb: 4 }}
           {...register('description')}
         />
-        <Button isLoading={isLoading} label='保存する' type='submit' sx={{ mr: 2 }} />
+        <Button
+          isLoading={isLoading}
+          disabled={isLoading}
+          label='保存する'
+          type='submit'
+          sx={{ mr: 2 }}
+        />
       </Box>
       <DeleteFolderDialog
         folderId={folderId as string}

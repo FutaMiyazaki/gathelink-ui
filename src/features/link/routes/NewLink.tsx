@@ -146,7 +146,7 @@ export const NewLink: FC = () => {
         )}
         <Stack direction='row' justifyContent='flex-end' sx={{ mt: 6 }}>
           <Button
-            disabled={myFolders.length === 0}
+            disabled={myFolders.length === 0 || isPosting}
             isLoading={isPosting}
             label='追加する'
             type='submit'

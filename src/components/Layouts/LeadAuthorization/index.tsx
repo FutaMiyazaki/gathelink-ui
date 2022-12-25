@@ -38,6 +38,7 @@ export const LeadAuthorization: FC = () => {
         color='secondary'
         fullWidth={true}
         isLoading={isLoading}
+        disabled={isLoading}
         label='ゲストユーザーでログイン'
         onClick={handleClickGuestButton}
       />
