@@ -21,7 +21,7 @@ import { number, string, z } from 'zod'
 import { Button } from '@/components/Elements/Button'
 import { InputLabel } from '@/components/Elements/Form/InputLabel'
 import { useFetchMyFolders } from '@/features/folder/hooks/useFetchMyFolders'
-import { useCreateLink } from '@/features/link/hooks/useCreateLink'
+import { usePostLink } from '@/features/link/hooks/usePostLink'
 import { isOpenCreateFolderDialogState } from '@/states/isOpenCreateFolderDialogState'
 import { myFoldersState } from '@/states/MyFoldersAtom'
 import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
@@ -51,7 +51,7 @@ export const NewLink: FC = () => {
   } = useForm<Form>({
     resolver: zodResolver(schema),
   })
-  const { createLink, errorMessage, isLoading } = useCreateLink()
+  const { postLink, errorMessage, isPosting } = usePostLink()
 
   const onSubmit: SubmitHandler<Form> = (data) => {
     const link = {
@@ -59,7 +59,7 @@ export const NewLink: FC = () => {
       title: data.title,
       folder_id: data.folderId,
     }
-    createLink(link)
+    postLink(link)
   }
 
   useEffect(() => {
@@ -147,7 +147,7 @@ export const NewLink: FC = () => {
         <Stack direction='row' justifyContent='flex-end' sx={{ mt: 6 }}>
           <Button
             disabled={myFolders.length === 0}
-            isLoading={isLoading}
+            isLoading={isPosting}
             label='追加する'
             type='submit'
           />

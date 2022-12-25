@@ -7,10 +7,10 @@ import { alertState } from '@/states/AlertAtom'
 import { folderHasLinksState } from '@/states/FolderHasLinksAtom'
 import { authHeaders } from '@/utils/authHeaders'
 
-type UseCreateLink = {
-  createLink: (link: params) => Promise<void>
+type UsePostLink = {
+  postLink: (link: params) => Promise<void>
   errorMessage: string
-  isLoading: boolean
+  isPosting: boolean
   resStatus: number
 }
 
@@ -20,8 +20,8 @@ type params = {
   folder_id: number
 }
 
-export const useCreateLink = (): UseCreateLink => {
-  const [isLoading, setIsLoading] = useState(false)
+export const usePostLink = (): UsePostLink => {
+  const [isPosting, setIsPosting] = useState(false)
   const [resStatus, setResStatus] = useState(0)
   const [errorMessage, setErrorMessage] = useState('')
   const navigate = useNavigate()
@@ -29,8 +29,8 @@ export const useCreateLink = (): UseCreateLink => {
   const setFolderHasLinks = useSetRecoilState(folderHasLinksState)
   const headers = authHeaders()
 
-  const createLink = async (link: params): Promise<void> => {
-    setIsLoading(true)
+  const postLink = async (link: params): Promise<void> => {
+    setIsPosting(true)
     setResStatus(0)
     setErrorMessage('')
 
@@ -53,14 +53,14 @@ export const useCreateLink = (): UseCreateLink => {
         setResStatus(err.status)
       })
       .finally(() => {
-        setIsLoading(false)
+        setIsPosting(false)
       })
   }
 
   return {
-    createLink,
+    postLink,
     errorMessage,
-    isLoading,
+    isPosting,
     resStatus,
   }
 }

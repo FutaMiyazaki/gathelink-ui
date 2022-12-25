@@ -6,21 +6,21 @@ import { apiClient } from '@/lib/axios/apiClient'
 import { favoriteFoldersState } from '@/states/FavoriteFolders'
 import { authHeaders } from '@/utils/authHeaders'
 
-type UseCreateFavoriteFolder = {
-  createFavoriteFolder: (folderId: string) => Promise<void>
+type UsePostFavoriteFolder = {
+  postFavoriteFolder: (folderId: string) => Promise<void>
   createResStatus: number
   favoriteData: FolderFavorites | undefined
   isCreating: boolean
 }
 
-export const useCreateFavoriteFolder = (): UseCreateFavoriteFolder => {
+export const usePostFavoriteFolder = (): UsePostFavoriteFolder => {
   const [isCreating, setIsCreating] = useState(false)
   const [favoriteData, setFavoriteData] = useState()
   const [createResStatus, setCreateResStatus] = useState(0)
   const setFavoriteFolders = useSetRecoilState(favoriteFoldersState)
   const headers = authHeaders()
 
-  const createFavoriteFolder = async (folderId: string): Promise<void> => {
+  const postFavoriteFolder = async (folderId: string): Promise<void> => {
     setIsCreating(true)
 
     await apiClient
@@ -39,7 +39,7 @@ export const useCreateFavoriteFolder = (): UseCreateFavoriteFolder => {
   }
 
   return {
-    createFavoriteFolder,
+    postFavoriteFolder,
     createResStatus,
     favoriteData,
     isCreating,

@@ -24,7 +24,7 @@ export const DeleteFolderDialog: FC<DeleteFolderDialogProps> = ({
   handleCloseDialog,
   open,
 }) => {
-  const { deleteFolder, errorMessage, isLoading, resStatus } = useDeleteFolder()
+  const { deleteFolder, errorMessage, isDeleting, resStatus } = useDeleteFolder()
 
   const onClickDeleteButton = (): void => {
     deleteFolder(folderId)
@@ -77,7 +77,7 @@ export const DeleteFolderDialog: FC<DeleteFolderDialogProps> = ({
                 onClick={() => onClickDeleteButton()}
                 color='warning'
                 fullWidth={true}
-                isLoading={isLoading}
+                isLoading={isDeleting}
                 label='削除する'
                 type='submit'
               />

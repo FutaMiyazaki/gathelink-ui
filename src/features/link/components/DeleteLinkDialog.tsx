@@ -26,7 +26,7 @@ export const DeleteLinkDialog: FC<DeleteLinkDialogProps> = ({
   handleCloseDialog,
   open,
 }) => {
-  const { deleteLink, errorMessage, isLoading, resStatus } = useDeleteLink()
+  const { deleteLink, errorMessage, isDeleting, resStatus } = useDeleteLink()
 
   const onClickDeleteButton = (): void => {
     deleteLink(folderId, linkId)
@@ -79,7 +79,7 @@ export const DeleteLinkDialog: FC<DeleteLinkDialogProps> = ({
                 onClick={() => onClickDeleteButton()}
                 color='warning'
                 fullWidth={true}
-                isLoading={isLoading}
+                isLoading={isDeleting}
                 label='削除する'
                 type='submit'
               />

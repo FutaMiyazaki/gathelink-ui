@@ -15,7 +15,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { string, z } from 'zod'
 
 import { Button } from '@/components/Elements/Button'
-import { useCreateFolder } from '@/features/folder/hooks/useCreateFolder'
+import { usePostFolder } from '@/features/folder/hooks/usePostFolder'
 
 type CreateFolderDialogProps = {
   handleCloseDialog: () => void
@@ -40,14 +40,14 @@ export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({ handleCloseDia
   } = useForm<Form>({
     resolver: zodResolver(schema),
   })
-  const { createFolder, errorMessage, isLoading, resStatus } = useCreateFolder()
+  const { postFolder, errorMessage, isPosting, resStatus } = usePostFolder()
 
   const onSubmit: SubmitHandler<Form> = (data) => {
     const folder = {
       name: data.name,
-      color: '#26a69a'
+      color: '#26a69a',
     }
-    createFolder(folder)
+    postFolder(folder)
   }
 
   useEffect(() => {
@@ -96,7 +96,7 @@ export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({ handleCloseDia
           <DialogActions sx={{ mt: 3, p: 0 }}>
             <Stack direction='row' justifyContent='flex-end' spacing={2}>
               <Button color='secondary' label='キャンセル' onClick={() => handleCloseDialog()} />
-              <Button isLoading={isLoading} label='作成する' type='submit' />
+              <Button isLoading={isPosting} label='作成する' type='submit' />
             </Stack>
           </DialogActions>
         </Box>

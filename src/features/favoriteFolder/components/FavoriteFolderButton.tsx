@@ -5,8 +5,8 @@ import IconButton from '@mui/material/IconButton'
 import { parseCookies } from 'nookies'
 import { FC, useEffect, useState } from 'react'
 
-import { useCreateFavoriteFolder } from '@/features/favoriteFolder/hooks/useCreateFavoriteFolder'
 import { useDeleteFavoriteFolder } from '@/features/favoriteFolder/hooks/useDeleteFavoriteFolder'
+import { usePostFavoriteFolder } from '@/features/favoriteFolder/hooks/usePostFavoriteFolder'
 import { FolderFavorites } from '@/features/favoriteFolder/types'
 
 type FavoriteFolderButtonProps = {
@@ -26,12 +26,11 @@ export const FavoriteFolderButton: FC<FavoriteFolderButtonProps> = ({
   const [favorite, setFavorite] = useState(
     favoritedData?.find((data) => data.user_id === parseInt(userId, 10)),
   )
-  const { createFavoriteFolder, createResStatus, favoriteData, isCreating } =
-    useCreateFavoriteFolder()
+  const { postFavoriteFolder, createResStatus, favoriteData, isCreating } = usePostFavoriteFolder()
   const { deleteFavoriteFolder, isDeleting } = useDeleteFavoriteFolder()
 
   const handleCreateFavorite = (): void => {
-    createFavoriteFolder(folderId)
+    postFavoriteFolder(folderId)
     setIsFavorited(true)
   }
 
