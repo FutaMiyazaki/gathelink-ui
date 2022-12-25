@@ -1,4 +1,4 @@
-import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined'
+import FolderRoundedIcon from '@mui/icons-material/FolderRounded'
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -22,8 +22,8 @@ const FolderCard: FC<FolderCardProps> = ({ folder }) => {
   return (
     <Card variant='outlined'>
       <CardActionArea component={Link} to={`/folder/${folder.id}`}>
-        <Box sx={{ backgroundColor: 'secondary.main', textAlign: 'center', py: 2 }}>
-          <FolderOutlinedIcon fontSize='large' />
+        <Box sx={{ backgroundColor: 'background.default', textAlign: 'center', py: 2 }}>
+          <FolderRoundedIcon fontSize='large' sx={{ color: folder.color }} />
         </Box>
         <Box sx={{ p: 1 }}>
           <Typography component='span' variant='subtitle1' sx={{ display: 'block', lineHeight: 1 }}>

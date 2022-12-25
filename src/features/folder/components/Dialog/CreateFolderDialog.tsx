@@ -45,6 +45,7 @@ export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({ handleCloseDia
   const onSubmit: SubmitHandler<Form> = (data) => {
     const folder = {
       name: data.name,
+      color: '#26a69a'
     }
     createFolder(folder)
   }

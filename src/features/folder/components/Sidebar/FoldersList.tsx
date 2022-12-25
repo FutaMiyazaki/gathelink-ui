@@ -1,5 +1,4 @@
-import FolderOpenRoundedIcon from '@mui/icons-material/FolderOpenRounded'
-import FolderTwoToneIcon from '@mui/icons-material/FolderTwoTone'
+import FolderRoundedIcon from '@mui/icons-material/FolderRounded'
 import Alert from '@mui/material/Alert'
 import CircularProgress from '@mui/material/CircularProgress'
 import List from '@mui/material/List'
@@ -21,10 +20,16 @@ type myFolderListItemProps = {
   active: boolean
   folderLinks?: LinkType[]
   folderName?: string
+  folderColor?: string
 }
 
-const MyFolderListItem: FC<myFolderListItemProps> = ({ active, folderLinks, folderName }) => {
-  const bgColor = active ? 'primary.main' : ''
+const MyFolderListItem: FC<myFolderListItemProps> = ({
+  active,
+  folderLinks,
+  folderName,
+  folderColor,
+}) => {
+  const bgColor = active ? folderColor : ''
   const textColor = active ? '#ffffff' : ''
 
   return (
@@ -47,7 +52,7 @@ const MyFolderListItem: FC<myFolderListItemProps> = ({ active, folderLinks, fold
     >
       <ListItemButton>
         <ListItemIcon>
-          {active ? <FolderOpenRoundedIcon sx={{ color: '#ffffff' }} /> : <FolderTwoToneIcon />}
+          <FolderRoundedIcon sx={{ color: active ? '#ffffff' : folderColor }} />
         </ListItemIcon>
         <ListItemText>
           <Typography
@@ -99,6 +104,7 @@ export const FoldersList: FC<FoldersListProps> = ({
                 <MyFolderListItem
                   active={folderId !== undefined && parseInt(folderId, 10) === folder.id}
                   folderName={folder.name}
+                  folderColor={folder?.color}
                   folderLinks={folder?.links}
                 />
               </Link>
