@@ -26,7 +26,7 @@ export const BottomNavigation: FC = () => {
   const naviActions: readonly NaviAction[] = [
     { label: 'ホーム', icon: <HomeRoundedIcon />, path: '' },
     { label: 'お気に入り', icon: <StarRoundedIcon />, path: 'favorited' },
-    { label: 'マイフォルダ', icon: <FolderRoundedIcon />, path: 'myfolders' },
+    { label: 'フォルダ', icon: <FolderRoundedIcon />, path: 'myfolders' },
     { label: '探す', icon: <SearchRoundedIcon />, path: 'seacrh' },
   ]
 
@@ -44,6 +44,8 @@ export const BottomNavigation: FC = () => {
         bottom: 0,
         left: 0,
         right: 0,
+        borderTopLeftRadius: 15,
+        borderTopRightRadius: 15,
       }}
     >
       {naviActions.map((action) => {

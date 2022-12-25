@@ -36,7 +36,6 @@ export const useCreateFolder = (): UseCreateFolder => {
         setAlert({
           isShow: true,
           message: 'フォルダを作成しました',
-          severity: 'success',
         })
         setResStatus(res.status)
         setMyFolders((prevMyFolders) => {

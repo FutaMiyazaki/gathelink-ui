@@ -21,7 +21,7 @@ import { number, string, z } from 'zod'
 import { Button } from '@/components/Elements/Button'
 import { InputLabel } from '@/components/Elements/Form/InputLabel'
 import { useFetchMyFolders } from '@/features/folder/hooks/useFetchMyFolders'
-import { useAddLink } from '@/features/link/hooks/useAddLink'
+import { useCreateLink } from '@/features/link/hooks/useCreateLink'
 import { isOpenCreateFolderDialogState } from '@/states/isOpenCreateFolderDialogState'
 import { myFoldersState } from '@/states/MyFoldersAtom'
 import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
@@ -51,7 +51,7 @@ export const NewLink: FC = () => {
   } = useForm<Form>({
     resolver: zodResolver(schema),
   })
-  const { addLink, errorMessage, isLoading } = useAddLink()
+  const { createLink, errorMessage, isLoading } = useCreateLink()
 
   const onSubmit: SubmitHandler<Form> = (data) => {
     const link = {
@@ -59,7 +59,7 @@ export const NewLink: FC = () => {
       title: data.title,
       folder_id: data.folderId,
     }
-    addLink(link)
+    createLink(link)
   }
 
   useEffect(() => {

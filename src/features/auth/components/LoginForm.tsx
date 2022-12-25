@@ -70,7 +70,6 @@ export const LoginForm: FC = () => {
         <TextField
           fullWidth
           required
-          autoFocus
           autoComplete='email'
           size='small'
           type='email'
@@ -106,6 +105,7 @@ export const LoginForm: FC = () => {
           fullWidth={true}
           isLoading={isLoading}
           label='ログイン'
+          size='large'
           type='submit'
         />
       </Box>

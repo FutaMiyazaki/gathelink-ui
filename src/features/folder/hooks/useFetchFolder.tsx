@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { useSetRecoilState } from 'recoil'
 
 import { Folder } from '@/features/folder/types/Folder'
@@ -10,6 +10,7 @@ type UseFetchFolder = {
   errorMessage: string
   fetchFolder: (id: string, sort?: string) => Promise<void>
   folder?: Folder
+  setFolder: Dispatch<SetStateAction<Folder | undefined>>
   isFeatchLoading: boolean
   isOwner: boolean
   resStatus: number
@@ -50,6 +51,7 @@ export const useFetchFolder = (): UseFetchFolder => {
     errorMessage,
     fetchFolder,
     folder,
+    setFolder,
     isFeatchLoading,
     isOwner,
     resStatus,

@@ -45,6 +45,7 @@ export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({ handleCloseDia
   const onSubmit: SubmitHandler<Form> = (data) => {
     const folder = {
       name: data.name,
+      color: '#26a69a'
     }
     createFolder(folder)
   }
@@ -84,7 +85,6 @@ export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({ handleCloseDia
           </Typography>
           <TextField
             fullWidth
-            autoFocus
             placeholder='フォルダ名を入力'
             size='small'
             type='text'

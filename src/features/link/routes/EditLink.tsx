@@ -26,12 +26,8 @@ import { DeleteLinkDialog } from '@/features/link/components/DeleteLinkDialog'
 import { useFetchLink } from '@/features/link/hooks/useFetchLink'
 import { useUpdateLink } from '@/features/link/hooks/useUpdateLink'
 import { myFoldersState } from '@/states/MyFoldersAtom'
+import { RouterParams } from '@/types'
 import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
-
-type RouterParams = {
-  folderId: string
-  linkId: string
-}
 
 const schema = z.object({
   url: string()

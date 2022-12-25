@@ -36,7 +36,7 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link })
     setAnchorEl(event.currentTarget)
   }
 
-  const headerAddActions: MenuItems = [
+  const ownerMenuItems: MenuItems = [
     {
       onClick: () => {
         navigator.clipboard.writeText(link.url)
@@ -60,6 +60,16 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link })
     },
   ]
 
+  const notOwnerMenuItems: MenuItems = [
+    {
+      onClick: () => {
+        navigator.clipboard.writeText(link.url)
+        setAnchorEl(null)
+      },
+      text: 'クリップボードにリンクをコピー',
+    },
+  ]
+
   return (
     <ListItem disableGutters disablePadding>
       <ListItemButton
@@ -67,7 +77,7 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link })
         href={link.url}
         target='_blank'
         underline='none'
-        sx={{ borderRadius: 3 }}
+        sx={{ borderRadius: 3, pl: 1, pr: 0 }}
       >
         <ListItemAvatar sx={{ mr: 1 }}>
           <Image
@@ -86,10 +96,10 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link })
             <Typography
               variant='subtitle2'
               sx={{
-                display: 'block',
-                whiteSpace: 'nowrap',
+                display: '-webkit-box',
+                WebkitBoxOrient: 'vertical',
+                WebkitLineClamp: 2,
                 overflow: 'hidden',
-                textOverflow: 'ellipsis',
               }}
             >
               {link.title}
@@ -111,25 +121,21 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link })
           }
         />
       </ListItemButton>
-      {isOwner && (
-        <>
-          <IconButton onClick={handleOpenMenu} edge='end' size='small'>
-            <MoreVertIcon />
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            handleCloseMenu={() => setAnchorEl(null)}
-            menuItems={headerAddActions}
-          />
-          {folderId !== undefined && link.id !== undefined && (
-            <DeleteLinkDialog
-              folderId={folderId}
-              linkId={link.id.toString()}
-              handleCloseDialog={() => setOpenDialog(false)}
-              open={openDialog}
-            />
-          )}
-        </>
+      <IconButton onClick={handleOpenMenu} edge='end' size='small' sx={{ mr: 0.5 }}>
+        <MoreVertIcon />
+      </IconButton>
+      <Menu
+        anchorEl={anchorEl}
+        handleCloseMenu={() => setAnchorEl(null)}
+        menuItems={isOwner ? ownerMenuItems : notOwnerMenuItems}
+      />
+      {isOwner && folderId !== undefined && link.id !== undefined && (
+        <DeleteLinkDialog
+          folderId={folderId}
+          linkId={link.id.toString()}
+          handleCloseDialog={() => setOpenDialog(false)}
+          open={openDialog}
+        />
       )}
     </ListItem>
   )

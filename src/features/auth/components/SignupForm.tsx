@@ -73,7 +73,6 @@ export const SignupForm: FC = () => {
         <TextField
           fullWidth
           required
-          autoFocus
           autoComplete='email'
           size='small'
           type='email'
@@ -125,6 +124,7 @@ export const SignupForm: FC = () => {
           fullWidth={true}
           isLoading={isLoading}
           label='新規登録'
+          size='large'
           type='submit'
         />
       </Box>
