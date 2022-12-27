@@ -6,15 +6,19 @@ import { useRecoilValue } from 'recoil'
 
 import { FoldersList } from '@/features/folder/components/Sidebar/FoldersList'
 import { useFetchFavoriteFolders } from '@/features/folder/hooks/useFetchFavoriteFolders'
+import { isAuthenticatedState } from '@/states/AuthAtom'
 import { favoriteFoldersState } from '@/states/FavoriteFolders'
 
 export const FavoriteFoldersList: FC = () => {
   const favoriteFolders = useRecoilValue(favoriteFoldersState)
+  const isAuthenticated = useRecoilValue(isAuthenticatedState)
   const { errorMessage, fetchFavoriteFolders, isFetching } = useFetchFavoriteFolders()
 
   useEffect(() => {
-    fetchFavoriteFolders('old')
+    isAuthenticated && fetchFavoriteFolders('old')
   }, [])
+
+  if (!isAuthenticated) return null
 
   return (
     <Box sx={{ mb: 2 }}>

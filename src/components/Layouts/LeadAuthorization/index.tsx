@@ -12,13 +12,13 @@ import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
 
 export const LeadAuthorization: FC = () => {
   const { isLoading, guestLogin } = useGuestLogin()
-  const authenticated = useRecoilValue(isAuthenticatedState)
+  const isAuthenticated = useRecoilValue(isAuthenticatedState)
 
   const handleClickGuestButton = (): void => {
     guestLogin()
   }
 
-  if (authenticated) return null
+  if (isAuthenticated) return null
 
   return (
     <Stack direction='column' spacing={2} sx={{ ...whiteBackgroundProps }}>

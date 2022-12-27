@@ -3,9 +3,9 @@ import Tabs from '@mui/material/Tabs'
 import { FC } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-import { tabItems } from '@/components/Layouts/GlobamMenu/tabItems'
+import { tabItems } from '@/components/Layouts/Header/Menu/tabItems'
 
-export const GlobalMenu: FC = () => {
+export const HeaderMenu: FC = () => {
   const location = useLocation()
 
   return (

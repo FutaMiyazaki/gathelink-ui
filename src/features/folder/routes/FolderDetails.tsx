@@ -44,7 +44,7 @@ export const FolderDetails: FC = () => {
   const [displayFormat, setDisplayFormat] = useState('list')
   const [openSetColorDialog, setOpenSetColorDialog] = useState(false)
   const folderHasLinks = useRecoilValue(folderHasLinksState)
-  const authenticated = useRecoilValue(isAuthenticatedState)
+  const isAuthenticated = useRecoilValue(isAuthenticatedState)
   const { folderId } = useParams<RouterParams>()
   const { errorMessage, fetchFolder, folder, setFolder, isFetching, isOwner, resStatus } =
     useFetchFolder()
@@ -106,7 +106,7 @@ export const FolderDetails: FC = () => {
               {folder?.name}
             </Typography>
           </Box>
-          {authenticated ? (
+          {isAuthenticated ? (
             <FavoriteFolderButton
               folderId={folderId as string}
               favoritedData={folder?.folder_favorites}

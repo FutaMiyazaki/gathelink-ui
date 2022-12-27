@@ -6,15 +6,19 @@ import { useRecoilValue } from 'recoil'
 
 import { FoldersList } from '@/features/folder/components/Sidebar/FoldersList'
 import { useFetchMyFolders } from '@/features/folder/hooks/useFetchMyFolders'
+import { isAuthenticatedState } from '@/states/AuthAtom'
 import { myFoldersState } from '@/states/MyFoldersAtom'
 
 export const MyFoldersList: FC = () => {
   const myFolders = useRecoilValue(myFoldersState)
+  const isAuthenticated = useRecoilValue(isAuthenticatedState)
   const { errorMessage, fetchMyFolders, isFetching } = useFetchMyFolders()
 
   useEffect(() => {
-    fetchMyFolders('created_asc')
+    isAuthenticated && fetchMyFolders('created_asc')
   }, [])
+
+  if (!isAuthenticated) return null
 
   return (
     <Box>
