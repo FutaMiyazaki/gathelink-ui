@@ -23,6 +23,8 @@ import { useRecoilValue } from 'recoil'
 import { Button } from '@/components/Elements/Button'
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
 import { RadioGroup } from '@/components/Elements/Form/RadioGroup'
+import { DisplayTypeButtonGroup } from '@/components/features/DisplayTypeButtonGroup'
+import { DisplayType } from '@/components/features/DisplayTypeButtonGroup/displayTypeItems'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { FavoriteFolderButton } from '@/features/favoriteFolder/components/FavoriteFolderButton'
 import { SetColorDialog } from '@/features/folder/components/Dialog/SetColorDialog'
@@ -34,14 +36,13 @@ import { linkSortItems } from '@/features/link/utils/linkSortItems'
 import { NotFound } from '@/features/misc/routes/NotFound'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 import { folderHasLinksState } from '@/states/FolderHasLinksAtom'
-import { RouterParams } from '@/types'
+import { RouterParams } from '@/types/RouterParams'
 import { diffTime } from '@/utils/date'
-import { displayFormatItems } from '@/utils/displayFormatItems'
 import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
 
 export const FolderDetails: FC = () => {
   const [sortType, setSortType] = useState('created_asc')
-  const [displayFormat, setDisplayFormat] = useState('list')
+  const [displayType, setDisplayType] = useState<DisplayType>('list')
   const [openSetColorDialog, setOpenSetColorDialog] = useState(false)
   const folderHasLinks = useRecoilValue(folderHasLinksState)
   const isAuthenticated = useRecoilValue(isAuthenticatedState)
@@ -51,10 +52,6 @@ export const FolderDetails: FC = () => {
 
   const handleChangeSort = (e: ChangeEvent<HTMLInputElement>): void => {
     setSortType((e.target as HTMLInputElement).value)
-  }
-
-  const handleChangeDisplay = (e: ChangeEvent<HTMLInputElement>): void => {
-    setDisplayFormat((e.target as HTMLInputElement).value)
   }
 
   useEffect(() => {
@@ -176,14 +173,9 @@ export const FolderDetails: FC = () => {
               radioGroupItems={linkSortItems}
               value={sortType}
             />
-            <RadioGroup
-              buttonLabel='表示形式'
-              handleChange={handleChangeDisplay}
-              radioGroupItems={displayFormatItems}
-              value={displayFormat}
-            />
+            <DisplayTypeButtonGroup displayType={displayType} setDisplayType={setDisplayType} />
           </Stack>
-          {displayFormat === 'list' && (
+          {displayType === 'list' && (
             <List sx={{ ...whiteBackgroundProps, pl: 1, pr: 0, py: 2 }}>
               {folderHasLinks?.map((link: Link) => {
                 return (
@@ -197,7 +189,7 @@ export const FolderDetails: FC = () => {
               })}
             </List>
           )}
-          {displayFormat === 'card' && (
+          {displayType === 'card' && (
             <Grid container columns={{ xs: 2, sm: 2, md: 3, lg: 4, xl: 5 }} spacing={3}>
               {folderHasLinks?.map((link: Link) => {
                 return (
