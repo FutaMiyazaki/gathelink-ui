@@ -16,13 +16,13 @@ import { useDeleteFolder } from '@/features/folder/hooks/useDeleteFolder'
 type DeleteFolderDialogProps = {
   folderId: string
   handleCloseDialog: () => void
-  open: boolean
+  isOpen: boolean
 }
 
 export const DeleteFolderDialog: FC<DeleteFolderDialogProps> = ({
   folderId,
   handleCloseDialog,
-  open,
+  isOpen,
 }) => {
   const { deleteFolder, errorMessage, isDeleting, resStatus } = useDeleteFolder()
 
@@ -41,7 +41,7 @@ export const DeleteFolderDialog: FC<DeleteFolderDialogProps> = ({
       fullWidth
       maxWidth='xs'
       onClose={() => handleCloseDialog()}
-      open={open}
+      open={isOpen}
       PaperProps={{
         style: { borderRadius: 15 },
       }}
@@ -70,6 +70,7 @@ export const DeleteFolderDialog: FC<DeleteFolderDialogProps> = ({
                 color='secondary'
                 fullWidth={true}
                 label='キャンセル'
+                size='large'
               />
             </Grid>
             <Grid item xs={6}>
@@ -80,6 +81,7 @@ export const DeleteFolderDialog: FC<DeleteFolderDialogProps> = ({
                 isLoading={isDeleting}
                 disabled={isDeleting}
                 label='削除する'
+                size='large'
                 type='submit'
               />
             </Grid>

@@ -8,7 +8,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { useEffect, FC } from 'react'
+import { useEffect, FC, SetStateAction, Dispatch } from 'react'
 
 import { Button } from '@/components/Elements/Button'
 import { useDeleteLink } from '@/features/link/hooks/useDeleteLink'
@@ -16,15 +16,15 @@ import { useDeleteLink } from '@/features/link/hooks/useDeleteLink'
 type DeleteLinkDialogProps = {
   folderId: string
   linkId: string
-  handleCloseDialog: () => void
-  open: boolean
+  setIsOpenDialog: Dispatch<SetStateAction<boolean>>
+  isOpen: boolean
 }
 
 export const DeleteLinkDialog: FC<DeleteLinkDialogProps> = ({
   folderId,
   linkId,
-  handleCloseDialog,
-  open,
+  setIsOpenDialog,
+  isOpen,
 }) => {
   const { deleteLink, errorMessage, isDeleting, resStatus } = useDeleteLink()
 
@@ -34,7 +34,7 @@ export const DeleteLinkDialog: FC<DeleteLinkDialogProps> = ({
 
   useEffect(() => {
     if (resStatus === 201) {
-      handleCloseDialog()
+      setIsOpenDialog(false)
     }
   }, [resStatus])
 
@@ -42,8 +42,8 @@ export const DeleteLinkDialog: FC<DeleteLinkDialogProps> = ({
     <Dialog
       fullWidth
       maxWidth='xs'
-      onClose={() => handleCloseDialog()}
-      open={open}
+      onClose={() => setIsOpenDialog(false)}
+      open={isOpen}
       PaperProps={{
         style: { borderRadius: 15 },
       }}
@@ -68,10 +68,11 @@ export const DeleteLinkDialog: FC<DeleteLinkDialogProps> = ({
           <Grid container alignItems='center' justifyContent='center' spacing={1}>
             <Grid item xs={6}>
               <Button
-                onClick={() => handleCloseDialog()}
+                onClick={() => setIsOpenDialog(false)}
                 color='secondary'
                 fullWidth={true}
                 label='キャンセル'
+                size='large'
               />
             </Grid>
             <Grid item xs={6}>
@@ -82,6 +83,7 @@ export const DeleteLinkDialog: FC<DeleteLinkDialogProps> = ({
                 isLoading={isDeleting}
                 disabled={isDeleting}
                 label='削除する'
+                size='large'
                 type='submit'
               />
             </Grid>

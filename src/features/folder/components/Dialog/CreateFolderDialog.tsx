@@ -19,7 +19,7 @@ import { usePostFolder } from '@/features/folder/hooks/usePostFolder'
 
 type CreateFolderDialogProps = {
   handleCloseDialog: () => void
-  open: boolean
+  isOpen: boolean
 }
 
 const schema = z.object({
@@ -31,7 +31,7 @@ const schema = z.object({
 
 type Form = z.infer<typeof schema>
 
-export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({ handleCloseDialog, open }) => {
+export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({ handleCloseDialog, isOpen }) => {
   const {
     register,
     formState: { errors },
@@ -62,7 +62,7 @@ export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({ handleCloseDia
       fullWidth
       maxWidth='sm'
       onClose={() => handleCloseDialog()}
-      open={open}
+      open={isOpen}
       PaperProps={{
         style: { borderRadius: 15 },
       }}

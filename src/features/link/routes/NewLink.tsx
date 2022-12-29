@@ -144,11 +144,12 @@ export const NewLink: FC = () => {
         {errors.folderId != null && (
           <FormHelperText error>{errors.folderId.message}</FormHelperText>
         )}
-        <Stack direction='row' justifyContent='flex-end' sx={{ mt: 6 }}>
+        <Stack direction='row' sx={{ mt: 4 }}>
           <Button
             disabled={myFolders.length === 0 || isPosting}
             isLoading={isPosting}
             label='追加する'
+            size='large'
             type='submit'
           />
         </Stack>

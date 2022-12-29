@@ -19,7 +19,7 @@ import { PageLoading } from '@/components/Layouts/PageLoading'
 import { DeleteFolderDialog } from '@/features/folder/components/Dialog/DeleteFolderDialog'
 import { useFetchFolder } from '@/features/folder/hooks/useFetchFolder'
 import { useUpdateFolder } from '@/features/folder/hooks/useUpdateFolder'
-import { RouterParams } from '@/types'
+import { RouterParams } from '@/types/RouterParams'
 import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
 
 const schema = z.object({
@@ -33,7 +33,7 @@ const schema = z.object({
 type Form = z.infer<typeof schema>
 
 export const EditFolder: FC = () => {
-  const [openConfirmDialog, setOpenConfirmDialog] = useState(false)
+  const [isOpenConfirmDialog, setIsOpenConfirmDialog] = useState(false)
   const {
     register,
     formState: { errors },
@@ -82,7 +82,7 @@ export const EditFolder: FC = () => {
           color='warning'
           icon={<DeleteForeverOutlinedIcon />}
           label='削除'
-          onClick={() => setOpenConfirmDialog(true)}
+          onClick={() => setIsOpenConfirmDialog(true)}
           variant='text'
           sx={{ ml: 'auto' }}
         />
@@ -122,14 +122,15 @@ export const EditFolder: FC = () => {
           isLoading={isLoading}
           disabled={isLoading}
           label='保存する'
+          size='large'
           type='submit'
           sx={{ mr: 2 }}
         />
       </Box>
       <DeleteFolderDialog
         folderId={folderId as string}
-        handleCloseDialog={() => setOpenConfirmDialog(false)}
-        open={openConfirmDialog}
+        handleCloseDialog={() => setIsOpenConfirmDialog(false)}
+        isOpen={isOpenConfirmDialog}
       />
     </Container>
   )

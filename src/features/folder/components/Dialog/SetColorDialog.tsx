@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom'
 
 import { useUpdateFolder } from '@/features/folder/hooks/useUpdateFolder'
 import { Folder } from '@/features/folder/types/Folder'
-import { RouterParams } from '@/types'
+import { RouterParams } from '@/types/RouterParams'
 
 type SetColorDialogProps = {
   handleCloseDialog: () => void
