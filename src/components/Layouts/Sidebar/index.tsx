@@ -62,7 +62,7 @@ export const Sidebar: FC = () => {
             <MuiButton
               disableElevation
               fullWidth
-              href='https://github.com/FutaMiyazaki/gathelink'
+              href='https://github.com/FutaMiyazaki/gathelink-ui'
               startIcon={<GitHubIcon />}
               target='_blank'
               variant='outlined'

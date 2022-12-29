@@ -155,7 +155,7 @@ export const LinkCard: FC<LinkCardProps> = ({ folderId, isOwner, link }) => {
             folderId={folderId}
             linkId={link.id.toString()}
             setIsOpenDialog={setIsOpenDialog}
-            isOpen={isOpenDialog}
+            isOpenDialog={isOpenDialog}
           />
         )}
       </CardActions>

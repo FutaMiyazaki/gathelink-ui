@@ -16,14 +16,14 @@ import { useSetRecoilState } from 'recoil'
 import { alertState } from '@/states/AlertAtom'
 
 type ShareFolderDialogProps = {
-  isOpen: boolean
+  isOpenDialog: boolean
   setIsOpenDialog: Dispatch<SetStateAction<boolean>>
   folderName: string
   ownerName: string
 }
 
 export const ShareFolderDialog: FC<ShareFolderDialogProps> = ({
-  isOpen,
+  isOpenDialog,
   setIsOpenDialog,
   folderName,
   ownerName,
@@ -41,7 +41,7 @@ export const ShareFolderDialog: FC<ShareFolderDialogProps> = ({
       fullWidth
       maxWidth='sm'
       onClose={() => setIsOpenDialog(false)}
-      open={isOpen}
+      open={isOpenDialog}
       PaperProps={{
         style: { borderRadius: 15 },
       }}

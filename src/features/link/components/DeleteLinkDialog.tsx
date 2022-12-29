@@ -14,17 +14,17 @@ import { Button } from '@/components/Elements/Button'
 import { useDeleteLink } from '@/features/link/hooks/useDeleteLink'
 
 type DeleteLinkDialogProps = {
+  isOpenDialog: boolean
+  setIsOpenDialog: Dispatch<SetStateAction<boolean>>
   folderId: string
   linkId: string
-  setIsOpenDialog: Dispatch<SetStateAction<boolean>>
-  isOpen: boolean
 }
 
 export const DeleteLinkDialog: FC<DeleteLinkDialogProps> = ({
+  isOpenDialog,
+  setIsOpenDialog,
   folderId,
   linkId,
-  setIsOpenDialog,
-  isOpen,
 }) => {
   const { deleteLink, errorMessage, isDeleting, resStatus } = useDeleteLink()
 
@@ -43,7 +43,7 @@ export const DeleteLinkDialog: FC<DeleteLinkDialogProps> = ({
       fullWidth
       maxWidth='xs'
       onClose={() => setIsOpenDialog(false)}
-      open={isOpen}
+      open={isOpenDialog}
       PaperProps={{
         style: { borderRadius: 15 },
       }}

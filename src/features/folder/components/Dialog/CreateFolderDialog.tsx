@@ -10,7 +10,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import { FC, useEffect } from 'react'
+import { Dispatch, FC, SetStateAction, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { string, z } from 'zod'
 
@@ -18,8 +18,8 @@ import { Button } from '@/components/Elements/Button'
 import { usePostFolder } from '@/features/folder/hooks/usePostFolder'
 
 type CreateFolderDialogProps = {
-  handleCloseDialog: () => void
-  isOpen: boolean
+  isOpenDialog: boolean
+  setIsOpenDialog: Dispatch<SetStateAction<boolean>>
 }
 
 const schema = z.object({
@@ -31,7 +31,10 @@ const schema = z.object({
 
 type Form = z.infer<typeof schema>
 
-export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({ handleCloseDialog, isOpen }) => {
+export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({
+  isOpenDialog,
+  setIsOpenDialog,
+}) => {
   const {
     register,
     formState: { errors },
@@ -53,7 +56,7 @@ export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({ handleCloseDia
   useEffect(() => {
     if (resStatus === 201) {
       reset()
-      handleCloseDialog()
+      setIsOpenDialog(false)
     }
   }, [resStatus, reset])
 
@@ -61,8 +64,8 @@ export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({ handleCloseDia
     <Dialog
       fullWidth
       maxWidth='sm'
-      onClose={() => handleCloseDialog()}
-      open={isOpen}
+      onClose={() => setIsOpenDialog(false)}
+      open={isOpenDialog}
       PaperProps={{
         style: { borderRadius: 15 },
       }}
@@ -95,7 +98,7 @@ export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({ handleCloseDia
           />
           <DialogActions sx={{ mt: 3, p: 0 }}>
             <Stack direction='row' justifyContent='flex-end' spacing={2}>
-              <Button color='secondary' label='キャンセル' onClick={() => handleCloseDialog()} />
+              <Button color='secondary' label='キャンセル' onClick={() => setIsOpenDialog(false)} />
               <Button isLoading={isPosting} disabled={isPosting} label='作成する' type='submit' />
             </Stack>
           </DialogActions>

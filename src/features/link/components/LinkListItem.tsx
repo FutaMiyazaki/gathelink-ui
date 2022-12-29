@@ -140,7 +140,7 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link })
           folderId={folderId}
           linkId={link.id.toString()}
           setIsOpenDialog={setIsOpenDialog}
-          isOpen={isOpenDialog}
+          isOpenDialog={isOpenDialog}
         />
       )}
     </ListItem>

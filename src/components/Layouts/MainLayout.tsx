@@ -42,8 +42,8 @@ export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
           {children}
           <Container>
             <CreateFolderDialog
-              handleCloseDialog={() => setIsOpenCreateFolderDialog(false)}
-              isOpen={isOpenCreateFolderDialog}
+              isOpenDialog={isOpenCreateFolderDialog}
+              setIsOpenDialog={setIsOpenCreateFolderDialog}
             />
             <Alert />
           </Container>

@@ -8,21 +8,21 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { useEffect, FC } from 'react'
+import { useEffect, FC, Dispatch, SetStateAction } from 'react'
 
 import { Button } from '@/components/Elements/Button'
 import { useDeleteFolder } from '@/features/folder/hooks/useDeleteFolder'
 
 type DeleteFolderDialogProps = {
+  isOpenDialog: boolean
+  setIsOpenDialog: Dispatch<SetStateAction<boolean>>
   folderId: string
-  handleCloseDialog: () => void
-  isOpen: boolean
 }
 
 export const DeleteFolderDialog: FC<DeleteFolderDialogProps> = ({
+  isOpenDialog,
+  setIsOpenDialog,
   folderId,
-  handleCloseDialog,
-  isOpen,
 }) => {
   const { deleteFolder, errorMessage, isDeleting, resStatus } = useDeleteFolder()
 
@@ -32,7 +32,7 @@ export const DeleteFolderDialog: FC<DeleteFolderDialogProps> = ({
 
   useEffect(() => {
     if (resStatus === 201) {
-      handleCloseDialog()
+      setIsOpenDialog(false)
     }
   }, [resStatus])
 
@@ -40,8 +40,8 @@ export const DeleteFolderDialog: FC<DeleteFolderDialogProps> = ({
     <Dialog
       fullWidth
       maxWidth='xs'
-      onClose={() => handleCloseDialog()}
-      open={isOpen}
+      onClose={() => setIsOpenDialog(false)}
+      open={isOpenDialog}
       PaperProps={{
         style: { borderRadius: 15 },
       }}
@@ -66,7 +66,7 @@ export const DeleteFolderDialog: FC<DeleteFolderDialogProps> = ({
           <Grid container alignItems='center' justifyContent='center' spacing={1}>
             <Grid item xs={6}>
               <Button
-                onClick={() => handleCloseDialog()}
+                onClick={() => setIsOpenDialog(false)}
                 color='secondary'
                 fullWidth={true}
                 label='キャンセル'

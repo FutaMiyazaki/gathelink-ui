@@ -107,7 +107,7 @@ export const EditLink: FC = () => {
           folderId={folderId}
           linkId={linkId}
           setIsOpenDialog={setIsOpenDialog}
-          isOpen={isOpenDialog}
+          isOpenDialog={isOpenDialog}
         />
       )}
       {errorMessage !== '' && (

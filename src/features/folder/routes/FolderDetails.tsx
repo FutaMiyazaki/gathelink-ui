@@ -87,7 +87,7 @@ export const FolderDetails: FC = () => {
               </IconButton>
             </Tooltip>
             <SetColorDialog
-              isOpen={isOpenSetColorDialog}
+              isOpenDialog={isOpenSetColorDialog}
               setIsOpenDialog={setIsOpenSetColorDialog}
               folder={folder}
               setFolder={setFolder}
@@ -163,7 +163,7 @@ export const FolderDetails: FC = () => {
                 variant='outlined'
               />
               <ShareFolderDialog
-                isOpen={isOpenShareFolderDialog}
+                isOpenDialog={isOpenShareFolderDialog}
                 setIsOpenDialog={setIsOpenShareFolderDialog}
                 folderName={folder.name}
                 ownerName={folder.user.name}

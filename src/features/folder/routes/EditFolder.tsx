@@ -129,8 +129,8 @@ export const EditFolder: FC = () => {
       </Box>
       <DeleteFolderDialog
         folderId={folderId as string}
-        handleCloseDialog={() => setIsOpenConfirmDialog(false)}
-        isOpen={isOpenConfirmDialog}
+        isOpenDialog={isOpenConfirmDialog}
+        setIsOpenDialog={setIsOpenConfirmDialog}
       />
     </Container>
   )
