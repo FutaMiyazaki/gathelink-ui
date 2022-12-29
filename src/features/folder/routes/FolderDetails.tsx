@@ -28,6 +28,7 @@ import { DisplayType } from '@/components/features/DisplayTypeButtonGroup/displa
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { FavoriteFolderButton } from '@/features/favoriteFolder/components/FavoriteFolderButton'
 import { SetColorDialog } from '@/features/folder/components/Dialog/SetColorDialog'
+import { ShareFolderDialog } from '@/features/folder/components/Dialog/ShareFolderDialog'
 import { useFetchFolder } from '@/features/folder/hooks/useFetchFolder'
 import { LinkCard } from '@/features/link/components/LinkCard'
 import { LinkListItem } from '@/features/link/components/LinkListItem'
@@ -43,7 +44,8 @@ import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
 export const FolderDetails: FC = () => {
   const [sortType, setSortType] = useState('created_asc')
   const [displayType, setDisplayType] = useState<DisplayType>('list')
-  const [openSetColorDialog, setOpenSetColorDialog] = useState(false)
+  const [isOpenShareFolderDialog, setIsOpenShareFolderDialog] = useState(false)
+  const [isOpenSetColorDialog, setIsOpenSetColorDialog] = useState(false)
   const folderHasLinks = useRecoilValue(folderHasLinksState)
   const isAuthenticated = useRecoilValue(isAuthenticatedState)
   const { folderId } = useParams<RouterParams>()
@@ -80,13 +82,13 @@ export const FolderDetails: FC = () => {
               }
               arrow
             >
-              <IconButton onClick={() => setOpenSetColorDialog(true)}>
+              <IconButton onClick={() => setIsOpenSetColorDialog(true)}>
                 <FolderRoundedIcon fontSize='large' sx={{ color: folder?.color }} />
               </IconButton>
             </Tooltip>
             <SetColorDialog
-              open={openSetColorDialog}
-              handleCloseDialog={() => setOpenSetColorDialog(false)}
+              isOpen={isOpenSetColorDialog}
+              setIsOpenDialog={setIsOpenSetColorDialog}
               folder={folder}
               setFolder={setFolder}
             />
@@ -150,19 +152,33 @@ export const FolderDetails: FC = () => {
             {folder?.description}
           </Typography>
         )}
-        {isOwner && (
-          <>
-            <Stack direction='row' alignItems='center' spacing={1} sx={{ mt: 2 }}>
-              <Button icon={<ShareOutlinedIcon />} label='共有' variant='outlined' />
-              <LinkButton
-                color='secondary'
-                icon={<EditOutlinedIcon />}
-                label='編集'
-                path={`/folder/${folderId as string}/edit`}
+
+        <Stack direction='row' alignItems='center' spacing={1} sx={{ mt: 2 }}>
+          {folder?.user !== undefined && (
+            <>
+              <Button
+                onClick={() => setIsOpenShareFolderDialog(true)}
+                icon={<ShareOutlinedIcon />}
+                label='共有'
+                variant='outlined'
               />
-            </Stack>
-          </>
-        )}
+              <ShareFolderDialog
+                isOpen={isOpenShareFolderDialog}
+                setIsOpenDialog={setIsOpenShareFolderDialog}
+                folderName={folder.name}
+                ownerName={folder.user.name}
+              />
+            </>
+          )}
+          {isOwner && (
+            <LinkButton
+              color='secondary'
+              icon={<EditOutlinedIcon />}
+              label='編集'
+              path={`/folder/${folderId as string}/edit`}
+            />
+          )}
+        </Stack>
       </Box>
       {folderHasLinks.length > 0 ? (
         <>
