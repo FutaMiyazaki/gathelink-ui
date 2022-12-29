@@ -15,8 +15,8 @@ import { LinkButton } from '@/components/Elements/Button/LinkButton'
 import { Link } from '@/components/Elements/Link'
 import { Menu } from '@/components/Elements/Menu'
 import { MenuItems } from '@/components/Elements/Menu/MenuItems'
-import { GlobalMenu } from '@/components/Layouts/GlobamMenu'
 import { HeaderAccountMenu } from '@/components/Layouts/Header/AccountMenu'
+import { HeaderMenu } from '@/components/Layouts/Header/Menu'
 import { buttonItems } from '@/components/Layouts/LeadAuthorization/buttonItems'
 import { useMedia } from '@/hooks/useMedia'
 import { isAuthenticatedState } from '@/states/AuthAtom'
@@ -25,7 +25,7 @@ import { isOpenCreateFolderDialogState } from '@/states/isOpenCreateFolderDialog
 export const Header: FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const setIsOpenCreateFolderDialog = useSetRecoilState(isOpenCreateFolderDialogState)
-  const authenticated = useRecoilValue(isAuthenticatedState)
+  const isAuthenticated = useRecoilValue(isAuthenticatedState)
   const { isDesktopScreen } = useMedia()
   const navigate = useNavigate()
 
@@ -69,7 +69,7 @@ export const Header: FC = () => {
             Gathelink
           </Typography>
         </Link>
-        {authenticated && isDesktopScreen && (
+        {isAuthenticated && isDesktopScreen && (
           <>
             <Button
               icon={<CreateOutlinedIcon />}
@@ -86,9 +86,9 @@ export const Header: FC = () => {
           </>
         )}
         <Box sx={{ flexGrow: 1 }} />
-        {isDesktopScreen && <GlobalMenu />}
-        {authenticated && <HeaderAccountMenu />}
-        {!authenticated && !isDesktopScreen && (
+        {isAuthenticated && isDesktopScreen && <HeaderMenu />}
+        {isAuthenticated && <HeaderAccountMenu />}
+        {!isAuthenticated && !isDesktopScreen && (
           <Stack alignItems='center' direction='row' spacing={1}>
             {buttonItems.map((item) => (
               <LinkButton

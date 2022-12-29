@@ -10,12 +10,12 @@ import { authHeaders } from '@/utils/authHeaders'
 type UseDeleteFolder = {
   deleteFolder: (id: string) => Promise<void>
   errorMessage: string
-  isLoading: boolean
+  isDeleting: boolean
   resStatus: number
 }
 
 export const useDeleteFolder = (): UseDeleteFolder => {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [resStatus, setResStatus] = useState(0)
   const setAlert = useSetRecoilState(alertState)
@@ -24,7 +24,7 @@ export const useDeleteFolder = (): UseDeleteFolder => {
   const navigate = useNavigate()
 
   const deleteFolder = async (id: string): Promise<void> => {
-    setIsLoading(true)
+    setIsDeleting(true)
 
     await apiClient
       .delete(`/folders/${id}`, { headers })
@@ -45,14 +45,14 @@ export const useDeleteFolder = (): UseDeleteFolder => {
         setResStatus(err.status)
       })
       .finally(() => {
-        setIsLoading(false)
+        setIsDeleting(false)
       })
   }
 
   return {
     deleteFolder,
     errorMessage,
-    isLoading,
+    isDeleting,
     resStatus,
   }
 }

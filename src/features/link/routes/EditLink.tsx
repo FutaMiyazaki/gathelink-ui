@@ -26,7 +26,7 @@ import { DeleteLinkDialog } from '@/features/link/components/DeleteLinkDialog'
 import { useFetchLink } from '@/features/link/hooks/useFetchLink'
 import { useUpdateLink } from '@/features/link/hooks/useUpdateLink'
 import { myFoldersState } from '@/states/MyFoldersAtom'
-import { RouterParams } from '@/types'
+import { RouterParams } from '@/types/RouterParams'
 import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
 
 const schema = z.object({
@@ -51,11 +51,11 @@ export const EditLink: FC = () => {
   } = useForm<Form>({
     resolver: zodResolver(schema),
   })
-  const { fetchMyFolders, isFeatching: isMyFoldersFeatching } = useFetchMyFolders()
+  const { fetchMyFolders, isFetching: isFetchingMyFolders } = useFetchMyFolders()
   const myFolders = useRecoilValue(myFoldersState)
-  const { fetchLink, isFeatchLoading, link } = useFetchLink()
+  const { fetchLink, isFetching: isFetchingLink, link } = useFetchLink()
   const { updateLink, errorMessage, isUpdating } = useUpdateLink()
-  const [openDialog, setOpenDialog] = useState<boolean>(false)
+  const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false)
 
   const onSubmit: SubmitHandler<Form> = (data) => {
     const link = {
@@ -64,14 +64,6 @@ export const EditLink: FC = () => {
       folder_id: data.folderId,
     }
     updateLink(link, linkId as string)
-  }
-
-  const handleOpenDialog = (): void => {
-    setOpenDialog(true)
-  }
-
-  const handleCloseDialog = (): void => {
-    setOpenDialog(false)
   }
 
   useEffect(() => {
@@ -90,7 +82,7 @@ export const EditLink: FC = () => {
     }
   }, [myFolders])
 
-  if (isFeatchLoading || isMyFoldersFeatching) <PageLoading />
+  if (isFetchingLink || isFetchingMyFolders) <PageLoading />
 
   return (
     <Container maxWidth='md'>
@@ -105,7 +97,7 @@ export const EditLink: FC = () => {
           color='warning'
           icon={<DeleteForeverOutlinedIcon />}
           label='削除'
-          onClick={handleOpenDialog}
+          onClick={() => setIsOpenDialog(true)}
           variant='text'
           sx={{ ml: 'auto' }}
         />
@@ -114,8 +106,8 @@ export const EditLink: FC = () => {
         <DeleteLinkDialog
           folderId={folderId}
           linkId={linkId}
-          handleCloseDialog={handleCloseDialog}
-          open={openDialog}
+          setIsOpenDialog={setIsOpenDialog}
+          isOpenDialog={isOpenDialog}
         />
       )}
       {errorMessage !== '' && (
@@ -174,8 +166,14 @@ export const EditLink: FC = () => {
         {errors.folderId != null && (
           <FormHelperText error>{errors.folderId.message}</FormHelperText>
         )}
-        <Stack direction='row' sx={{ mt: 6 }}>
-          <Button isLoading={isUpdating} label='保存する' type='submit' />
+        <Stack direction='row' sx={{ mt: 4 }}>
+          <Button
+            isLoading={isUpdating}
+            disabled={isUpdating}
+            label='保存する'
+            size='large'
+            type='submit'
+          />
         </Stack>
       </Box>
     </Container>

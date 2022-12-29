@@ -14,7 +14,7 @@ import { useParams } from 'react-router-dom'
 import { Link } from '@/components/Elements/Link'
 import { Folder } from '@/features/folder/types/Folder'
 import { Link as LinkType } from '@/features/link/types/Link'
-import { RouterParams } from '@/types'
+import { RouterParams } from '@/types/RouterParams'
 
 type myFolderListItemProps = {
   active: boolean

@@ -8,17 +8,17 @@ import { authHeaders } from '@/utils/authHeaders'
 type UseFetchMyFolders = {
   errorMessage: string
   fetchMyFolders: (sortType: string) => Promise<void>
-  isFeatching: boolean
+  isFetching: boolean
 }
 
 export const useFetchMyFolders = (): UseFetchMyFolders => {
   const [errorMessage, setErrorMessage] = useState('')
-  const [isFeatching, setIsFeatching] = useState(false)
+  const [isFetching, setIsFetching] = useState(false)
   const setMyFolders = useSetRecoilState(myFoldersState)
   const headers = authHeaders()
 
   const fetchMyFolders = async (sortType: string): Promise<void> => {
-    setIsFeatching(true)
+    setIsFetching(true)
     setErrorMessage('')
 
     await apiClient
@@ -30,13 +30,13 @@ export const useFetchMyFolders = (): UseFetchMyFolders => {
         setErrorMessage(err.message)
       })
       .finally(() => {
-        setIsFeatching(false)
+        setIsFetching(false)
       })
   }
 
   return {
     errorMessage,
     fetchMyFolders,
-    isFeatching,
+    isFetching,
   }
 }

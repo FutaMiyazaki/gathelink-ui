@@ -13,11 +13,13 @@ import { parseISO } from 'date-fns'
 import { Image } from 'mui-image'
 import { FC, MouseEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useSetRecoilState } from 'recoil'
 
 import { Menu } from '@/components/Elements/Menu'
 import { MenuItems } from '@/components/Elements/Menu/MenuItems'
 import { DeleteLinkDialog } from '@/features/link/components/DeleteLinkDialog'
 import { Link as LinkType } from '@/features/link/types/Link'
+import { alertState } from '@/states/AlertAtom'
 import { LINK_TEXT_COLOR } from '@/utils/const'
 import { diffTime } from '@/utils/date'
 
@@ -29,7 +31,8 @@ type LinkCardProps = {
 
 export const LinkCard: FC<LinkCardProps> = ({ folderId, isOwner, link }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const [openDialog, setOpenDialog] = useState<boolean>(false)
+  const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false)
+  const setAlert = useSetRecoilState(alertState)
   const navigate = useNavigate()
   const IMAGE_HEIGHT = 130
 
@@ -41,6 +44,7 @@ export const LinkCard: FC<LinkCardProps> = ({ folderId, isOwner, link }) => {
     {
       onClick: () => {
         navigator.clipboard.writeText(link.url)
+        setAlert({ isShow: true, message: 'クリップボードにリンクをコピーしました' })
         setAnchorEl(null)
       },
       text: 'クリップボードにリンクをコピー',
@@ -54,7 +58,7 @@ export const LinkCard: FC<LinkCardProps> = ({ folderId, isOwner, link }) => {
     },
     {
       onClick: () => {
-        setOpenDialog(true)
+        setIsOpenDialog(true)
         setAnchorEl(null)
       },
       text: '削除',
@@ -65,6 +69,7 @@ export const LinkCard: FC<LinkCardProps> = ({ folderId, isOwner, link }) => {
     {
       onClick: () => {
         navigator.clipboard.writeText(link.url)
+        setAlert({ isShow: true, message: 'クリップボードにリンクをコピーしました' })
         setAnchorEl(null)
       },
       text: 'クリップボードにリンクをコピー',
@@ -149,8 +154,8 @@ export const LinkCard: FC<LinkCardProps> = ({ folderId, isOwner, link }) => {
           <DeleteLinkDialog
             folderId={folderId}
             linkId={link.id.toString()}
-            handleCloseDialog={() => setOpenDialog(false)}
-            open={openDialog}
+            setIsOpenDialog={setIsOpenDialog}
+            isOpenDialog={isOpenDialog}
           />
         )}
       </CardActions>

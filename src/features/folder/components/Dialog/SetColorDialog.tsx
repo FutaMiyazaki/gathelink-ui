@@ -10,11 +10,11 @@ import { useParams } from 'react-router-dom'
 
 import { useUpdateFolder } from '@/features/folder/hooks/useUpdateFolder'
 import { Folder } from '@/features/folder/types/Folder'
-import { RouterParams } from '@/types'
+import { RouterParams } from '@/types/RouterParams'
 
 type SetColorDialogProps = {
-  handleCloseDialog: () => void
-  open: boolean
+  isOpenDialog: boolean
+  setIsOpenDialog: Dispatch<SetStateAction<boolean>>
   folder?: Folder
   setFolder: Dispatch<SetStateAction<Folder | undefined>>
 }
@@ -42,8 +42,8 @@ const colorSettings = [
 ]
 
 export const SetColorDialog: FC<SetColorDialogProps> = ({
-  handleCloseDialog,
-  open,
+  isOpenDialog,
+  setIsOpenDialog,
   folder: prevFolder,
   setFolder,
 }) => {
@@ -51,22 +51,22 @@ export const SetColorDialog: FC<SetColorDialogProps> = ({
   const { folderId } = useParams<RouterParams>()
 
   const onClickUpdateColor = (newColor: string): void => {
-    if (newColor === prevFolder?.color) return handleCloseDialog()
+    if (newColor === prevFolder?.color) return setIsOpenDialog(false)
 
     const folder = {
       color: newColor,
     }
     updateFolder(folder, folderId as string)
     prevFolder !== undefined && setFolder({ ...prevFolder, color: newColor })
-    handleCloseDialog()
+    setIsOpenDialog(false)
   }
 
   return (
     <Dialog
       fullWidth
       maxWidth='sm'
-      onClose={() => handleCloseDialog()}
-      open={open}
+      onClose={() => setIsOpenDialog(false)}
+      open={isOpenDialog}
       PaperProps={{
         style: { borderRadius: 15 },
       }}

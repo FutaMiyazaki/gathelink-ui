@@ -12,13 +12,13 @@ type MenuProps = {
 }
 
 export const Menu: FC<MenuProps> = ({ anchorEl, handleCloseMenu, menuItems }) => {
-  const open = Boolean(anchorEl)
+  const isOpen = Boolean(anchorEl)
 
   return (
     <MuiMenu
       anchorEl={anchorEl}
       onClose={handleCloseMenu}
-      open={open}
+      open={isOpen}
       PaperProps={{
         style: { borderRadius: 15 },
       }}

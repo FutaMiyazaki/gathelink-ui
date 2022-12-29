@@ -1,34 +1,30 @@
 import { useState } from 'react'
+import { useSetRecoilState } from 'recoil'
 
-import { Folder } from '@/features/folder/types/Folder'
-import { Link } from '@/features/link/types/Link'
 import { apiClient } from '@/lib/axios/apiClient'
+import { favoriteFoldersState } from '@/states/FavoriteFolders'
 import { authHeaders } from '@/utils/authHeaders'
 
-type UseFetchLink = {
+type UseFetchFavoriteFolders = {
   errorMessage: string
-  fetchLink: (id: string) => Promise<void>
-  link?: Link
+  fetchFavoriteFolders: (sortType: string) => Promise<void>
   isFetching: boolean
-  myFolders?: Folder[]
 }
 
-export const useFetchLink = (): UseFetchLink => {
+export const useFetchFavoriteFolders = (): UseFetchFavoriteFolders => {
   const [errorMessage, setErrorMessage] = useState('')
   const [isFetching, setIsFetching] = useState(false)
-  const [link, setLink] = useState<Link | undefined>()
-  const [myFolders, setMyFolders] = useState<Folder[] | undefined>()
+  const setFavoriteFolders = useSetRecoilState(favoriteFoldersState)
   const headers = authHeaders()
 
-  const fetchLink = async (id: string): Promise<void> => {
+  const fetchFavoriteFolders = async (sortType: string): Promise<void> => {
     setIsFetching(true)
     setErrorMessage('')
 
     await apiClient
-      .get(`/links/${id}`, { headers })
+      .get(`/favorited_folders_list?sort=${sortType}`, { headers })
       .then((res) => {
-        setLink(res.data.link)
-        setMyFolders(res.data.folders)
+        setFavoriteFolders(res.data)
       })
       .catch((err) => {
         setErrorMessage(err.message)
@@ -40,9 +36,7 @@ export const useFetchLink = (): UseFetchLink => {
 
   return {
     errorMessage,
-    fetchLink,
+    fetchFavoriteFolders,
     isFetching,
-    link,
-    myFolders,
   }
 }
