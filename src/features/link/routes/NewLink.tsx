@@ -21,7 +21,7 @@ import { number, string, z } from 'zod'
 import { Button } from '@/components/Elements/Button'
 import { InputLabel } from '@/components/Elements/Form/InputLabel'
 import { useFetchMyFolders } from '@/features/folder/hooks/useFetchMyFolders'
-import { useCreateLink } from '@/features/link/hooks/useCreateLink'
+import { usePostLink } from '@/features/link/hooks/usePostLink'
 import { isOpenCreateFolderDialogState } from '@/states/isOpenCreateFolderDialogState'
 import { myFoldersState } from '@/states/MyFoldersAtom'
 import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
@@ -40,7 +40,7 @@ type Form = z.infer<typeof schema>
 
 export const NewLink: FC = () => {
   const navigate = useNavigate()
-  const { fetchMyFolders, isFeatching } = useFetchMyFolders()
+  const { fetchMyFolders, isFetching } = useFetchMyFolders()
   const myFolders = useRecoilValue(myFoldersState)
   const setIsOpenCreateFolderDialog = useSetRecoilState(isOpenCreateFolderDialogState)
   const {
@@ -51,7 +51,7 @@ export const NewLink: FC = () => {
   } = useForm<Form>({
     resolver: zodResolver(schema),
   })
-  const { createLink, errorMessage, isLoading } = useCreateLink()
+  const { postLink, errorMessage, isPosting } = usePostLink()
 
   const onSubmit: SubmitHandler<Form> = (data) => {
     const link = {
@@ -59,7 +59,7 @@ export const NewLink: FC = () => {
       title: data.title,
       folder_id: data.folderId,
     }
-    createLink(link)
+    postLink(link)
   }
 
   useEffect(() => {
@@ -115,7 +115,7 @@ export const NewLink: FC = () => {
           {...register('title')}
         />
         <InputLabel labelTitle='フォルダを選ぶ' />
-        {isFeatching ? (
+        {isFetching ? (
           <CircularProgress size={25} />
         ) : myFolders.length > 0 ? (
           <Select
@@ -144,11 +144,12 @@ export const NewLink: FC = () => {
         {errors.folderId != null && (
           <FormHelperText error>{errors.folderId.message}</FormHelperText>
         )}
-        <Stack direction='row' justifyContent='flex-end' sx={{ mt: 6 }}>
+        <Stack direction='row' sx={{ mt: 4 }}>
           <Button
-            disabled={myFolders.length === 0}
-            isLoading={isLoading}
+            disabled={myFolders.length === 0 || isPosting}
+            isLoading={isPosting}
             label='追加する'
+            size='large'
             type='submit'
           />
         </Stack>

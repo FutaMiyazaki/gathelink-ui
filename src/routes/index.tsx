@@ -8,7 +8,7 @@ import { AuthHeader } from '@/features/auth/components/Header'
 import { AuthLayout } from '@/features/auth/components/Layout'
 import { Login } from '@/features/auth/routes/Login'
 import { Signup } from '@/features/auth/routes/Signup'
-import { FavoritedFolders } from '@/features/favoriteFolder/routes/FavoritedFolders'
+import { FavoriteFolders } from '@/features/favoriteFolder/routes/FavoriteFolders'
 import { EditFolder } from '@/features/folder/routes/EditFolder'
 import { FolderDetails } from '@/features/folder/routes/FolderDetails'
 import { MyFolders } from '@/features/folder/routes/MyFolders'
@@ -66,7 +66,7 @@ export const AppRoutes: FC = () => {
         <Route path='/' element={<Home />} />
         <Route path='/folder/:folderId' element={<FolderDetails />} />
         <Route path='/myfolders' element={<AuthGuard component={<MyFolders />} />} />
-        <Route path='/favorited' element={<AuthGuard component={<FavoritedFolders />} />} />
+        <Route path='/favorite' element={<AuthGuard component={<FavoriteFolders />} />} />
         <Route path='/folder/:folderId/edit' element={<AuthGuard component={<EditFolder />} />} />
         <Route path='/new/link' element={<AuthGuard component={<NewLink />} />} />
         <Route

@@ -11,12 +11,14 @@ import { parseISO } from 'date-fns'
 import { Image } from 'mui-image'
 import { FC, MouseEvent, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useSetRecoilState } from 'recoil'
 
 import { Menu } from '@/components/Elements/Menu'
 import { MenuItems } from '@/components/Elements/Menu/MenuItems'
 import { DeleteLinkDialog } from '@/features/link/components/DeleteLinkDialog'
 import { Link as LinkType } from '@/features/link/types/Link'
 import { useMedia } from '@/hooks/useMedia'
+import { alertState } from '@/states/AlertAtom'
 import { diffTime } from '@/utils/date'
 
 type LinkListItemProps = {
@@ -28,8 +30,10 @@ type LinkListItemProps = {
 
 export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false)
+  const setAlert = useSetRecoilState(alertState)
   const { isDesktopScreen } = useMedia()
-  const [openDialog, setOpenDialog] = useState<boolean>(false)
+
   const navigate = useNavigate()
 
   const handleOpenMenu = (event: MouseEvent<HTMLElement>): void => {
@@ -40,6 +44,7 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link })
     {
       onClick: () => {
         navigator.clipboard.writeText(link.url)
+        setAlert({ isShow: true, message: 'クリップボードにリンクをコピーしました' })
         setAnchorEl(null)
       },
       text: 'クリップボードにリンクをコピー',
@@ -53,7 +58,7 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link })
     },
     {
       onClick: () => {
-        setOpenDialog(true)
+        setIsOpenDialog(true)
         setAnchorEl(null)
       },
       text: '削除',
@@ -64,6 +69,7 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link })
     {
       onClick: () => {
         navigator.clipboard.writeText(link.url)
+        setAlert({ isShow: true, message: 'クリップボードにリンクをコピーしました' })
         setAnchorEl(null)
       },
       text: 'クリップボードにリンクをコピー',
@@ -133,8 +139,8 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link })
         <DeleteLinkDialog
           folderId={folderId}
           linkId={link.id.toString()}
-          handleCloseDialog={() => setOpenDialog(false)}
-          open={openDialog}
+          setIsOpenDialog={setIsOpenDialog}
+          isOpenDialog={isOpenDialog}
         />
       )}
     </ListItem>

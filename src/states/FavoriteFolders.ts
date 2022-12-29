@@ -2,10 +2,10 @@ import { atom } from 'recoil'
 
 import { Folder } from '@/features/folder/types/Folder'
 
-type FavoritedFolders = Folder[]
+type FavoriteFolders = Folder[]
 
-export const favoritedFoldersState = atom<FavoritedFolders>({
-  key: 'favoritedFoldersState',
+export const favoriteFoldersState = atom<FavoriteFolders>({
+  key: 'favoriteFoldersState',
   default: [
     {
       id: 0,

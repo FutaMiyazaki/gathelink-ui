@@ -5,46 +5,18 @@ import Drawer from '@mui/material/Drawer'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { FC } from 'react'
-import { useRecoilValue } from 'recoil'
 
 import { Link } from '@/components/Elements/Link'
 import { LeadAuthorization } from '@/components/Layouts/LeadAuthorization'
-import { FavoritedFoldersList } from '@/features/folder/components/Sidebar/FavoritedFoldersList'
+import { FavoriteFoldersList } from '@/features/folder/components/Sidebar/FavoriteFoldersList'
 import { MyFoldersList } from '@/features/folder/components/Sidebar/MyFoldersList'
 import { useMedia } from '@/hooks/useMedia'
-import { isAuthenticatedState } from '@/states/AuthAtom'
 import { DRAWER_WIDTH } from '@/utils/const'
 
 export const Sidebar: FC = () => {
-  const authenticated = useRecoilValue(isAuthenticatedState)
-  const { isDesktopScreen } = useMedia()
+  const { isMobileScreen } = useMedia()
 
-  const renderContent = (
-    <>
-      <Box sx={{ mx: 2 }}>
-        <LeadAuthorization />
-      </Box>
-      {authenticated && (
-        <>
-          <FavoritedFoldersList />
-          <MyFoldersList />
-        </>
-      )}
-      <Box sx={{ mx: 2, mt: 4, mb: 2 }}>
-        <MuiButton
-          disableElevation
-          fullWidth
-          href='https://github.com/FutaMiyazaki/gathelink'
-          startIcon={<GitHubIcon />}
-          target='_blank'
-          variant='outlined'
-          sx={{ borderRadius: 5, fontWeight: 'bold' }}
-        >
-          GitHub
-        </MuiButton>
-      </Box>
-    </>
-  )
+  if (isMobileScreen) return null
 
   return (
     <Box
@@ -55,37 +27,52 @@ export const Sidebar: FC = () => {
         },
       }}
     >
-      {isDesktopScreen && (
-        <Drawer
-          sx={{
+      <Drawer
+        sx={{
+          width: DRAWER_WIDTH,
+          flexShrink: 0,
+          borderColor: 'secondary.light',
+          '& .MuiDrawer-paper': {
+            bgcolor: '#f5f5f5',
             width: DRAWER_WIDTH,
-            flexShrink: 0,
-            borderColor: 'secondary.light',
-            '& .MuiDrawer-paper': {
-              bgcolor: '#f5f5f5',
-              width: DRAWER_WIDTH,
-            },
-          }}
-          variant='permanent'
-          anchor='left'
-        >
-          <Box sx={{ pt: 3 }}>
-            <Stack
-              alignItems='center'
-              direction='row'
-              justifyContent='space-between'
-              sx={{ pl: 2, pr: 1, mb: 2 }}
-            >
-              <Link path='/' underline='none'>
-                <Typography component='span' color='primary' noWrap variant='h6'>
-                  Gathelink
-                </Typography>
-              </Link>
-            </Stack>
-            {renderContent}
+          },
+        }}
+        variant='permanent'
+        anchor='left'
+      >
+        <Box sx={{ pt: 3 }}>
+          <Stack
+            alignItems='center'
+            direction='row'
+            justifyContent='space-between'
+            sx={{ pl: 2, pr: 1, mb: 2 }}
+          >
+            <Link path='/' underline='none'>
+              <Typography component='span' color='primary' noWrap variant='h6'>
+                Gathelink
+              </Typography>
+            </Link>
+          </Stack>
+          <Box sx={{ mx: 2 }}>
+            <LeadAuthorization />
           </Box>
-        </Drawer>
-      )}
+          <FavoriteFoldersList />
+          <MyFoldersList />
+          <Box sx={{ mx: 2, mt: 4, mb: 2 }}>
+            <MuiButton
+              disableElevation
+              fullWidth
+              href='https://github.com/FutaMiyazaki/gathelink-ui'
+              startIcon={<GitHubIcon />}
+              target='_blank'
+              variant='outlined'
+              sx={{ borderRadius: 5, fontWeight: 'bold' }}
+            >
+              GitHub
+            </MuiButton>
+          </Box>
+        </Box>
+      </Drawer>
     </Box>
   )
 }

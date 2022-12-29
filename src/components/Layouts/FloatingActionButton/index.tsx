@@ -14,7 +14,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { useMedia } from '@/hooks/useMedia'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 import { isOpenCreateFolderDialogState } from '@/states/isOpenCreateFolderDialogState'
-import { RouterParams } from '@/types'
+import { RouterParams } from '@/types/RouterParams'
 
 export type DialogType = 'addLink' | 'createFolder'
 

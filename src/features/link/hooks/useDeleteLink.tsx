@@ -10,12 +10,12 @@ import { authHeaders } from '@/utils/authHeaders'
 type UseDeleteLink = {
   deleteLink: (folderId: string, linkId: string) => Promise<void>
   errorMessage: string
-  isLoading: boolean
+  isDeleting: boolean
   resStatus: number
 }
 
 export const useDeleteLink = (): UseDeleteLink => {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [resStatus, setResStatus] = useState(0)
   const setAlert = useSetRecoilState(alertState)
@@ -24,7 +24,7 @@ export const useDeleteLink = (): UseDeleteLink => {
   const navigate = useNavigate()
 
   const deleteLink = async (folderId: string, linkId: string): Promise<void> => {
-    setIsLoading(true)
+    setIsDeleting(true)
 
     await apiClient
       .delete(`/links/${linkId}`, { headers })
@@ -47,14 +47,14 @@ export const useDeleteLink = (): UseDeleteLink => {
         setResStatus(err.status)
       })
       .finally(() => {
-        setIsLoading(false)
+        setIsDeleting(false)
       })
   }
 
   return {
     deleteLink,
     errorMessage,
-    isLoading,
+    isDeleting,
     resStatus,
   }
 }

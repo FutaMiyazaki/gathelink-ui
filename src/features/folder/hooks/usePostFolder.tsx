@@ -6,10 +6,10 @@ import { alertState } from '@/states/AlertAtom'
 import { myFoldersState } from '@/states/MyFoldersAtom'
 import { authHeaders } from '@/utils/authHeaders'
 
-type UseCreateFolder = {
-  createFolder: (folder: params) => Promise<void>
+type UsePostFolder = {
+  postFolder: (folder: params) => Promise<void>
   errorMessage: string
-  isLoading: boolean
+  isPosting: boolean
   resStatus: number
 }
 
@@ -17,16 +17,16 @@ type params = {
   name: string
 }
 
-export const useCreateFolder = (): UseCreateFolder => {
-  const [isLoading, setIsLoading] = useState(false)
+export const usePostFolder = (): UsePostFolder => {
+  const [isPosting, setIsPosting] = useState(false)
   const [resStatus, setResStatus] = useState(0)
   const [errorMessage, setErrorMessage] = useState('')
   const setAlert = useSetRecoilState(alertState)
   const setMyFolders = useSetRecoilState(myFoldersState)
   const headers = authHeaders()
 
-  const createFolder = async (folder: params): Promise<void> => {
-    setIsLoading(true)
+  const postFolder = async (folder: params): Promise<void> => {
+    setIsPosting(true)
     setResStatus(0)
     setErrorMessage('')
 
@@ -48,14 +48,14 @@ export const useCreateFolder = (): UseCreateFolder => {
         setResStatus(err.status)
       })
       .finally(() => {
-        setIsLoading(false)
+        setIsPosting(false)
       })
   }
 
   return {
-    createFolder,
+    postFolder,
     errorMessage,
-    isLoading,
+    isPosting,
     resStatus,
   }
 }

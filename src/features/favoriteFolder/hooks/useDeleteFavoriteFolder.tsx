@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useRecoilState } from 'recoil'
 
 import { apiClient } from '@/lib/axios/apiClient'
-import { favoritedFoldersState } from '@/states/FavoritedFoldersAtom'
+import { favoriteFoldersState } from '@/states/FavoriteFolders'
 import { authHeaders } from '@/utils/authHeaders'
 
 type UseDeleteFavoriteFolder = {
@@ -14,8 +14,7 @@ type UseDeleteFavoriteFolder = {
 export const useDeleteFavoriteFolder = (): UseDeleteFavoriteFolder => {
   const [isDeleting, setIsDeleting] = useState(false)
   const [deleteResStatus, setDeleteResStatus] = useState(0)
-  const [favoritedFolders, setFavoritedFolders] = useRecoilState(favoritedFoldersState)
-
+  const [favoriteFolders, setFavoriteFolders] = useRecoilState(favoriteFoldersState)
   const headers = authHeaders()
 
   const deleteFavoriteFolder = async (favoriteId: number, folderId: string): Promise<void> => {
@@ -25,10 +24,10 @@ export const useDeleteFavoriteFolder = (): UseDeleteFavoriteFolder => {
       .delete(`/folder_favorites/${favoriteId}`, { headers })
       .then((res) => {
         setDeleteResStatus(res.status)
-        const afterFavoritedFolders = favoritedFolders.filter((folder) => {
+        const afterFavoriteFolders = favoriteFolders.filter((folder) => {
           return folder.id.toString() !== folderId
         })
-        setFavoritedFolders(afterFavoritedFolders)
+        setFavoriteFolders(afterFavoriteFolders)
       })
       .catch((err) => {
         setDeleteResStatus(err.status)

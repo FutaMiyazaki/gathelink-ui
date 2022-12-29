@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
@@ -9,9 +9,9 @@ type AuthGuardProps = {
 }
 
 export const AuthGuard: FC<AuthGuardProps> = ({ component }) => {
-  const authenticated = useRecoilValue(isAuthenticatedState)
+  const isAuthenticated = useRecoilValue(isAuthenticatedState)
 
-  if (!authenticated) return <Navigate to='/login' replace={true} />
+  if (!isAuthenticated) return <Navigate to='/login' replace={true} />
 
   return <>{component}</>
 }

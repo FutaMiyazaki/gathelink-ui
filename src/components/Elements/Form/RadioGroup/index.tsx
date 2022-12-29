@@ -23,7 +23,7 @@ export const RadioGroup: FC<RadioGroupProps> = ({
   value,
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const open = Boolean(anchorEl)
+  const isOpen = Boolean(anchorEl)
 
   const handleOpenMenu = (e: MouseEvent<HTMLButtonElement>): void => {
     setAnchorEl(e.currentTarget)
@@ -40,7 +40,7 @@ export const RadioGroup: FC<RadioGroupProps> = ({
       <Menu
         anchorEl={anchorEl}
         onClose={() => setAnchorEl(null)}
-        open={open}
+        open={isOpen}
         PaperProps={{
           style: { borderRadius: 15 },
         }}

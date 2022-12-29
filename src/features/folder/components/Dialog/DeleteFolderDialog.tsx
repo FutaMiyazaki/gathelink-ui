@@ -8,23 +8,23 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { useEffect, FC } from 'react'
+import { useEffect, FC, Dispatch, SetStateAction } from 'react'
 
 import { Button } from '@/components/Elements/Button'
 import { useDeleteFolder } from '@/features/folder/hooks/useDeleteFolder'
 
 type DeleteFolderDialogProps = {
+  isOpenDialog: boolean
+  setIsOpenDialog: Dispatch<SetStateAction<boolean>>
   folderId: string
-  handleCloseDialog: () => void
-  open: boolean
 }
 
 export const DeleteFolderDialog: FC<DeleteFolderDialogProps> = ({
+  isOpenDialog,
+  setIsOpenDialog,
   folderId,
-  handleCloseDialog,
-  open,
 }) => {
-  const { deleteFolder, errorMessage, isLoading, resStatus } = useDeleteFolder()
+  const { deleteFolder, errorMessage, isDeleting, resStatus } = useDeleteFolder()
 
   const onClickDeleteButton = (): void => {
     deleteFolder(folderId)
@@ -32,7 +32,7 @@ export const DeleteFolderDialog: FC<DeleteFolderDialogProps> = ({
 
   useEffect(() => {
     if (resStatus === 201) {
-      handleCloseDialog()
+      setIsOpenDialog(false)
     }
   }, [resStatus])
 
@@ -40,8 +40,8 @@ export const DeleteFolderDialog: FC<DeleteFolderDialogProps> = ({
     <Dialog
       fullWidth
       maxWidth='xs'
-      onClose={() => handleCloseDialog()}
-      open={open}
+      onClose={() => setIsOpenDialog(false)}
+      open={isOpenDialog}
       PaperProps={{
         style: { borderRadius: 15 },
       }}
@@ -66,10 +66,11 @@ export const DeleteFolderDialog: FC<DeleteFolderDialogProps> = ({
           <Grid container alignItems='center' justifyContent='center' spacing={1}>
             <Grid item xs={6}>
               <Button
-                onClick={() => handleCloseDialog()}
+                onClick={() => setIsOpenDialog(false)}
                 color='secondary'
                 fullWidth={true}
                 label='キャンセル'
+                size='large'
               />
             </Grid>
             <Grid item xs={6}>
@@ -77,8 +78,10 @@ export const DeleteFolderDialog: FC<DeleteFolderDialogProps> = ({
                 onClick={() => onClickDeleteButton()}
                 color='warning'
                 fullWidth={true}
-                isLoading={isLoading}
+                isLoading={isDeleting}
+                disabled={isDeleting}
                 label='削除する'
+                size='large'
                 type='submit'
               />
             </Grid>

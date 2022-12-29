@@ -23,9 +23,12 @@ import { useRecoilValue } from 'recoil'
 import { Button } from '@/components/Elements/Button'
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
 import { RadioGroup } from '@/components/Elements/Form/RadioGroup'
+import { DisplayTypeButtonGroup } from '@/components/features/DisplayTypeButtonGroup'
+import { DisplayType } from '@/components/features/DisplayTypeButtonGroup/displayTypeItems'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { FavoriteFolderButton } from '@/features/favoriteFolder/components/FavoriteFolderButton'
 import { SetColorDialog } from '@/features/folder/components/Dialog/SetColorDialog'
+import { ShareFolderDialog } from '@/features/folder/components/Dialog/ShareFolderDialog'
 import { useFetchFolder } from '@/features/folder/hooks/useFetchFolder'
 import { LinkCard } from '@/features/link/components/LinkCard'
 import { LinkListItem } from '@/features/link/components/LinkListItem'
@@ -34,36 +37,32 @@ import { linkSortItems } from '@/features/link/utils/linkSortItems'
 import { NotFound } from '@/features/misc/routes/NotFound'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 import { folderHasLinksState } from '@/states/FolderHasLinksAtom'
-import { RouterParams } from '@/types'
+import { RouterParams } from '@/types/RouterParams'
 import { diffTime } from '@/utils/date'
-import { displayFormatItems } from '@/utils/displayFormatItems'
 import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
 
 export const FolderDetails: FC = () => {
   const [sortType, setSortType] = useState('created_asc')
-  const [displayFormat, setDisplayFormat] = useState('list')
-  const [openSetColorDialog, setOpenSetColorDialog] = useState(false)
+  const [displayType, setDisplayType] = useState<DisplayType>('list')
+  const [isOpenShareFolderDialog, setIsOpenShareFolderDialog] = useState(false)
+  const [isOpenSetColorDialog, setIsOpenSetColorDialog] = useState(false)
   const folderHasLinks = useRecoilValue(folderHasLinksState)
-  const authenticated = useRecoilValue(isAuthenticatedState)
+  const isAuthenticated = useRecoilValue(isAuthenticatedState)
   const { folderId } = useParams<RouterParams>()
-  const { errorMessage, fetchFolder, folder, setFolder, isFeatchLoading, isOwner, resStatus } =
+  const { errorMessage, fetchFolder, folder, setFolder, isFetching, isOwner, resStatus } =
     useFetchFolder()
 
   const handleChangeSort = (e: ChangeEvent<HTMLInputElement>): void => {
     setSortType((e.target as HTMLInputElement).value)
   }
 
-  const handleChangeDisplay = (e: ChangeEvent<HTMLInputElement>): void => {
-    setDisplayFormat((e.target as HTMLInputElement).value)
-  }
-
   useEffect(() => {
     folderId !== undefined && fetchFolder(folderId, sortType)
   }, [folderId, sortType])
 
-  if (isFeatchLoading) return <PageLoading />
+  if (isFetching) return <PageLoading />
 
-  if (!isFeatchLoading && resStatus === 404) return <NotFound />
+  if (!isFetching && resStatus === 404) return <NotFound />
 
   return (
     <Container maxWidth='xl'>
@@ -83,13 +82,13 @@ export const FolderDetails: FC = () => {
               }
               arrow
             >
-              <IconButton onClick={() => setOpenSetColorDialog(true)}>
+              <IconButton onClick={() => setIsOpenSetColorDialog(true)}>
                 <FolderRoundedIcon fontSize='large' sx={{ color: folder?.color }} />
               </IconButton>
             </Tooltip>
             <SetColorDialog
-              open={openSetColorDialog}
-              handleCloseDialog={() => setOpenSetColorDialog(false)}
+              isOpenDialog={isOpenSetColorDialog}
+              setIsOpenDialog={setIsOpenSetColorDialog}
               folder={folder}
               setFolder={setFolder}
             />
@@ -106,7 +105,7 @@ export const FolderDetails: FC = () => {
               {folder?.name}
             </Typography>
           </Box>
-          {authenticated ? (
+          {isAuthenticated ? (
             <FavoriteFolderButton
               folderId={folderId as string}
               favoritedData={folder?.folder_favorites}
@@ -153,19 +152,33 @@ export const FolderDetails: FC = () => {
             {folder?.description}
           </Typography>
         )}
-        {isOwner && (
-          <>
-            <Stack direction='row' alignItems='center' spacing={1} sx={{ mt: 2 }}>
-              <Button icon={<ShareOutlinedIcon />} label='共有' variant='outlined' />
-              <LinkButton
-                color='secondary'
-                icon={<EditOutlinedIcon />}
-                label='編集'
-                path={`/folder/${folderId as string}/edit`}
+
+        <Stack direction='row' alignItems='center' spacing={1} sx={{ mt: 2 }}>
+          {folder?.user !== undefined && (
+            <>
+              <Button
+                onClick={() => setIsOpenShareFolderDialog(true)}
+                icon={<ShareOutlinedIcon />}
+                label='共有'
+                variant='outlined'
               />
-            </Stack>
-          </>
-        )}
+              <ShareFolderDialog
+                isOpenDialog={isOpenShareFolderDialog}
+                setIsOpenDialog={setIsOpenShareFolderDialog}
+                folderName={folder.name}
+                ownerName={folder.user.name}
+              />
+            </>
+          )}
+          {isOwner && (
+            <LinkButton
+              color='secondary'
+              icon={<EditOutlinedIcon />}
+              label='編集'
+              path={`/folder/${folderId as string}/edit`}
+            />
+          )}
+        </Stack>
       </Box>
       {folderHasLinks.length > 0 ? (
         <>
@@ -176,14 +189,9 @@ export const FolderDetails: FC = () => {
               radioGroupItems={linkSortItems}
               value={sortType}
             />
-            <RadioGroup
-              buttonLabel='表示形式'
-              handleChange={handleChangeDisplay}
-              radioGroupItems={displayFormatItems}
-              value={displayFormat}
-            />
+            <DisplayTypeButtonGroup displayType={displayType} setDisplayType={setDisplayType} />
           </Stack>
-          {displayFormat === 'list' && (
+          {displayType === 'list' && (
             <List sx={{ ...whiteBackgroundProps, pl: 1, pr: 0, py: 2 }}>
               {folderHasLinks?.map((link: Link) => {
                 return (
@@ -197,7 +205,7 @@ export const FolderDetails: FC = () => {
               })}
             </List>
           )}
-          {displayFormat === 'card' && (
+          {displayType === 'card' && (
             <Grid container columns={{ xs: 2, sm: 2, md: 3, lg: 4, xl: 5 }} spacing={3}>
               {folderHasLinks?.map((link: Link) => {
                 return (

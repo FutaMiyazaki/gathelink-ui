@@ -6,28 +6,25 @@ import { ChangeEvent, FC, useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import { RadioGroup } from '@/components/Elements/Form/RadioGroup'
+import { DisplayTypeButtonGroup } from '@/components/features/DisplayTypeButtonGroup'
+import { DisplayType } from '@/components/features/DisplayTypeButtonGroup/displayTypeItems'
 import { FoldersByCard } from '@/features/folder/components/FoldersByCard'
 import { FoldersByList } from '@/features/folder/components/FoldersByList'
-import { useFetchFavoritedFolders } from '@/features/folder/hooks/useFetchFavoritedFolders'
+import { useFetchFavoriteFolders } from '@/features/folder/hooks/useFetchFavoriteFolders'
 import { folderSortItems } from '@/features/folder/utils/folderSortItems'
 import { useMedia } from '@/hooks/useMedia'
-import { favoritedFoldersState } from '@/states/FavoritedFoldersAtom'
-import { displayFormatItems } from '@/utils/displayFormatItems'
+import { favoriteFoldersState } from '@/states/FavoriteFolders'
 
-export const FavoritedFolders: FC = () => {
-  const favoritedFolders = useRecoilValue(favoritedFoldersState)
-  const { errorMessage, fetchFavoritedFolders, isFeatching } = useFetchFavoritedFolders()
+export const FavoriteFolders: FC = () => {
+  const favoriteFolders = useRecoilValue(favoriteFoldersState)
+  const { errorMessage, fetchFavoriteFolders, isFetching } = useFetchFavoriteFolders()
   const [sortType, setSortType] = useState('created_asc')
-  const [displayFormat, setDisplayFormat] = useState('list')
+  const [displayType, setDisplayType] = useState<DisplayType>('list')
   const { isMobileScreen } = useMedia()
   const noContentsText = 'お気に入りフォルダはありません'
 
   const handleChangeSort = (e: ChangeEvent<HTMLInputElement>): void => {
     setSortType((e.target as HTMLInputElement).value)
-  }
-
-  const handleChangeDisplay = (e: ChangeEvent<HTMLInputElement>): void => {
-    setDisplayFormat((e.target as HTMLInputElement).value)
   }
 
   const renderContent = (
@@ -41,27 +38,22 @@ export const FavoritedFolders: FC = () => {
             radioGroupItems={folderSortItems}
             value={sortType}
           />
-          <RadioGroup
-            buttonLabel='表示形式'
-            handleChange={handleChangeDisplay}
-            radioGroupItems={displayFormatItems}
-            value={displayFormat}
-          />
+          <DisplayTypeButtonGroup displayType={displayType} setDisplayType={setDisplayType} />
         </Stack>
       </Box>
-      {displayFormat === 'list' && (
+      {displayType === 'list' && (
         <FoldersByList
           errorMessage={errorMessage}
-          folders={favoritedFolders}
-          isLoading={isFeatching}
+          folders={favoriteFolders}
+          isLoading={isFetching}
           noContentsText={noContentsText}
         />
       )}
-      {displayFormat === 'card' && (
+      {displayType === 'card' && (
         <FoldersByCard
           errorMessage={errorMessage}
-          folders={favoritedFolders}
-          isLoading={isFeatching}
+          folders={favoriteFolders}
+          isLoading={isFetching}
           noContentsText={noContentsText}
         />
       )}
@@ -69,7 +61,7 @@ export const FavoritedFolders: FC = () => {
   )
 
   useEffect(() => {
-    fetchFavoritedFolders(sortType)
+    fetchFavoriteFolders(sortType)
   }, [sortType])
 
   if (isMobileScreen) return <>{renderContent}</>

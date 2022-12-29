@@ -3,7 +3,7 @@ import Container from '@mui/material/Container'
 import { FC, ReactNode } from 'react'
 import { useRecoilState } from 'recoil'
 
-import { AppAlert } from '@/components/Alert'
+import { Alert } from '@/components/Elements/Alert'
 import { BottomNavigation } from '@/components/Layouts/BottomNavigation'
 import { FloatingActionButton } from '@/components/Layouts/FloatingActionButton'
 import { Header } from '@/components/Layouts/Header'
@@ -42,10 +42,10 @@ export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
           {children}
           <Container>
             <CreateFolderDialog
-              handleCloseDialog={() => setIsOpenCreateFolderDialog(false)}
-              open={isOpenCreateFolderDialog}
+              isOpenDialog={isOpenCreateFolderDialog}
+              setIsOpenDialog={setIsOpenCreateFolderDialog}
             />
-            <AppAlert />
+            <Alert />
           </Container>
         </Box>
         <FloatingActionButton />

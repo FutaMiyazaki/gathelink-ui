@@ -24,7 +24,7 @@ export const NotFound: FC = () => (
       <Image
         src={`${process.env.PUBLIC_URL}/notfound.png`}
         alt='not-found-image'
-        duration={2000}
+        duration={0}
         style={{ pointerEvents: 'none', maxWidth: '100%' }}
       />
       <LinkButton label='トップページへ戻る' path='/' size='large' variant='text' />
