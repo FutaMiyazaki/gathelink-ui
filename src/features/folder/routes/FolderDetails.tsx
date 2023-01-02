@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Unstable_Grid2'
 import { parseISO } from 'date-fns'
 import { useEffect, FC, useState, ChangeEvent } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
 import { Button } from '@/components/Elements/Button'
@@ -38,11 +38,12 @@ import { NotFound } from '@/features/misc/routes/NotFound'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 import { folderHasLinksState } from '@/states/FolderHasLinksAtom'
 import { RouterParams } from '@/types/RouterParams'
+import { SortType } from '@/types/SortType'
 import { diffTime } from '@/utils/date'
 import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
 
 export const FolderDetails: FC = () => {
-  const [sortType, setSortType] = useState('created_asc')
+  const [sortType, setSortType] = useState<SortType>('created_asc')
   const [displayType, setDisplayType] = useState<DisplayType>('list')
   const [isOpenShareFolderDialog, setIsOpenShareFolderDialog] = useState(false)
   const [isOpenSetColorDialog, setIsOpenSetColorDialog] = useState(false)
@@ -51,9 +52,12 @@ export const FolderDetails: FC = () => {
   const { folderId } = useParams<RouterParams>()
   const { errorMessage, fetchFolder, folder, setFolder, isFetching, isOwner, resStatus } =
     useFetchFolder()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const handleChangeSort = (e: ChangeEvent<HTMLInputElement>): void => {
-    setSortType((e.target as HTMLInputElement).value)
+    const newSortType = (e.target as HTMLInputElement).value as SortType
+    setSortType(newSortType)
+    setSearchParams({ sort: newSortType })
   }
 
   useEffect(() => {

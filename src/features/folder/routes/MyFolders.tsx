@@ -3,28 +3,34 @@ import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { ChangeEvent, FC, useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
 import { RadioGroup } from '@/components/Elements/Form/RadioGroup'
 import { DisplayTypeButtonGroup } from '@/components/features/DisplayTypeButtonGroup'
 import { DisplayType } from '@/components/features/DisplayTypeButtonGroup/displayTypeItems'
+import { PageLoading } from '@/components/Layouts/PageLoading'
 import { FoldersByCard } from '@/features/folder/components/FoldersByCard'
 import { FoldersByList } from '@/features/folder/components/FoldersByList'
 import { useFetchMyFolders } from '@/features/folder/hooks/useFetchMyFolders'
 import { folderSortItems } from '@/features/folder/utils/folderSortItems'
 import { useMedia } from '@/hooks/useMedia'
 import { myFoldersState } from '@/states/MyFoldersAtom'
+import { SortType } from '@/types/SortType'
 
 export const MyFolders: FC = () => {
   const myFolders = useRecoilValue(myFoldersState)
-  const { errorMessage, fetchMyFolders, isFetching } = useFetchMyFolders()
-  const [sortType, setSortType] = useState('created_asc')
+  const { isFetching, errorMessage, fetchMyFolders } = useFetchMyFolders()
+  const [sortType, setSortType] = useState<SortType>('created_asc')
   const [displayType, setDisplayType] = useState<DisplayType>('list')
+  const [searchParams, setSearchParams] = useSearchParams()
   const { isMobileScreen } = useMedia()
   const noContentsText = '作成したフォルダはありません'
 
   const handleChangeSort = (e: ChangeEvent<HTMLInputElement>): void => {
-    setSortType((e.target as HTMLInputElement).value)
+    const newSortType = (e.target as HTMLInputElement).value as SortType
+    setSortType(newSortType)
+    setSearchParams({ sort: newSortType })
   }
 
   const renderContent = (
@@ -41,21 +47,27 @@ export const MyFolders: FC = () => {
           <DisplayTypeButtonGroup displayType={displayType} setDisplayType={setDisplayType} />
         </Stack>
       </Box>
-      {displayType === 'list' && (
-        <FoldersByList
-          errorMessage={errorMessage}
-          folders={myFolders}
-          isLoading={isFetching}
-          noContentsText={noContentsText}
-        />
-      )}
-      {displayType === 'card' && (
-        <FoldersByCard
-          errorMessage={errorMessage}
-          folders={myFolders}
-          isLoading={isFetching}
-          noContentsText={noContentsText}
-        />
+      {isFetching ? (
+        <PageLoading />
+      ) : (
+        <>
+          {displayType === 'list' && (
+            <FoldersByList
+              errorMessage={errorMessage}
+              folders={myFolders}
+              isLoading={isFetching}
+              noContentsText={noContentsText}
+            />
+          )}
+          {displayType === 'card' && (
+            <FoldersByCard
+              errorMessage={errorMessage}
+              folders={myFolders}
+              isLoading={isFetching}
+              noContentsText={noContentsText}
+            />
+          )}
+        </>
       )}
     </>
   )

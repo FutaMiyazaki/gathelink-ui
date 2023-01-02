@@ -3,6 +3,7 @@ import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { ChangeEvent, FC, useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
 import { RadioGroup } from '@/components/Elements/Form/RadioGroup'
@@ -14,17 +15,21 @@ import { useFetchFavoriteFolders } from '@/features/folder/hooks/useFetchFavorit
 import { folderSortItems } from '@/features/folder/utils/folderSortItems'
 import { useMedia } from '@/hooks/useMedia'
 import { favoriteFoldersState } from '@/states/FavoriteFolders'
+import { SortType } from '@/types/SortType'
 
 export const FavoriteFolders: FC = () => {
   const favoriteFolders = useRecoilValue(favoriteFoldersState)
   const { errorMessage, fetchFavoriteFolders, isFetching } = useFetchFavoriteFolders()
-  const [sortType, setSortType] = useState('created_asc')
+  const [sortType, setSortType] = useState<SortType>('created_asc')
   const [displayType, setDisplayType] = useState<DisplayType>('list')
+  const [searchParams, setSearchParams] = useSearchParams()
   const { isMobileScreen } = useMedia()
   const noContentsText = 'お気に入りフォルダはありません'
 
   const handleChangeSort = (e: ChangeEvent<HTMLInputElement>): void => {
-    setSortType((e.target as HTMLInputElement).value)
+    const newSortType = (e.target as HTMLInputElement).value as SortType
+    setSortType(newSortType)
+    setSearchParams({ sort: newSortType })
   }
 
   const renderContent = (

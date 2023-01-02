@@ -6,14 +6,14 @@ import { myFoldersState } from '@/states/MyFoldersAtom'
 import { authHeaders } from '@/utils/authHeaders'
 
 type UseFetchMyFolders = {
+  isFetching: boolean
   errorMessage: string
   fetchMyFolders: (sortType: string) => Promise<void>
-  isFetching: boolean
 }
 
 export const useFetchMyFolders = (): UseFetchMyFolders => {
-  const [errorMessage, setErrorMessage] = useState('')
   const [isFetching, setIsFetching] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
   const setMyFolders = useSetRecoilState(myFoldersState)
   const headers = authHeaders()
 
@@ -22,7 +22,7 @@ export const useFetchMyFolders = (): UseFetchMyFolders => {
     setErrorMessage('')
 
     await apiClient
-      .get(`/my_folder_list?sort=${sortType}`, { headers })
+      .get(`/my_folders?sort=${sortType}`, { headers })
       .then((res) => {
         setMyFolders(res.data)
       })
@@ -35,8 +35,8 @@ export const useFetchMyFolders = (): UseFetchMyFolders => {
   }
 
   return {
+    isFetching,
     errorMessage,
     fetchMyFolders,
-    isFetching,
   }
 }

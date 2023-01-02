@@ -13,6 +13,7 @@ import { EditFolder } from '@/features/folder/routes/EditFolder'
 import { FolderDetails } from '@/features/folder/routes/FolderDetails'
 import { MyFolders } from '@/features/folder/routes/MyFolders'
 import { EditLink } from '@/features/link/routes/EditLink'
+import { MyLinks } from '@/features/link/routes/MyLink'
 import { NewLink } from '@/features/link/routes/NewLink'
 import { Home } from '@/features/misc/routes/Home'
 import { NotFound } from '@/features/misc/routes/NotFound'
@@ -32,7 +33,7 @@ export const AppRoutes: FC = () => {
     ) {
       setAuthenticated(true)
     }
-  }, [authenticated])
+  }, [])
 
   const MainLayoutPage: FC = () => {
     return (
@@ -73,6 +74,7 @@ export const AppRoutes: FC = () => {
           path='/folder/:folderId/link/:linkId'
           element={<AuthGuard component={<EditLink />} />}
         />
+        <Route path='/mylinks' element={<AuthGuard component={<MyLinks />} />} />
       </Route>
     </Routes>
   )

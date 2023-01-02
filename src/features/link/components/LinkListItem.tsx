@@ -24,11 +24,11 @@ import { diffTime } from '@/utils/date'
 type LinkListItemProps = {
   divider?: boolean
   folderId: string
-  isOwner: boolean
+  isOwner?: boolean
   link: LinkType
 }
 
-export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner, link }) => {
+export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner = false, link }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false)
   const setAlert = useSetRecoilState(alertState)

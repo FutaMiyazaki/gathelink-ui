@@ -25,8 +25,8 @@ export const BottomNavigation: FC = () => {
 
   const naviActions: readonly NaviAction[] = [
     { label: 'ホーム', icon: <HomeRoundedIcon />, path: '' },
-    { label: 'お気に入り', icon: <StarRoundedIcon />, path: 'favorite' },
-    { label: 'フォルダ', icon: <FolderRoundedIcon />, path: 'myfolders' },
+    { label: 'お気に入り', icon: <StarRoundedIcon />, path: '/favorite?sort=created_asc' },
+    { label: 'フォルダ', icon: <FolderRoundedIcon />, path: '/myfolders?sort=created_asc' },
     { label: '探す', icon: <SearchRoundedIcon />, path: 'seacrh' },
   ]
 
@@ -55,7 +55,7 @@ export const BottomNavigation: FC = () => {
             value={action.label}
             label={action.label}
             icon={action.icon}
-            onClick={() => navigate(`/${action.path}`)}
+            onClick={() => navigate(action.path)}
           />
         )
       })}
