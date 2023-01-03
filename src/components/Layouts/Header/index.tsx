@@ -15,7 +15,6 @@ import { LinkButton } from '@/components/Elements/Button/LinkButton'
 import { Link } from '@/components/Elements/Link'
 import { Menu } from '@/components/Elements/Menu'
 import { MenuItems } from '@/components/Elements/Menu/MenuItems'
-import { HeaderAccountMenu } from '@/components/Layouts/Header/AccountMenu'
 import { HeaderMenu } from '@/components/Layouts/Header/Menu'
 import { buttonItems } from '@/components/Layouts/LeadAuthorization/buttonItems'
 import { useMedia } from '@/hooks/useMedia'
@@ -57,7 +56,7 @@ export const Header: FC = () => {
       elevation={0}
       sx={{ backgroundColor: 'secondary.light', borderBottom: 1, borderColor: '#e0e0e0' }}
     >
-      <Toolbar>
+      <Toolbar variant={isDesktopScreen ? 'regular' : 'dense'}>
         <Link path='/'>
           <Typography
             color='primary'
@@ -87,7 +86,6 @@ export const Header: FC = () => {
         )}
         <Box sx={{ flexGrow: 1 }} />
         {isAuthenticated && isDesktopScreen && <HeaderMenu />}
-        {isAuthenticated && <HeaderAccountMenu />}
         {!isAuthenticated && !isDesktopScreen && (
           <Stack alignItems='center' direction='row' spacing={1}>
             {buttonItems.map((item) => (

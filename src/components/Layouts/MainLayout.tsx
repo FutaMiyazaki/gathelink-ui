@@ -11,9 +11,9 @@ import { Sidebar } from '@/components/Layouts/Sidebar'
 import { CreateFolderDialog } from '@/features/folder/components/Dialog/CreateFolderDialog'
 import { isOpenCreateFolderDialogState } from '@/states/isOpenCreateFolderDialogState'
 
-type MainLayoutProps = {
+type MainLayoutProps = Readonly<{
   children: ReactNode
-}
+}>
 
 export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   const [isOpenCreateFolderDialog, setIsOpenCreateFolderDialog] = useRecoilState(
@@ -38,7 +38,7 @@ export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
           pt: 8,
         }}
       >
-        <Box sx={{ mt: 4, mb: 6 }}>
+        <Box sx={{ mt: 4, mb: 12 }}>
           {children}
           <Container>
             <CreateFolderDialog

@@ -3,24 +3,24 @@ import Tabs from '@mui/material/Tabs'
 import { FC } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-import { tabItems } from '@/components/Layouts/Header/Menu/tabItems'
+import { menuItems } from '@/components/Layouts/Header/Menu/menuItems'
 
 export const HeaderMenu: FC = () => {
   const location = useLocation()
 
   return (
     <Tabs value={false} variant='scrollable' scrollButtons={false}>
-      {tabItems.map((item) => {
+      {menuItems.map((item) => {
         return (
           <Tab
             key={item.label}
             component={Link}
             label={item.label}
-            to={item.to}
+            to={item.path}
             sx={{
-              borderBottom: location.pathname === item.to ? 2 : 0,
+              borderBottom: location.pathname === item.path ? 2 : 0,
               borderColor: 'secondary.dark',
-              color: location.pathname === item.to ? 'primary.main' : 'secondary.dark',
+              color: location.pathname === item.path ? 'primary.main' : 'secondary.dark',
               mx: 1,
               '&:hover': {
                 backgroundColor: 'secondary.main',
