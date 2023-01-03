@@ -4,11 +4,11 @@ import { ReactNode } from 'react'
 
 export type DisplayType = 'list' | 'card'
 
-export type DisplayTypeItem = {
+export type DisplayTypeItem = Readonly<{
   value: DisplayType
   icon: ReactNode
   label: string
-}
+}>
 
 export const displayTypeItems: DisplayTypeItem[] = [
   { value: 'list', icon: <ListRoundedIcon />, label: 'リスト' },

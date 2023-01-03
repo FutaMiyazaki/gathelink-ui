@@ -21,6 +21,7 @@ export const Pagination: FC<PaginationProps> = ({ currentPage = 1, totalPages, s
         page={currentPage}
         count={totalPages}
         color='primary'
+        size='large'
         renderItem={(item) => (
           <PaginationItem
             component={Link}

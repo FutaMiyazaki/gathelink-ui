@@ -12,13 +12,13 @@ import { RadioGroup } from '@/components/Elements/Form/RadioGroup'
 import { Pagination } from '@/components/Elements/Pagination'
 import { DisplayTypeButtonGroup } from '@/components/features/DisplayTypeButtonGroup'
 import { DisplayType } from '@/components/features/DisplayTypeButtonGroup/displayTypeItems'
+import { NoContents } from '@/components/Layouts/NoContents'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { folderSortItems } from '@/features/folder/utils/folderSortItems'
 import { LinkCard } from '@/features/link/components/LinkCard'
 import { LinkListItem } from '@/features/link/components/LinkListItem'
 import { useFetchMyLinks } from '@/features/link/hooks/useFetchMyLinks'
 import { Link as LinkType } from '@/features/link/types/Link'
-import { useMedia } from '@/hooks/useMedia'
 import { SortType } from '@/types/SortType'
 import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
 
@@ -27,7 +27,6 @@ export const MyLinks: FC = () => {
   const [sortType, setSortType] = useState<SortType>('created_asc')
   const [displayType, setDisplayType] = useState<DisplayType>('list')
   const [searchParams, setSearchParams] = useSearchParams()
-  const { isMobileScreen } = useMedia()
   const noContentsText = '作成したリンクはありません'
 
   const handleChangeSort = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -36,25 +35,31 @@ export const MyLinks: FC = () => {
     setSearchParams({ page: '1', sort: newSortType })
   }
 
-  const renderContent = (
-    <>
-      <Box sx={{ mx: 1.5, mb: 3 }}>
+  useEffect(() => {
+    fetchMyLinks(searchParams.get('page') as string, sortType)
+  }, [searchParams, sortType])
+
+  return (
+    <Container maxWidth='md'>
+      <Box sx={{ mb: 3 }}>
         <Typography variant='h1'>全てのリンク</Typography>
-        <Stack direction='row' justifyContent='flex-end'>
-          <RadioGroup
-            buttonLabel='並び順'
-            handleChange={handleChangeSort}
-            radioGroupItems={folderSortItems}
-            value={sortType}
-          />
-          <DisplayTypeButtonGroup displayType={displayType} setDisplayType={setDisplayType} />
-        </Stack>
+        {myLinks !== undefined && myLinks.length > 0 && (
+          <Stack direction='row' justifyContent='flex-end'>
+            <RadioGroup
+              buttonLabel='並び順'
+              handleChange={handleChangeSort}
+              radioGroupItems={folderSortItems}
+              value={sortType}
+            />
+            <DisplayTypeButtonGroup displayType={displayType} setDisplayType={setDisplayType} />
+          </Stack>
+        )}
       </Box>
+      <Alert message={errorMessage} />
       {isFetching ? (
         <PageLoading />
-      ) : (
+      ) : myLinks !== undefined && myLinks.length > 0 ? (
         <>
-          <Alert message={errorMessage} />
           {displayType === 'list' && (
             <List sx={{ ...whiteBackgroundProps, pl: 1, pr: 0, py: 2 }}>
               {myLinks?.map((link: LinkType) => {
@@ -86,15 +91,9 @@ export const MyLinks: FC = () => {
             sortType={sortType}
           />
         </>
+      ) : (
+        <NoContents message='作成したリンクはありません' />
       )}
-    </>
+    </Container>
   )
-
-  useEffect(() => {
-    fetchMyLinks(searchParams.get('page') as string, sortType)
-  }, [searchParams, sortType])
-
-  if (isMobileScreen) return <>{renderContent}</>
-
-  return <Container maxWidth='md'>{renderContent}</Container>
 }

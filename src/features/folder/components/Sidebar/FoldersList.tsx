@@ -1,17 +1,17 @@
 import FolderRoundedIcon from '@mui/icons-material/FolderRounded'
-import Alert from '@mui/material/Alert'
 import CircularProgress from '@mui/material/CircularProgress'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { FC } from 'react'
 import { useParams } from 'react-router-dom'
 
+import { Alert } from '@/components/Elements/Alert'
 import { Link } from '@/components/Elements/Link'
+import { ListItemIcon } from '@/components/Elements/ListItemIcon'
 import { Folder } from '@/features/folder/types/Folder'
 import { Link as LinkType } from '@/features/link/types/Link'
 import { RouterParams } from '@/types/RouterParams'
@@ -75,14 +75,14 @@ type FoldersListProps = {
   errorMessage: string
   folders: Folder[]
   isLoading: boolean
-  noContentsText: string
+  noContentsMessage: string
 }
 
 export const FoldersList: FC<FoldersListProps> = ({
   errorMessage,
   folders,
   isLoading,
-  noContentsText,
+  noContentsMessage,
 }) => {
   const { folderId } = useParams<RouterParams>()
 
@@ -96,8 +96,9 @@ export const FoldersList: FC<FoldersListProps> = ({
 
   return (
     <>
+      <Alert message={errorMessage} />
       {folders?.length !== 0 ? (
-        <List>
+        <List sx={{ py: 0 }}>
           {folders.map((folder: Folder) => {
             return (
               <Link key={folder.id} color='black' path={`/folder/${folder.id}`}>
@@ -111,13 +112,9 @@ export const FoldersList: FC<FoldersListProps> = ({
             )
           })}
         </List>
-      ) : errorMessage !== '' ? (
-        <Alert icon={false} severity='error' sx={{ m: 2 }}>
-          {errorMessage}
-        </Alert>
       ) : (
         <Typography variant='body2' color='secondary.dark' sx={{ mx: 2, my: 1 }}>
-          {noContentsText}
+          {noContentsMessage}
         </Typography>
       )}
     </>
