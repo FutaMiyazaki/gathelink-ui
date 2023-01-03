@@ -25,6 +25,7 @@ import { LinkButton } from '@/components/Elements/Button/LinkButton'
 import { RadioGroup } from '@/components/Elements/Form/RadioGroup'
 import { DisplayTypeButtonGroup } from '@/components/features/DisplayTypeButtonGroup'
 import { DisplayType } from '@/components/features/DisplayTypeButtonGroup/displayTypeItems'
+import { NoContents } from '@/components/Layouts/NoContents'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { FavoriteFolderButton } from '@/features/favoriteFolder/components/FavoriteFolderButton'
 import { SetColorDialog } from '@/features/folder/components/Dialog/SetColorDialog'
@@ -222,9 +223,7 @@ export const FolderDetails: FC = () => {
           )}
         </>
       ) : (
-        <Box sx={{ textAlign: 'center', mt: 2 }}>
-          <Typography variant='body2'>リンクはありません</Typography>
-        </Box>
+        <NoContents message='作成したリンクはありません' />
       )}
     </Container>
   )

@@ -25,7 +25,7 @@ export const MyFolders: FC = () => {
   const [displayType, setDisplayType] = useState<DisplayType>('list')
   const [searchParams, setSearchParams] = useSearchParams()
   const { isMobileScreen } = useMedia()
-  const noContentsText = '作成したフォルダはありません'
+  const noContentsMessage = '作成したフォルダはありません'
 
   const handleChangeSort = (e: ChangeEvent<HTMLInputElement>): void => {
     const newSortType = (e.target as HTMLInputElement).value as SortType
@@ -56,7 +56,7 @@ export const MyFolders: FC = () => {
               errorMessage={errorMessage}
               folders={myFolders}
               isLoading={isFetching}
-              noContentsText={noContentsText}
+              noContentsMessage={noContentsMessage}
             />
           )}
           {displayType === 'card' && (
@@ -64,7 +64,7 @@ export const MyFolders: FC = () => {
               errorMessage={errorMessage}
               folders={myFolders}
               isLoading={isFetching}
-              noContentsText={noContentsText}
+              noContentsMessage={noContentsMessage}
             />
           )}
         </>

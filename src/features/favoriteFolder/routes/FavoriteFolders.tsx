@@ -24,7 +24,7 @@ export const FavoriteFolders: FC = () => {
   const [displayType, setDisplayType] = useState<DisplayType>('list')
   const [searchParams, setSearchParams] = useSearchParams()
   const { isMobileScreen } = useMedia()
-  const noContentsText = 'お気に入りフォルダはありません'
+  const noContentsMessage = 'お気に入りフォルダはありません'
 
   const handleChangeSort = (e: ChangeEvent<HTMLInputElement>): void => {
     const newSortType = (e.target as HTMLInputElement).value as SortType
@@ -51,7 +51,7 @@ export const FavoriteFolders: FC = () => {
           errorMessage={errorMessage}
           folders={favoriteFolders}
           isLoading={isFetching}
-          noContentsText={noContentsText}
+          noContentsMessage={noContentsMessage}
         />
       )}
       {displayType === 'card' && (
@@ -59,7 +59,7 @@ export const FavoriteFolders: FC = () => {
           errorMessage={errorMessage}
           folders={favoriteFolders}
           isLoading={isFetching}
-          noContentsText={noContentsText}
+          noContentsMessage={noContentsMessage}
         />
       )}
     </>
