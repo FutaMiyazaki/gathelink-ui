@@ -11,20 +11,22 @@ import Chip from '@mui/material/Chip'
 import Container from '@mui/material/Container'
 import IconButton from '@mui/material/IconButton'
 import List from '@mui/material/List'
+import { SelectChangeEvent } from '@mui/material/Select'
 import Stack from '@mui/material/Stack'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Unstable_Grid2'
 import { parseISO } from 'date-fns'
-import { useEffect, FC, useState, ChangeEvent } from 'react'
+import { useEffect, FC, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
 import { Button } from '@/components/Elements/Button'
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
-import { RadioGroup } from '@/components/Elements/Form/RadioGroup'
 import { DisplayTypeButtonGroup } from '@/components/features/DisplayTypeButtonGroup'
 import { DisplayType } from '@/components/features/DisplayTypeButtonGroup/displayTypeItems'
+import { SortSelect } from '@/components/features/SortSelect'
+import { sortItems } from '@/components/features/SortSelect/sortItems'
 import { NoContents } from '@/components/Layouts/NoContents'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { FavoriteFolderButton } from '@/features/favoriteFolder/components/FavoriteFolderButton'
@@ -34,7 +36,6 @@ import { useFetchFolder } from '@/features/folder/hooks/useFetchFolder'
 import { LinkCard } from '@/features/link/components/LinkCard'
 import { LinkListItem } from '@/features/link/components/LinkListItem'
 import { Link } from '@/features/link/types/Link'
-import { linkSortItems } from '@/features/link/utils/linkSortItems'
 import { NotFound } from '@/features/misc/routes/NotFound'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 import { folderHasLinksState } from '@/states/FolderHasLinksAtom'
@@ -55,7 +56,7 @@ export const FolderDetails: FC = () => {
     useFetchFolder()
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const handleChangeSort = (e: ChangeEvent<HTMLInputElement>): void => {
+  const handleChangeSort = (e: SelectChangeEvent): void => {
     const newSortType = (e.target as HTMLInputElement).value as SortType
     setSortType(newSortType)
     setSearchParams({ sort: newSortType })
@@ -187,13 +188,8 @@ export const FolderDetails: FC = () => {
       </Box>
       {folderHasLinks.length > 0 ? (
         <>
-          <Stack direction='row' justifyContent='flex-end' sx={{ mb: 1 }}>
-            <RadioGroup
-              buttonLabel='並び順'
-              handleChange={handleChangeSort}
-              radioGroupItems={linkSortItems}
-              value={sortType}
-            />
+          <Stack direction='row' justifyContent='flex-end' alignItems='center' sx={{ mb: 1 }}>
+            <SortSelect sort={sortType} selectItems={sortItems} handleChange={handleChangeSort} />
             <DisplayTypeButtonGroup displayType={displayType} setDisplayType={setDisplayType} />
           </Stack>
           {displayType === 'list' && (
