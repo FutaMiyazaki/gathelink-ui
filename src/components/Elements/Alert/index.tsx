@@ -1,29 +1,19 @@
-import MuiAlert from '@mui/material/Alert'
-import Snackbar from '@mui/material/Snackbar'
+import MuiAlert, { AlertColor } from '@mui/material/Alert'
+import { SxProps } from '@mui/material/styles'
 import { FC } from 'react'
-import { useRecoilState } from 'recoil'
 
-import { alertState } from '@/states/AlertAtom'
+type AlertProps = Readonly<{
+  message?: string
+  severity?: AlertColor
+  sx?: SxProps
+}>
 
-export const Alert: FC = () => {
-  const [alert, setAlert] = useRecoilState(alertState)
+export const Alert: FC<AlertProps> = ({ message, severity = 'error', sx }) => {
+  if (message !== '' || message !== undefined) return null
 
   return (
-    <Snackbar
-      open={alert.isShow}
-      autoHideDuration={4000}
-      onClose={() => setAlert({ isShow: false, message: '' })}
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      sx={{ mb: 9 }}
-    >
-      <MuiAlert
-        onClose={() => setAlert({ isShow: false, message: '' })}
-        icon={false}
-        variant='filled'
-        sx={{ backgroundColor: '#323232', borderRadius: 2, color: 'white', fontWeight: 'bold' }}
-      >
-        {alert.message}
-      </MuiAlert>
-    </Snackbar>
+    <MuiAlert icon={false} severity={severity} sx={{ mb: 2, ...sx }}>
+      {message}
+    </MuiAlert>
   )
 }

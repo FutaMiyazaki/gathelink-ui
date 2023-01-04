@@ -6,9 +6,9 @@ import { favoriteFoldersState } from '@/states/FavoriteFolders'
 import { authHeaders } from '@/utils/authHeaders'
 
 type UseFetchFavoriteFolders = {
+  isFetching: boolean
   errorMessage: string
   fetchFavoriteFolders: (sortType: string) => Promise<void>
-  isFetching: boolean
 }
 
 export const useFetchFavoriteFolders = (): UseFetchFavoriteFolders => {
@@ -22,7 +22,7 @@ export const useFetchFavoriteFolders = (): UseFetchFavoriteFolders => {
     setErrorMessage('')
 
     await apiClient
-      .get(`/favorited_folders_list?sort=${sortType}`, { headers })
+      .get(`/favorite_folders?sort=${sortType}`, { headers })
       .then((res) => {
         setFavoriteFolders(res.data)
       })
@@ -35,8 +35,8 @@ export const useFetchFavoriteFolders = (): UseFetchFavoriteFolders => {
   }
 
   return {
+    isFetching,
     errorMessage,
     fetchFavoriteFolders,
-    isFetching,
   }
 }

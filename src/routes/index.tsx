@@ -13,6 +13,7 @@ import { EditFolder } from '@/features/folder/routes/EditFolder'
 import { FolderDetails } from '@/features/folder/routes/FolderDetails'
 import { MyFolders } from '@/features/folder/routes/MyFolders'
 import { EditLink } from '@/features/link/routes/EditLink'
+import { MyLinks } from '@/features/link/routes/MyLinks'
 import { NewLink } from '@/features/link/routes/NewLink'
 import { Home } from '@/features/misc/routes/Home'
 import { NotFound } from '@/features/misc/routes/NotFound'
@@ -32,15 +33,13 @@ export const AppRoutes: FC = () => {
     ) {
       setAuthenticated(true)
     }
-  }, [authenticated])
+  }, [])
 
-  const MainLayoutPage: FC = () => {
-    return (
-      <MainLayout>
-        <Outlet />
-      </MainLayout>
-    )
-  }
+  const MainLayoutPage: FC = () => (
+    <MainLayout>
+      <Outlet />
+    </MainLayout>
+  )
 
   const AuthPage: FC = () => {
     if (authenticated) return <Navigate to='/myfolders' replace={false} />
@@ -64,9 +63,10 @@ export const AppRoutes: FC = () => {
       <Route element={<MainLayoutPage />}>
         <Route path='*' element={<NotFound />} />
         <Route path='/' element={<Home />} />
-        <Route path='/folder/:folderId' element={<FolderDetails />} />
         <Route path='/myfolders' element={<AuthGuard component={<MyFolders />} />} />
+        <Route path='/mylinks' element={<AuthGuard component={<MyLinks />} />} />
         <Route path='/favorite' element={<AuthGuard component={<FavoriteFolders />} />} />
+        <Route path='/folder/:folderId' element={<FolderDetails />} />
         <Route path='/folder/:folderId/edit' element={<AuthGuard component={<EditFolder />} />} />
         <Route path='/new/link' element={<AuthGuard component={<NewLink />} />} />
         <Route

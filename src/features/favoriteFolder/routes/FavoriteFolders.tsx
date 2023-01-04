@@ -1,43 +1,44 @@
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
+import { SelectChangeEvent } from '@mui/material/Select'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
-import { ChangeEvent, FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
-import { RadioGroup } from '@/components/Elements/Form/RadioGroup'
 import { DisplayTypeButtonGroup } from '@/components/features/DisplayTypeButtonGroup'
 import { DisplayType } from '@/components/features/DisplayTypeButtonGroup/displayTypeItems'
+import { SortSelect } from '@/components/features/SortSelect'
+import { sortItems } from '@/components/features/SortSelect/sortItems'
 import { FoldersByCard } from '@/features/folder/components/FoldersByCard'
 import { FoldersByList } from '@/features/folder/components/FoldersByList'
 import { useFetchFavoriteFolders } from '@/features/folder/hooks/useFetchFavoriteFolders'
-import { folderSortItems } from '@/features/folder/utils/folderSortItems'
 import { useMedia } from '@/hooks/useMedia'
 import { favoriteFoldersState } from '@/states/FavoriteFolders'
+import { SortType } from '@/types/SortType'
 
 export const FavoriteFolders: FC = () => {
   const favoriteFolders = useRecoilValue(favoriteFoldersState)
   const { errorMessage, fetchFavoriteFolders, isFetching } = useFetchFavoriteFolders()
-  const [sortType, setSortType] = useState('created_asc')
+  const [sortType, setSortType] = useState<SortType>('created_asc')
   const [displayType, setDisplayType] = useState<DisplayType>('list')
+  const [searchParams, setSearchParams] = useSearchParams()
   const { isMobileScreen } = useMedia()
-  const noContentsText = 'お気に入りフォルダはありません'
+  const noContentsMessage = 'お気に入りフォルダはありません'
 
-  const handleChangeSort = (e: ChangeEvent<HTMLInputElement>): void => {
-    setSortType((e.target as HTMLInputElement).value)
+  const handleChangeSort = (e: SelectChangeEvent): void => {
+    const newSortType = (e.target as HTMLInputElement).value as SortType
+    setSortType(newSortType)
+    setSearchParams({ sort: newSortType })
   }
 
   const renderContent = (
     <>
       <Box sx={{ mx: 1.5, mb: 3 }}>
         <Typography variant='h1'>お気に入りフォルダ</Typography>
-        <Stack direction='row' justifyContent='flex-end'>
-          <RadioGroup
-            buttonLabel='並び順'
-            handleChange={handleChangeSort}
-            radioGroupItems={folderSortItems}
-            value={sortType}
-          />
+        <Stack direction='row' justifyContent='flex-end' alignItems='center'>
+          <SortSelect sort={sortType} selectItems={sortItems} handleChange={handleChangeSort} />
           <DisplayTypeButtonGroup displayType={displayType} setDisplayType={setDisplayType} />
         </Stack>
       </Box>
@@ -46,7 +47,7 @@ export const FavoriteFolders: FC = () => {
           errorMessage={errorMessage}
           folders={favoriteFolders}
           isLoading={isFetching}
-          noContentsText={noContentsText}
+          noContentsMessage={noContentsMessage}
         />
       )}
       {displayType === 'card' && (
@@ -54,7 +55,7 @@ export const FavoriteFolders: FC = () => {
           errorMessage={errorMessage}
           folders={favoriteFolders}
           isLoading={isFetching}
-          noContentsText={noContentsText}
+          noContentsMessage={noContentsMessage}
         />
       )}
     </>

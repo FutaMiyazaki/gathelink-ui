@@ -3,7 +3,15 @@ import NorthRoundedIcon from '@mui/icons-material/NorthRounded'
 import SouthRoundedIcon from '@mui/icons-material/SouthRounded'
 import UpdateRoundedIcon from '@mui/icons-material/UpdateRounded'
 
-export const folderSortItems = [
+import { SortType } from '@/types/SortType'
+
+type SortItems = Array<{
+  value: SortType
+  icon: JSX.Element
+  label: string
+}>
+
+export const sortItems: SortItems = [
   {
     value: 'created_asc',
     icon: <HistoryRoundedIcon fontSize='small' />,

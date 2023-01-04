@@ -1,4 +1,4 @@
 export type RouterParams = {
-  folderId?: string
-  linkId?: string
+  readonly folderId?: string
+  readonly linkId?: string
 }

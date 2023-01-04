@@ -2,11 +2,11 @@ import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 import { FC } from 'react'
 
-type InputLabelProps = {
+type InputLabelProps = Readonly<{
   inputRequirement?: string
   labelTitle: string
   required?: boolean
-}
+}>
 
 export const InputLabel: FC<InputLabelProps> = ({
   inputRequirement,

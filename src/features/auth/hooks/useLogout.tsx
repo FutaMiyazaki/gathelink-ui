@@ -29,12 +29,12 @@ export const useLogout = (): UseLogout => {
     await apiClient
       .delete('/auth/sign_out', { headers })
       .then(() => {
+        navigate('/')
         destroyCookie(null, 'accessToken', option)
         destroyCookie(null, 'client', option)
         destroyCookie(null, 'uid', option)
         destroyCookie(null, 'userId', option)
         setAuthenticated(false)
-        navigate('/')
         setAlert({ isShow: true, message: 'ログアウトに成功しました' })
       })
       .catch(() => {
