@@ -8,44 +8,44 @@ import { alertState } from '@/states/AlertAtom'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 import { authHeaders } from '@/utils/authHeaders'
 
-type UseLogout = {
-  isLoading: boolean
-  logout: () => Promise<void>
+type UseDeleteUser = {
+  isDeleting: boolean
+  deleteUser: () => Promise<void>
 }
 
-export const useLogout = (): UseLogout => {
-  const [isLoading, setIsLoading] = useState(false)
-  const navigate = useNavigate()
+export const useDeleteUser = (): UseDeleteUser => {
+  const [isDeleting, setIsDeleting] = useState(false)
   const setAuthenticated = useSetRecoilState(isAuthenticatedState)
   const setAlert = useSetRecoilState(alertState)
   const headers = authHeaders()
+  const navigate = useNavigate()
 
-  const logout = async (): Promise<void> => {
-    setIsLoading(true)
+  const deleteUser = async (): Promise<void> => {
+    setIsDeleting(true)
     const option = {
       path: '/',
     }
 
     await apiClient
-      .delete('/auth/sign_out', { headers })
+      .delete('/auth', { headers })
       .then(() => {
-        setAuthenticated(false)
-        setAlert({ isShow: true, message: 'ログアウトに成功しました' })
         destroyCookie(null, 'accessToken', option)
         destroyCookie(null, 'client', option)
         destroyCookie(null, 'uid', option)
         destroyCookie(null, 'userId', option)
         destroyCookie(null, 'userName', option)
+        setAuthenticated(false)
+        setAlert({ isShow: true, message: 'アカウントを削除しました' })
       })
       .catch(() => {
-        setAlert({ isShow: true, message: 'ログアウトに失敗しました' })
+        setAlert({ isShow: true, message: 'アカウントの削除に失敗しました' })
       })
-    setIsLoading(false)
+    setIsDeleting(false)
     navigate('/')
   }
 
   return {
-    isLoading,
-    logout,
+    isDeleting,
+    deleteUser,
   }
 }

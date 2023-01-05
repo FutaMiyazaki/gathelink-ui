@@ -6,8 +6,9 @@ import { useSetRecoilState } from 'recoil'
 import { apiClient } from '@/lib/axios/apiClient'
 import { alertState } from '@/states/AlertAtom'
 import { isAuthenticatedState } from '@/states/AuthAtom'
+import { currentUserState } from '@/states/CurrentUserAtom'
 
-type params = {
+type Params = {
   email: string
   password: string
 }
@@ -15,7 +16,7 @@ type params = {
 type UseLogin = {
   isLoading: boolean
   errorMessage: string
-  login: (params: params) => Promise<void>
+  login: (params: Params) => Promise<void>
 }
 
 export const useLogin = (): UseLogin => {
@@ -23,9 +24,10 @@ export const useLogin = (): UseLogin => {
   const [errorMessage, setErrorMessage] = useState('')
   const navigate = useNavigate()
   const setAuthenticated = useSetRecoilState(isAuthenticatedState)
+  const setCurrentUser = useSetRecoilState(currentUserState)
   const setAlert = useSetRecoilState(alertState)
 
-  const login = async (params: params): Promise<void> => {
+  const login = async (params: Params): Promise<void> => {
     setIsLoading(true)
     const option = {
       maxAge: 14 * 24 * 60 * 60,
@@ -40,7 +42,9 @@ export const useLogin = (): UseLogin => {
         res.headers.client != null && setCookie(null, 'client', res.headers.client, option)
         res.headers.uid != null && setCookie(null, 'uid', res.headers.uid, option)
         res.data.data.id != null && setCookie(null, 'userId', res.data.data.id, option)
+        res.data.data.name != null && setCookie(null, 'userName', res.data.data.name, option)
         setAuthenticated(true)
+        setCurrentUser({ id: res.data.data.id, name: res.data.data.name })
         navigate('/')
         setAlert({ isShow: true, message: 'ログインに成功しました' })
       })

@@ -1,16 +1,17 @@
 import FolderRoundedIcon from '@mui/icons-material/FolderRounded'
-import Alert from '@mui/material/Alert'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
 import { parseISO } from 'date-fns'
 import { FC } from 'react'
 
+import { Alert } from '@/components/Elements/Alert'
 import { Link } from '@/components/Elements/Link'
+import { ListItemIcon } from '@/components/Elements/ListItemIcon'
+import { NoContents } from '@/components/Layouts/NoContents'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { Folder } from '@/features/folder/types/Folder'
 import { diffTime } from '@/utils/date'
@@ -67,19 +68,20 @@ type FoldersByListProps = {
   errorMessage: string
   folders: Folder[]
   isLoading: boolean
-  noContentsText: string
+  noContentsMessage: string
 }
 
 export const FoldersByList: FC<FoldersByListProps> = ({
   errorMessage,
   folders,
   isLoading,
-  noContentsText,
+  noContentsMessage,
 }) => {
   if (isLoading) return <PageLoading />
 
   return (
     <>
+      <Alert message={errorMessage} />
       {folders?.length !== 0 ? (
         <List>
           <Divider />
@@ -89,15 +91,7 @@ export const FoldersByList: FC<FoldersByListProps> = ({
         </List>
       ) : (
         <>
-          {errorMessage !== '' ? (
-            <Alert icon={false} severity='error' sx={{ m: 2 }}>
-              {errorMessage}
-            </Alert>
-          ) : (
-            <Typography variant='body2' color='secondary.dark' sx={{ mx: 2, my: 1 }}>
-              {noContentsText}
-            </Typography>
-          )}
+          <NoContents message={noContentsMessage} />
         </>
       )}
     </>

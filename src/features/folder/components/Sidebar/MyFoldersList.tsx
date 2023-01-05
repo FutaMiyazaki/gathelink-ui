@@ -1,9 +1,12 @@
+import FolderCopyRoundedIcon from '@mui/icons-material/FolderCopyRounded'
 import Box from '@mui/material/Box'
-import Stack from '@mui/material/Stack'
+import ListItem from '@mui/material/ListItem'
+import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
 import { FC, useEffect } from 'react'
 import { useRecoilValue } from 'recoil'
 
+import { ListItemIcon } from '@/components/Elements/ListItemIcon'
 import { FoldersList } from '@/features/folder/components/Sidebar/FoldersList'
 import { useFetchMyFolders } from '@/features/folder/hooks/useFetchMyFolders'
 import { isAuthenticatedState } from '@/states/AuthAtom'
@@ -22,21 +25,21 @@ export const MyFoldersList: FC = () => {
 
   return (
     <Box>
-      <Stack
-        alignItems='center'
-        direction='row'
-        justifyContent='space-between'
-        sx={{ pl: 2, pr: 1 }}
-      >
-        <Typography variant='subtitle1' color='secondary.dark' sx={{ fontWeight: 'bold' }}>
-          マイフォルダ
-        </Typography>
-      </Stack>
+      <ListItem dense>
+        <ListItemIcon>
+          <FolderCopyRoundedIcon />
+        </ListItemIcon>
+        <ListItemText>
+          <Typography variant='subtitle1' color='secondary.dark' sx={{ fontWeight: 'bold' }}>
+            マイフォルダ
+          </Typography>
+        </ListItemText>
+      </ListItem>
       <FoldersList
         errorMessage={errorMessage}
         folders={myFolders}
         isLoading={isFetching}
-        noContentsText='作成したフォルダはありません'
+        noContentsMessage='作成したフォルダはありません'
       />
     </Box>
   )

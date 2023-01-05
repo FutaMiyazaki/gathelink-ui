@@ -1,9 +1,12 @@
+import StarRoundedIcon from '@mui/icons-material/StarRounded'
 import Box from '@mui/material/Box'
-import Stack from '@mui/material/Stack'
+import ListItem from '@mui/material/ListItem'
+import ListItemText from '@mui/material/ListItemText'
 import Typography from '@mui/material/Typography'
 import { FC, useEffect } from 'react'
 import { useRecoilValue } from 'recoil'
 
+import { ListItemIcon } from '@/components/Elements/ListItemIcon'
 import { FoldersList } from '@/features/folder/components/Sidebar/FoldersList'
 import { useFetchFavoriteFolders } from '@/features/folder/hooks/useFetchFavoriteFolders'
 import { isAuthenticatedState } from '@/states/AuthAtom'
@@ -22,16 +25,21 @@ export const FavoriteFoldersList: FC = () => {
 
   return (
     <Box sx={{ mb: 2 }}>
-      <Stack alignItems='center' direction='row' sx={{ pl: 2 }}>
-        <Typography variant='subtitle1' color='secondary.dark' sx={{ fontWeight: 'bold' }}>
-          お気に入り
-        </Typography>
-      </Stack>
+      <ListItem dense>
+        <ListItemIcon>
+          <StarRoundedIcon />
+        </ListItemIcon>
+        <ListItemText>
+          <Typography variant='subtitle1' color='secondary.dark' sx={{ fontWeight: 'bold' }}>
+            お気に入り
+          </Typography>
+        </ListItemText>
+      </ListItem>
       <FoldersList
         errorMessage={errorMessage}
         folders={favoriteFolders}
         isLoading={isFetching}
-        noContentsText='お気に入りフォルダはありません'
+        noContentsMessage='お気に入りフォルダはありません'
       />
     </Box>
   )

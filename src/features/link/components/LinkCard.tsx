@@ -24,12 +24,12 @@ import { LINK_TEXT_COLOR } from '@/utils/const'
 import { diffTime } from '@/utils/date'
 
 type LinkCardProps = {
-  folderId: string
-  isOwner: boolean
   link: LinkType
+  folderId: string
+  isOwner?: boolean
 }
 
-export const LinkCard: FC<LinkCardProps> = ({ folderId, isOwner, link }) => {
+export const LinkCard: FC<LinkCardProps> = ({ link, folderId, isOwner = false }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false)
   const setAlert = useSetRecoilState(alertState)

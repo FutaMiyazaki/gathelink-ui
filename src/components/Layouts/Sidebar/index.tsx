@@ -1,13 +1,17 @@
 import GitHubIcon from '@mui/icons-material/GitHub'
 import Box from '@mui/material/Box'
-import MuiButton from '@mui/material/Button'
+import Divider from '@mui/material/Divider'
 import Drawer from '@mui/material/Drawer'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemText from '@mui/material/ListItemText'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { FC } from 'react'
 
 import { Link } from '@/components/Elements/Link'
+import { ListItemIcon } from '@/components/Elements/ListItemIcon'
 import { LeadAuthorization } from '@/components/Layouts/LeadAuthorization'
+import { AccountMenu } from '@/components/Layouts/Sidebar/AccountMenu'
 import { FavoriteFoldersList } from '@/features/folder/components/Sidebar/FavoriteFoldersList'
 import { MyFoldersList } from '@/features/folder/components/Sidebar/MyFoldersList'
 import { useMedia } from '@/hooks/useMedia'
@@ -56,21 +60,21 @@ export const Sidebar: FC = () => {
           <Box sx={{ mx: 2 }}>
             <LeadAuthorization />
           </Box>
+          <AccountMenu />
+          <Divider sx={{ my: 2 }} />
           <FavoriteFoldersList />
           <MyFoldersList />
-          <Box sx={{ mx: 2, mt: 4, mb: 2 }}>
-            <MuiButton
-              disableElevation
-              fullWidth
-              href='https://github.com/FutaMiyazaki/gathelink-ui'
-              startIcon={<GitHubIcon />}
-              target='_blank'
-              variant='outlined'
-              sx={{ borderRadius: 5, fontWeight: 'bold' }}
-            >
-              GitHub
-            </MuiButton>
-          </Box>
+          <Divider sx={{ my: 2 }} />
+          <ListItemButton
+            component='a'
+            href='https://github.com/FutaMiyazaki/gathelink-ui'
+            target='_blank'
+          >
+            <ListItemIcon>
+              <GitHubIcon />
+            </ListItemIcon>
+            <ListItemText primary='GitHub' />
+          </ListItemButton>
         </Box>
       </Drawer>
     </Box>
