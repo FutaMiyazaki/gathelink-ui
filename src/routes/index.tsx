@@ -6,6 +6,7 @@ import { useRecoilState } from 'recoil'
 import { MainLayout } from '@/components/Layouts/MainLayout'
 import { AuthHeader } from '@/features/auth/components/Header'
 import { AuthLayout } from '@/features/auth/components/Layout'
+import { Account } from '@/features/auth/routes/Account'
 import { Login } from '@/features/auth/routes/Login'
 import { Signup } from '@/features/auth/routes/Signup'
 import { FavoriteFolders } from '@/features/favoriteFolder/routes/FavoriteFolders'
@@ -19,10 +20,12 @@ import { Home } from '@/features/misc/routes/Home'
 import { NotFound } from '@/features/misc/routes/NotFound'
 import { AuthGuard } from '@/routes/AuthGuard'
 import { isAuthenticatedState } from '@/states/AuthAtom'
+import { currentUserState } from '@/states/CurrentUserAtom'
 
 export const AppRoutes: FC = () => {
   const cookie = parseCookies()
   const [authenticated, setAuthenticated] = useRecoilState(isAuthenticatedState)
+  const [currentUser, setCurrentUser] = useRecoilState(currentUserState)
 
   useEffect(() => {
     if (
@@ -32,6 +35,9 @@ export const AppRoutes: FC = () => {
       cookie.accessToken !== undefined
     ) {
       setAuthenticated(true)
+      if (currentUser.id === -1) {
+        setCurrentUser({ id: Number(cookie.userId), name: cookie.userName })
+      }
     }
   }, [])
 
@@ -73,6 +79,7 @@ export const AppRoutes: FC = () => {
           path='/folder/:folderId/link/:linkId'
           element={<AuthGuard component={<EditLink />} />}
         />
+        <Route path='/account' element={<AuthGuard component={<Account />} />} />
       </Route>
     </Routes>
   )

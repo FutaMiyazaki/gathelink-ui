@@ -16,10 +16,12 @@ import { useRecoilValue } from 'recoil'
 import { ListItemIcon } from '@/components/Elements/ListItemIcon'
 import { useLogout } from '@/features/auth/hooks/useLogout'
 import { isAuthenticatedState } from '@/states/AuthAtom'
+import { currentUserState } from '@/states/CurrentUserAtom'
 
 export const AccountMenu: FC = () => {
   const [isExpandAccountMenu, setIsExpandAccountMenu] = useState<boolean>(false)
   const isAuthenticated = useRecoilValue(isAuthenticatedState)
+  const currentUser = useRecoilValue(currentUserState)
   const { logout } = useLogout()
 
   if (!isAuthenticated) return null
@@ -36,18 +38,18 @@ export const AccountMenu: FC = () => {
         </ListItemIcon>
         <ListItemText>
           <Typography variant='subtitle1' color='secondary.dark' sx={{ fontWeight: 'bold' }}>
-            ユーザ名
+            {currentUser.name}
           </Typography>
         </ListItemText>
         {isExpandAccountMenu ? <KeyboardArrowUpRoundedIcon /> : <KeyboardArrowDownRoundedIcon />}
       </ListItemButton>
       <Collapse in={isExpandAccountMenu} timeout='auto' unmountOnExit>
         <List disablePadding component='div'>
-          <ListItemButton dense component={Link} to='/setting' sx={{ pl: 4 }}>
+          <ListItemButton dense component={Link} to='/account' sx={{ pl: 4 }}>
             <ListItemIcon>
               <SettingsRoundedIcon />
             </ListItemIcon>
-            <ListItemText primary='設定' />
+            <ListItemText primary='アカウント設定' />
           </ListItemButton>
           <ListItemButton dense onClick={async () => await logout()} sx={{ pl: 4 }}>
             <ListItemIcon>

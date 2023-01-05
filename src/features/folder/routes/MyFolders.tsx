@@ -38,10 +38,12 @@ export const MyFolders: FC = () => {
     <>
       <Box sx={{ mx: 1.5, mb: 3 }}>
         <Typography variant='h1'>マイフォルダ</Typography>
-        <Stack direction='row' justifyContent='flex-end' alignItems='center'>
-          <SortSelect sort={sortType} selectItems={sortItems} handleChange={handleChangeSort} />
-          <DisplayTypeButtonGroup displayType={displayType} setDisplayType={setDisplayType} />
-        </Stack>
+        {myFolders !== undefined && myFolders.length > 0 && (
+          <Stack direction='row' justifyContent='flex-end' alignItems='center'>
+            <SortSelect sort={sortType} selectItems={sortItems} handleChange={handleChangeSort} />
+            <DisplayTypeButtonGroup displayType={displayType} setDisplayType={setDisplayType} />
+          </Stack>
+        )}
       </Box>
       {isFetching ? (
         <PageLoading />

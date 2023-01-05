@@ -37,10 +37,12 @@ export const FavoriteFolders: FC = () => {
     <>
       <Box sx={{ mx: 1.5, mb: 3 }}>
         <Typography variant='h1'>お気に入りフォルダ</Typography>
-        <Stack direction='row' justifyContent='flex-end' alignItems='center'>
-          <SortSelect sort={sortType} selectItems={sortItems} handleChange={handleChangeSort} />
-          <DisplayTypeButtonGroup displayType={displayType} setDisplayType={setDisplayType} />
-        </Stack>
+        {favoriteFolders !== undefined && favoriteFolders.length > 0 && (
+          <Stack direction='row' justifyContent='flex-end' alignItems='center'>
+            <SortSelect sort={sortType} selectItems={sortItems} handleChange={handleChangeSort} />
+            <DisplayTypeButtonGroup displayType={displayType} setDisplayType={setDisplayType} />
+          </Stack>
+        )}
       </Box>
       {displayType === 'list' && (
         <FoldersByList
