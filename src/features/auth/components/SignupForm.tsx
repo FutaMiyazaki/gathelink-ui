@@ -6,7 +6,7 @@ import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
-import { FC, useState } from 'react'
+import { FC, MouseEvent, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { string, z } from 'zod'
 
@@ -54,7 +54,7 @@ export const SignupForm: FC = () => {
     setShowPassword(!showPassword)
   }
 
-  const handleMouseDownPassword = (e: React.MouseEvent<HTMLButtonElement>): void => {
+  const handleMouseDownPassword = (e: MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault()
   }
 

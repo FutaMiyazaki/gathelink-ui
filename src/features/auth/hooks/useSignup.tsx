@@ -8,7 +8,7 @@ import { alertState } from '@/states/AlertAtom'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 import { currentUserState } from '@/states/CurrentUserAtom'
 
-type params = {
+type Params = {
   email: string
   password: string
   password_confirmation: string
@@ -18,7 +18,7 @@ type params = {
 type UseSignup = {
   isLoading: boolean
   errorMessage: string
-  signup: (params: params) => Promise<void>
+  signup: (params: Params) => Promise<void>
 }
 
 export const useSignup = (): UseSignup => {
@@ -29,7 +29,7 @@ export const useSignup = (): UseSignup => {
   const setCurrentUser = useSetRecoilState(currentUserState)
   const setAlert = useSetRecoilState(alertState)
 
-  const signup = async (params: params): Promise<void> => {
+  const signup = async (params: Params): Promise<void> => {
     setIsLoading(true)
     const option = {
       maxAge: 14 * 24 * 60 * 60,

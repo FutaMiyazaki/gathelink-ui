@@ -8,22 +8,23 @@ import DialogTitle from '@mui/material/DialogTitle'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { FC, Dispatch, SetStateAction } from 'react'
+import { useRecoilValue } from 'recoil'
 
 import { Button } from '@/components/Elements/Button'
 import { useDeleteUser } from '@/features/auth/hooks/useDeleteUser'
+import { currentUserState } from '@/states/CurrentUserAtom'
 
 type DeleteAccountDialogProps = {
   isOpenDialog: boolean
   setIsOpenDialog: Dispatch<SetStateAction<boolean>>
-  currentUserId: number
 }
 
 export const DeleteAccountDialog: FC<DeleteAccountDialogProps> = ({
   isOpenDialog,
   setIsOpenDialog,
-  currentUserId,
 }) => {
   const { isDeleting, deleteUser } = useDeleteUser()
+  const currentUser = useRecoilValue(currentUserState)
 
   const onClickDeleteButton = (): void => {
     deleteUser()
@@ -67,7 +68,7 @@ export const DeleteAccountDialog: FC<DeleteAccountDialogProps> = ({
                 color='warning'
                 fullWidth={true}
                 isLoading={isDeleting}
-                disabled={currentUserId === 1 || isDeleting}
+                disabled={currentUser.id === 1 || isDeleting}
                 label='削除する'
                 size='large'
                 type='submit'
