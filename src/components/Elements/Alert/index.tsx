@@ -9,7 +9,7 @@ type AlertProps = Readonly<{
 }>
 
 export const Alert: FC<AlertProps> = ({ message, severity = 'error', sx }) => {
-  if (message !== '' || message !== undefined) return null
+  if (message === '' || message === undefined) return null
 
   return (
     <MuiAlert icon={false} severity={severity} sx={{ mb: 2, ...sx }}>

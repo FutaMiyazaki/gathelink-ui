@@ -27,6 +27,7 @@ import { menuItems } from '@/components/Layouts/Header/Menu/menuItems'
 import { useLogout } from '@/features/auth/hooks/useLogout'
 import { useMedia } from '@/hooks/useMedia'
 import { isAuthenticatedState } from '@/states/AuthAtom'
+import { currentUserState } from '@/states/CurrentUserAtom'
 
 type NaviAction = {
   label: string
@@ -39,6 +40,7 @@ export const BottomNavigation: FC = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState<boolean>(false)
   const [isExpandAccountMenu, setIsExpandAccountMenu] = useState<boolean>(false)
   const isAuthenticated = useRecoilValue(isAuthenticatedState)
+  const currentUser = useRecoilValue(currentUserState)
   const { isDesktopScreen } = useMedia()
   const { logout } = useLogout()
 
@@ -99,7 +101,7 @@ export const BottomNavigation: FC = () => {
                 <PersonRoundedIcon />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary='ゲストユーザー' />
+            <ListItemText primary={currentUser.name} />
             {isExpandAccountMenu ? (
               <KeyboardArrowUpRoundedIcon />
             ) : (
@@ -111,13 +113,13 @@ export const BottomNavigation: FC = () => {
               <ListItemButton
                 onClick={() => setIsOpenDrawer(false)}
                 component={Link}
-                to='/setting'
+                to='/account'
                 sx={{ pl: 4 }}
               >
                 <ListItemIcon>
                   <SettingsRoundedIcon />
                 </ListItemIcon>
-                <ListItemText primary='設定' />
+                <ListItemText primary='アカウント設定' />
               </ListItemButton>
               <ListItemButton onClick={handleClickLogout} sx={{ pl: 4 }}>
                 <ListItemIcon>
