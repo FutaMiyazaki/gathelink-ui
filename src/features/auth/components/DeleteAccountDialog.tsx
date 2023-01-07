@@ -1,16 +1,13 @@
-import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import Avatar from '@mui/material/Avatar'
-import Box from '@mui/material/Box'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
-import DialogTitle from '@mui/material/DialogTitle'
-import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { FC, Dispatch, SetStateAction } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import { Button } from '@/components/Elements/Button'
+import { Dialog } from '@/components/Elements/Dialog'
+import { DialogActions } from '@/components/Elements/Dialog/DialogActions'
 import { useDeleteUser } from '@/features/auth/hooks/useDeleteUser'
 import { currentUserState } from '@/states/CurrentUserAtom'
 
@@ -32,51 +29,38 @@ export const DeleteAccountDialog: FC<DeleteAccountDialogProps> = ({
 
   return (
     <Dialog
-      fullWidth
-      maxWidth='xs'
-      onClose={() => setIsOpenDialog(false)}
-      open={isOpenDialog}
-      PaperProps={{
-        style: { borderRadius: 15 },
-      }}
-      sx={{ textAlign: 'center' }}
-    >
-      <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column', mt: 2 }}>
-        <Avatar sx={{ bgcolor: 'warning.main' }}>
-          <DeleteForeverRoundedIcon />
+      isOpenDialog={isOpenDialog}
+      setIsOpenDialog={setIsOpenDialog}
+      title='アカウントを削除'
+      titleIcon={
+        <Avatar sx={{ mr: 1, bgcolor: 'warning.main' }}>
+          <DeleteForeverIcon />
         </Avatar>
-      </Box>
-      <DialogTitle>本当にアカウントを削除しますか？</DialogTitle>
+      }
+      maxWidth='xs'
+    >
       <DialogContent>
-        <Typography color='secondary.dark' variant='body2' sx={{ mb: 2 }}>
+        <Typography variant='body2' sx={{ mb: 2, fontWeight: 300 }}>
           この操作は取り消せません。
         </Typography>
-        <DialogActions sx={{ mt: 3, p: 0 }}>
-          <Grid container alignItems='center' justifyContent='center' spacing={1}>
-            <Grid item xs={6}>
-              <Button
-                onClick={() => setIsOpenDialog(false)}
-                color='secondary'
-                fullWidth={true}
-                label='キャンセル'
-                size='large'
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Button
-                onClick={() => onClickDeleteButton()}
-                color='warning'
-                fullWidth={true}
-                isLoading={isDeleting}
-                disabled={currentUser.id === 1 || isDeleting}
-                label='削除する'
-                size='large'
-                type='submit'
-              />
-            </Grid>
-          </Grid>
-        </DialogActions>
       </DialogContent>
+      <DialogActions>
+        <Button
+          onClick={() => setIsOpenDialog(false)}
+          color='secondary'
+          label='キャンセル'
+          size='large'
+        />
+        <Button
+          onClick={() => onClickDeleteButton()}
+          color='warning'
+          isLoading={isDeleting}
+          disabled={currentUser.id === 1 || isDeleting}
+          label='削除する'
+          size='large'
+          type='submit'
+        />
+      </DialogActions>
     </Dialog>
   )
 }

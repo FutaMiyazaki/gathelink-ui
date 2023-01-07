@@ -90,7 +90,7 @@ export const NewLink: FC = () => {
         onSubmit={handleSubmit(onSubmit)}
         sx={{ ...whiteBackgroundProps }}
       >
-        <InputLabel labelTitle='URL' />
+        <InputLabel labelTitle='URL' isShowChip={true} />
         <TextField
           fullWidth
           size='small'
@@ -102,7 +102,8 @@ export const NewLink: FC = () => {
         />
         <InputLabel
           labelTitle='タイトル'
-          inputRequirement='未入力の場合は、URL のタイトルで作成されます'
+          inputRequirement='未入力の場合は、URL のタイトルが設定されます'
+          isShowChip={true}
           required={false}
         />
         <TextField
@@ -114,7 +115,7 @@ export const NewLink: FC = () => {
           sx={{ mb: 4 }}
           {...register('title')}
         />
-        <InputLabel labelTitle='フォルダを選ぶ' />
+        <InputLabel labelTitle='フォルダを選ぶ' isShowChip={true} />
         {isFetching ? (
           <CircularProgress size={25} />
         ) : myFolders.length > 0 ? (

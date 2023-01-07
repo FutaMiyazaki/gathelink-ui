@@ -121,7 +121,7 @@ export const LinkCard: FC<LinkCardProps> = ({ link, folderId, isOwner = false })
               style={{ pointerEvents: 'none' }}
             />
           )}
-          <CardContent sx={{ display: 'flex', p: 1 }}>
+          <CardContent sx={{ display: 'flex', px: 1, pt: 1, pb: 0 }}>
             <Typography
               component='span'
               variant='subtitle2'
@@ -139,10 +139,10 @@ export const LinkCard: FC<LinkCardProps> = ({ link, folderId, isOwner = false })
         </CardActionArea>
       </Tooltip>
       <CardActions disableSpacing sx={{ pt: 0 }}>
-        <Typography component='span' variant='body2' sx={{ mr: 'auto', color: 'secondary.dark' }}>
+        <Typography component='span' variant='body2' sx={{ fontWeight: 300 }}>
           {diffTime(new Date(), parseISO(link.updated_at))}
         </Typography>
-        <IconButton onClick={handleOpenMenu} edge='end' size='small'>
+        <IconButton onClick={handleOpenMenu} edge='end' size='small' sx={{ ml: 'auto' }}>
           <MoreVertIcon />
         </IconButton>
         <Menu

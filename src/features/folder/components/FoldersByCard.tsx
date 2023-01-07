@@ -26,10 +26,22 @@ const FolderCard: FC<FolderCardProps> = ({ folder }) => {
           <FolderRoundedIcon fontSize='large' sx={{ color: folder.color }} />
         </Box>
         <Box sx={{ p: 1 }}>
-          <Typography component='span' variant='subtitle1' sx={{ display: 'block', lineHeight: 1 }}>
+          <Typography
+            component='span'
+            variant='subtitle1'
+            sx={{
+              display: '-webkit-box',
+              WebkitBoxOrient: 'vertical',
+              WebkitLineClamp: 2,
+              overflow: 'hidden',
+              lineHeight: 1.5,
+              fontWeight: 'bold',
+              mb: 1,
+            }}
+          >
             {folder.name}
           </Typography>
-          <Typography component='span' variant='body2' sx={{ color: 'secondary.dark' }}>
+          <Typography component='span' variant='body2' sx={{ fontWeight: 300 }}>
             {diffTime(new Date(), parseISO(folder.created_at))}
           </Typography>
         </Box>

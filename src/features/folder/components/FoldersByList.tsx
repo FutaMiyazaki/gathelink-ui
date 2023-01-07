@@ -47,13 +47,14 @@ const FolderListItem: FC<FolderListItemProps> = ({ folder }) => (
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
+                fontWeight: 'bold',
               }}
             >
               {folder?.name}
             </Typography>
           }
           secondary={
-            <Typography component='span' variant='body2' sx={{ color: 'secondary.dark' }}>
+            <Typography component='span' variant='body2' sx={{ fontWeight: 300 }}>
               {diffTime(new Date(), parseISO(folder.created_at))}
             </Typography>
           }

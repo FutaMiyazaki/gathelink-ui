@@ -1,9 +1,15 @@
 import MuiAlert from '@mui/material/Alert'
+import Slide, { SlideProps } from '@mui/material/Slide'
 import MuiSnackbar from '@mui/material/Snackbar'
-import { FC } from 'react'
+import { TransitionProps } from '@mui/material/transitions'
+import { FC, JSXElementConstructor, ReactElement } from 'react'
 import { useRecoilState } from 'recoil'
 
 import { alertState } from '@/states/AlertAtom'
+
+const SlideTransition: JSXElementConstructor<
+  TransitionProps & { children: ReactElement<any, any> }
+> = (props: SlideProps) => <Slide {...props} direction='up' />
 
 export const Snackbar: FC = () => {
   const [alert, setAlert] = useRecoilState(alertState)
@@ -11,9 +17,10 @@ export const Snackbar: FC = () => {
   return (
     <MuiSnackbar
       open={alert.isShow}
-      autoHideDuration={4000}
+      autoHideDuration={3000}
       onClose={() => setAlert({ isShow: false, message: '' })}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      TransitionComponent={SlideTransition}
       sx={{ mb: 9 }}
     >
       <MuiAlert

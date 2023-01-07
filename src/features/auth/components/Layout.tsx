@@ -40,15 +40,14 @@ export const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
             fullWidth={true}
             label='パスワードを忘れた場合はこちら'
             path='/reset_password'
-            size='small'
             variant='text'
+            sx={{ color: 'secondary.dark' }}
           />
           <Divider sx={{ my: 4 }} />
           <LinkButton
             fullWidth={true}
-            label={location.pathname === '/signup' ? 'ログイン' : '新規登録'}
+            label={location.pathname === '/signup' ? 'ログインはこちら' : '新規登録はこちら'}
             path={location.pathname === '/signup' ? '/login' : '/signup'}
-            size='small'
             variant='text'
           />
         </Stack>

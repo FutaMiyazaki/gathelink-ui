@@ -133,6 +133,8 @@ export const FolderDetails: FC = () => {
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
+                color: 'secondary.dark',
+                fontWeight: 'bold',
               }}
             />
           </Grid>
@@ -141,7 +143,7 @@ export const FolderDetails: FC = () => {
               icon={<AccessTimeOutlinedIcon />}
               label={`作成：${diffTime(new Date(), parseISO(folder?.created_at as string))}`}
               variant='outlined'
-              sx={{ border: 'none' }}
+              sx={{ border: 'none', color: 'secondary.dark', fontWeight: 'bold' }}
             />
           </Grid>
           <Grid>
@@ -149,7 +151,7 @@ export const FolderDetails: FC = () => {
               icon={<UpdateIcon />}
               label={`更新：${diffTime(new Date(), parseISO(folder?.updated_at as string))}`}
               variant='outlined'
-              sx={{ border: 'none' }}
+              sx={{ border: 'none', color: 'secondary.dark', fontWeight: 'bold' }}
             />
           </Grid>
         </Grid>
@@ -158,8 +160,7 @@ export const FolderDetails: FC = () => {
             {folder?.description}
           </Typography>
         )}
-
-        <Stack direction='row' alignItems='center' spacing={1} sx={{ mt: 2 }}>
+        <Stack direction='row' alignItems='center' spacing={1} sx={{ mt: 2, mb: 3 }}>
           {folder?.user !== undefined && (
             <>
               <Button
@@ -188,7 +189,7 @@ export const FolderDetails: FC = () => {
       </Box>
       {folderHasLinks.length > 0 ? (
         <>
-          <Stack direction='row' justifyContent='flex-end' alignItems='center' sx={{ mb: 1 }}>
+          <Stack direction='row' justifyContent='flex-end' alignItems='center' sx={{ mb: 3 }}>
             <SortSelect sort={sortType} selectItems={sortItems} handleChange={handleChangeSort} />
             <DisplayTypeButtonGroup displayType={displayType} setDisplayType={setDisplayType} />
           </Stack>

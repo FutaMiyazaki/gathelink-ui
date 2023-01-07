@@ -1,20 +1,18 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder'
-import Alert from '@mui/material/Alert'
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
-import DialogTitle from '@mui/material/DialogTitle'
-import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { Dispatch, FC, SetStateAction, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { string, z } from 'zod'
 
+import { Alert } from '@/components/Elements/Alert'
 import { Button } from '@/components/Elements/Button'
+import { Dialog } from '@/components/Elements/Dialog'
+import { DialogActions } from '@/components/Elements/Dialog/DialogActions'
 import { usePostFolder } from '@/features/folder/hooks/usePostFolder'
 
 type CreateFolderDialogProps = {
@@ -62,48 +60,47 @@ export const CreateFolderDialog: FC<CreateFolderDialogProps> = ({
 
   return (
     <Dialog
-      fullWidth
-      maxWidth='sm'
-      onClose={() => setIsOpenDialog(false)}
-      open={isOpenDialog}
-      PaperProps={{
-        style: { borderRadius: 15 },
-      }}
-    >
-      <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column', mt: 2 }}>
-        <Avatar sx={{ bgcolor: 'primary.main' }}>
+      isOpenDialog={isOpenDialog}
+      setIsOpenDialog={setIsOpenDialog}
+      title='フォルダを作成'
+      titleIcon={
+        <Avatar sx={{ bgcolor: 'primary.main', mr: 1 }}>
           <CreateNewFolderIcon />
         </Avatar>
-      </Box>
-      <DialogTitle sx={{ textAlign: 'center' }}>新しいフォルダを作成</DialogTitle>
+      }
+    >
       <DialogContent>
-        {errorMessage !== '' && (
-          <Alert icon={false} severity='error' sx={{ mb: 2 }}>
-            {errorMessage}
-          </Alert>
-        )}
+        <Alert message={errorMessage} />
         <Box component='form' noValidate onSubmit={handleSubmit(onSubmit)}>
-          <Typography component='p' variant='caption' sx={{ mb: 1 }}>
-            30文字以下で入力してください
+          <Typography component='p' sx={{ mb: 1 }}>
+            フォルダ名を30文字以下で入力してください。
           </Typography>
           <TextField
             fullWidth
-            placeholder='フォルダ名を入力'
             size='small'
             type='text'
+            placeholder='フォルダ名'
             error={!(errors.name == null)}
             helperText={errors.name != null ? errors.name.message : ''}
-            sx={{ mb: 3 }}
             {...register('name')}
           />
-          <DialogActions sx={{ mt: 3, p: 0 }}>
-            <Stack direction='row' justifyContent='flex-end' spacing={2}>
-              <Button color='secondary' label='キャンセル' onClick={() => setIsOpenDialog(false)} />
-              <Button isLoading={isPosting} disabled={isPosting} label='作成する' type='submit' />
-            </Stack>
-          </DialogActions>
         </Box>
       </DialogContent>
+      <DialogActions>
+        <Button
+          size='large'
+          color='secondary'
+          label='キャンセル'
+          onClick={() => setIsOpenDialog(false)}
+        />
+        <Button
+          size='large'
+          isLoading={isPosting}
+          disabled={isPosting}
+          label='作成する'
+          type='submit'
+        />
+      </DialogActions>
     </Dialog>
   )
 }

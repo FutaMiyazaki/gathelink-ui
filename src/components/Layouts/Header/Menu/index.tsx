@@ -18,9 +18,9 @@ export const HeaderMenu: FC = () => {
             label={item.label}
             to={item.path}
             sx={{
-              borderBottom: location.pathname === item.path ? 2 : 0,
+              borderBottom: location.pathname === item.value ? 2 : 0,
               borderColor: 'secondary.dark',
-              color: location.pathname === item.path ? 'primary.main' : 'secondary.dark',
+              color: location.pathname === item.value ? 'primary.main' : 'secondary.dark',
               mx: 1,
               '&:hover': {
                 backgroundColor: 'secondary.main',

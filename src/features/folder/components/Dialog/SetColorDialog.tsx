@@ -1,13 +1,14 @@
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded'
 import CircleRoundedIcon from '@mui/icons-material/CircleRounded'
-import Alert from '@mui/material/Alert'
-import Dialog from '@mui/material/Dialog'
+import ColorLensRoundedIcon from '@mui/icons-material/ColorLensRounded'
+import Avatar from '@mui/material/Avatar'
 import DialogContent from '@mui/material/DialogContent'
-import DialogTitle from '@mui/material/DialogTitle'
 import IconButton from '@mui/material/IconButton'
 import { Dispatch, FC, SetStateAction } from 'react'
 import { useParams } from 'react-router-dom'
 
+import { Alert } from '@/components/Elements/Alert'
+import { Dialog } from '@/components/Elements/Dialog'
 import { useUpdateFolder } from '@/features/folder/hooks/useUpdateFolder'
 import { Folder } from '@/features/folder/types/Folder'
 import { RouterParams } from '@/types/RouterParams'
@@ -63,21 +64,17 @@ export const SetColorDialog: FC<SetColorDialogProps> = ({
 
   return (
     <Dialog
-      fullWidth
-      maxWidth='sm'
-      onClose={() => setIsOpenDialog(false)}
-      open={isOpenDialog}
-      PaperProps={{
-        style: { borderRadius: 15 },
-      }}
+      isOpenDialog={isOpenDialog}
+      setIsOpenDialog={setIsOpenDialog}
+      title='フォルダの色を設定'
+      titleIcon={
+        <Avatar sx={{ mr: 1 }}>
+          <ColorLensRoundedIcon />
+        </Avatar>
+      }
     >
-      <DialogTitle sx={{ textAlign: 'center' }}>色を設定</DialogTitle>
       <DialogContent>
-        {errorMessage !== '' && (
-          <Alert icon={false} severity='error' sx={{ mb: 2 }}>
-            {errorMessage}
-          </Alert>
-        )}
+        <Alert message={errorMessage} />
         {colorSettings.map((setting) => {
           return (
             <IconButton key={setting.value} onClick={() => onClickUpdateColor(setting.value)}>
