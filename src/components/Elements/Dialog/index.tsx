@@ -13,6 +13,7 @@ type DialogProps = {
   title: string
   titleIcon: ReactNode
   maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  scroll?: 'paper' | 'body'
 }
 
 export const Dialog: FC<DialogProps> = ({
@@ -22,6 +23,7 @@ export const Dialog: FC<DialogProps> = ({
   titleIcon,
   children,
   maxWidth = 'sm',
+  scroll = 'paper',
 }) => {
   return (
     <MuiDialog
@@ -29,6 +31,7 @@ export const Dialog: FC<DialogProps> = ({
       maxWidth={maxWidth}
       onClose={() => setIsOpenDialog(false)}
       open={isOpenDialog}
+      scroll={scroll}
       PaperProps={{
         style: { borderRadius: 15 },
       }}

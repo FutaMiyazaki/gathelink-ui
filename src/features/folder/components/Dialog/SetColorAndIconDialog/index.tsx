@@ -3,46 +3,29 @@ import CircleRoundedIcon from '@mui/icons-material/CircleRounded'
 import ColorLensRoundedIcon from '@mui/icons-material/ColorLensRounded'
 import Avatar from '@mui/material/Avatar'
 import DialogContent from '@mui/material/DialogContent'
+import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
 import { Dispatch, FC, SetStateAction } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { Alert } from '@/components/Elements/Alert'
 import { Dialog } from '@/components/Elements/Dialog'
+import { colorSettings } from '@/features/folder/components/Dialog/SetColorAndIconDialog/colorSettings'
+import { iconSettings } from '@/features/folder/components/Dialog/SetColorAndIconDialog/iconSettings'
 import { useUpdateFolder } from '@/features/folder/hooks/useUpdateFolder'
 import { Folder } from '@/features/folder/types/Folder'
+import { useMedia } from '@/hooks/useMedia'
 import { RouterParams } from '@/types/RouterParams'
 
-type SetColorDialogProps = {
+type SetColorAndIconDialogProps = {
   isOpenDialog: boolean
   setIsOpenDialog: Dispatch<SetStateAction<boolean>>
   folder?: Folder
   setFolder: Dispatch<SetStateAction<Folder | undefined>>
 }
 
-const colorSettings = [
-  { value: '#C7243A' },
-  { value: '#DA4F1A' },
-  { value: '#EDAD0D' },
-  { value: '#F6CA09' },
-  { value: '#FFE602' },
-  { value: '#D8E212' },
-  { value: '#A4C520' },
-  { value: '#22AC0F' },
-  { value: '#009250' },
-  { value: '#26a69a' },
-  { value: '#0386AB' },
-  { value: '#007AB7' },
-  { value: '#3261AB' },
-  { value: '#5D639E' },
-  { value: '#744199' },
-  { value: '#932574' },
-  { value: '#A52075' },
-  { value: '#B61973' },
-  { value: '#BF1F55' },
-]
-
-export const SetColorDialog: FC<SetColorDialogProps> = ({
+export const SetColorAndIconDialog: FC<SetColorAndIconDialogProps> = ({
   isOpenDialog,
   setIsOpenDialog,
   folder: prevFolder,
@@ -50,6 +33,7 @@ export const SetColorDialog: FC<SetColorDialogProps> = ({
 }) => {
   const { updateFolder, errorMessage } = useUpdateFolder()
   const { folderId } = useParams<RouterParams>()
+  const { isMobileScreen } = useMedia()
 
   const onClickUpdateColor = (newColor: string): void => {
     if (newColor === prevFolder?.color) return setIsOpenDialog(false)
@@ -62,19 +46,35 @@ export const SetColorDialog: FC<SetColorDialogProps> = ({
     setIsOpenDialog(false)
   }
 
+  const onClickUpdateIcon = (newIcon: string): void => {
+    if (newIcon === prevFolder?.icon) return setIsOpenDialog(false)
+
+    const folder = {
+      icon: newIcon,
+    }
+    updateFolder(folder, folderId as string)
+    prevFolder !== undefined && setFolder({ ...prevFolder, icon: newIcon })
+    setIsOpenDialog(false)
+  }
+
   return (
     <Dialog
       isOpenDialog={isOpenDialog}
       setIsOpenDialog={setIsOpenDialog}
-      title='フォルダの色を設定'
+      title='フォルダの色・アイコンを設定'
       titleIcon={
         <Avatar sx={{ mr: 1 }}>
           <ColorLensRoundedIcon />
         </Avatar>
       }
+      scroll={isMobileScreen ? 'body' : 'paper'}
     >
       <DialogContent>
+        <Divider sx={{ mb: 2 }} />
         <Alert message={errorMessage} />
+        <Typography variant='subtitle1' sx={{ fontWeight: 300 }}>
+          カラーの変更
+        </Typography>
         {colorSettings.map((setting) => {
           return (
             <IconButton key={setting.value} onClick={() => onClickUpdateColor(setting.value)}>
@@ -83,6 +83,17 @@ export const SetColorDialog: FC<SetColorDialogProps> = ({
               ) : (
                 <CircleRoundedIcon fontSize='large' sx={{ color: setting.value }} />
               )}
+            </IconButton>
+          )
+        })}
+        <Divider sx={{ my: 2 }} />
+        <Typography variant='subtitle1' sx={{ fontWeight: 300 }}>
+          アイコンの変更
+        </Typography>
+        {iconSettings.map((setting) => {
+          return (
+            <IconButton key={setting.value} onClick={() => onClickUpdateIcon(setting.value)}>
+              {setting.icon}
             </IconButton>
           )
         })}
