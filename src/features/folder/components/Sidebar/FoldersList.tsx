@@ -1,4 +1,3 @@
-import FolderRoundedIcon from '@mui/icons-material/FolderRounded'
 import CircularProgress from '@mui/material/CircularProgress'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
@@ -12,29 +11,31 @@ import { useParams } from 'react-router-dom'
 import { Alert } from '@/components/Elements/Alert'
 import { Link } from '@/components/Elements/Link'
 import { ListItemIcon } from '@/components/Elements/ListItemIcon'
+import { DynamicIcon } from '@/features/folder/components/DynamicIcon'
 import { Folder } from '@/features/folder/types/Folder'
 import { Link as LinkType } from '@/features/link/types/Link'
 import { RouterParams } from '@/types/RouterParams'
 
-type myFolderListItemProps = {
+type FolderListItemProps = {
   active: boolean
   folderLinks?: LinkType[]
   folderName?: string
   folderColor?: string
+  folderIcon?: string
 }
 
-const MyFolderListItem: FC<myFolderListItemProps> = ({
+const FolderListItem: FC<FolderListItemProps> = ({
   active,
   folderLinks,
   folderName,
   folderColor,
+  folderIcon = '',
 }) => {
   const bgColor = active ? folderColor : ''
   const textColor = active ? '#ffffff' : ''
 
   return (
     <ListItem
-      color='#ffffff'
       dense
       disableGutters
       secondaryAction={
@@ -51,8 +52,8 @@ const MyFolderListItem: FC<myFolderListItemProps> = ({
       }}
     >
       <ListItemButton>
-        <ListItemIcon>
-          <FolderRoundedIcon sx={{ color: active ? '#ffffff' : folderColor }} />
+        <ListItemIcon sx={{ color: active ? '#ffffff' : folderColor }}>
+          {DynamicIcon(folderIcon)}
         </ListItemIcon>
         <ListItemText>
           <Typography
@@ -102,10 +103,11 @@ export const FoldersList: FC<FoldersListProps> = ({
           {folders.map((folder: Folder) => {
             return (
               <Link key={folder.id} color='black' path={`/folder/${folder.id}`}>
-                <MyFolderListItem
+                <FolderListItem
                   active={folderId !== undefined && parseInt(folderId, 10) === folder.id}
                   folderName={folder.name}
                   folderColor={folder?.color}
+                  folderIcon={folder?.icon}
                   folderLinks={folder?.links}
                 />
               </Link>

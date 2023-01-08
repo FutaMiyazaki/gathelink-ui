@@ -1,7 +1,7 @@
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded'
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded'
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded'
-import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded'
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded'
 import Box from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
@@ -41,7 +41,7 @@ export const AccountMenu: FC = () => {
             {currentUser.name}
           </Typography>
         </ListItemText>
-        {isExpandAccountMenu ? <KeyboardArrowUpRoundedIcon /> : <KeyboardArrowDownRoundedIcon />}
+        {isExpandAccountMenu ? <CloseRoundedIcon /> : <KeyboardArrowDownRoundedIcon />}
       </ListItemButton>
       <Collapse in={isExpandAccountMenu} timeout='auto' unmountOnExit>
         <List disablePadding component='div'>

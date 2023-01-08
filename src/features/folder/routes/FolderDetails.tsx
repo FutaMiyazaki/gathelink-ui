@@ -1,7 +1,6 @@
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
-import FolderRoundedIcon from '@mui/icons-material/FolderRounded'
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined'
 import StarBorderRoundedIcon from '@mui/icons-material/StarBorderRounded'
 import UpdateIcon from '@mui/icons-material/Update'
@@ -30,8 +29,9 @@ import { sortItems } from '@/components/features/SortSelect/sortItems'
 import { NoContents } from '@/components/Layouts/NoContents'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { FavoriteFolderButton } from '@/features/favoriteFolder/components/FavoriteFolderButton'
-import { SetColorDialog } from '@/features/folder/components/Dialog/SetColorDialog'
+import { SetColorAndIconDialog } from '@/features/folder/components/Dialog/SetColorAndIconDialog'
 import { ShareFolderDialog } from '@/features/folder/components/Dialog/ShareFolderDialog'
+import { DynamicIcon } from '@/features/folder/components/DynamicIcon'
 import { useFetchFolder } from '@/features/folder/hooks/useFetchFolder'
 import { LinkCard } from '@/features/link/components/LinkCard'
 import { LinkListItem } from '@/features/link/components/LinkListItem'
@@ -83,16 +83,16 @@ export const FolderDetails: FC = () => {
             <Tooltip
               title={
                 <Typography component='span' variant='subtitle2'>
-                  色を変更
+                  色・アイコンを変更
                 </Typography>
               }
               arrow
             >
               <IconButton onClick={() => setIsOpenSetColorDialog(true)}>
-                <FolderRoundedIcon fontSize='large' sx={{ color: folder?.color }} />
+                {DynamicIcon(folder?.icon, 'large', folder?.color)}
               </IconButton>
             </Tooltip>
-            <SetColorDialog
+            <SetColorAndIconDialog
               isOpenDialog={isOpenSetColorDialog}
               setIsOpenDialog={setIsOpenSetColorDialog}
               folder={folder}
@@ -133,6 +133,8 @@ export const FolderDetails: FC = () => {
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
+                color: 'secondary.dark',
+                fontWeight: 'bold',
               }}
             />
           </Grid>
@@ -141,7 +143,7 @@ export const FolderDetails: FC = () => {
               icon={<AccessTimeOutlinedIcon />}
               label={`作成：${diffTime(new Date(), parseISO(folder?.created_at as string))}`}
               variant='outlined'
-              sx={{ border: 'none' }}
+              sx={{ border: 'none', color: 'secondary.dark', fontWeight: 'bold' }}
             />
           </Grid>
           <Grid>
@@ -149,7 +151,7 @@ export const FolderDetails: FC = () => {
               icon={<UpdateIcon />}
               label={`更新：${diffTime(new Date(), parseISO(folder?.updated_at as string))}`}
               variant='outlined'
-              sx={{ border: 'none' }}
+              sx={{ border: 'none', color: 'secondary.dark', fontWeight: 'bold' }}
             />
           </Grid>
         </Grid>
@@ -158,8 +160,7 @@ export const FolderDetails: FC = () => {
             {folder?.description}
           </Typography>
         )}
-
-        <Stack direction='row' alignItems='center' spacing={1} sx={{ mt: 2 }}>
+        <Stack direction='row' alignItems='center' spacing={1} sx={{ mt: 2, mb: 3 }}>
           {folder?.user !== undefined && (
             <>
               <Button
@@ -188,7 +189,7 @@ export const FolderDetails: FC = () => {
       </Box>
       {folderHasLinks.length > 0 ? (
         <>
-          <Stack direction='row' justifyContent='flex-end' alignItems='center' sx={{ mb: 1 }}>
+          <Stack direction='row' justifyContent='flex-end' alignItems='center' sx={{ mb: 3 }}>
             <SortSelect sort={sortType} selectItems={sortItems} handleChange={handleChangeSort} />
             <DisplayTypeButtonGroup displayType={displayType} setDisplayType={setDisplayType} />
           </Stack>

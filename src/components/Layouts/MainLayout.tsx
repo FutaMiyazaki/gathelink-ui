@@ -9,6 +9,7 @@ import { FloatingActionButton } from '@/components/Layouts/FloatingActionButton'
 import { Header } from '@/components/Layouts/Header'
 import { Sidebar } from '@/components/Layouts/Sidebar'
 import { CreateFolderDialog } from '@/features/folder/components/Dialog/CreateFolderDialog'
+import { useMedia } from '@/hooks/useMedia'
 import { isOpenCreateFolderDialogState } from '@/states/isOpenCreateFolderDialogState'
 
 type MainLayoutProps = Readonly<{
@@ -19,6 +20,7 @@ export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   const [isOpenCreateFolderDialog, setIsOpenCreateFolderDialog] = useRecoilState(
     isOpenCreateFolderDialogState,
   )
+  const { isDesktopScreen } = useMedia()
 
   return (
     <Box
@@ -35,10 +37,9 @@ export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
           flexGrow: 1,
           overflow: 'auto',
           minHeight: '100%',
-          pt: 8,
         }}
       >
-        <Box sx={{ mt: 4, mb: 12 }}>
+        <Box sx={{ mt: isDesktopScreen ? 12 : 10, mb: 12 }}>
           {children}
           <Container>
             <CreateFolderDialog

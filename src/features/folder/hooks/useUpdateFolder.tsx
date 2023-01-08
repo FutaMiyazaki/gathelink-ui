@@ -18,6 +18,7 @@ type params = {
   name?: string
   description?: string
   color?: string
+  icon?: string
 }
 
 export const useUpdateFolder = (): UseUpdateFolder => {

@@ -120,7 +120,7 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner = false,
               >
                 {link.url.replace(/\\/g, '/').match(/\/\/([^/]*)/)?.[1]}
               </Typography>
-              <Typography component='span' variant='body2' sx={{ color: 'secondary.dark' }}>
+              <Typography component='span' variant='body2' sx={{ fontWeight: 300 }}>
                 {diffTime(new Date(), parseISO(link.updated_at))}
               </Typography>
             </>

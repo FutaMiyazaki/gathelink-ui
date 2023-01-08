@@ -98,7 +98,7 @@ export const EditFolder: FC = () => {
         onSubmit={handleSubmit(onSubmit)}
         sx={{ ...whiteBackgroundProps }}
       >
-        <InputLabel labelTitle='フォルダ名' inputRequirement='最大 30 文字' />
+        <InputLabel labelTitle='フォルダ名' inputRequirement='最大 30 文字' isShowChip={true} />
         <TextField
           fullWidth
           size='small'
@@ -108,7 +108,7 @@ export const EditFolder: FC = () => {
           sx={{ mb: 4 }}
           {...register('name')}
         />
-        <InputLabel labelTitle='説明' required={false} />
+        <InputLabel labelTitle='説明' isShowChip={true} required={false} />
         <TextField
           fullWidth
           size='small'
