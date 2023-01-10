@@ -1,6 +1,7 @@
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
 import ColorLensRoundedIcon from '@mui/icons-material/ColorLensRounded'
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import IosShareRoundedIcon from '@mui/icons-material/IosShareRounded'
 import ListRoundedIcon from '@mui/icons-material/ListRounded'
@@ -31,6 +32,7 @@ import { sortItems } from '@/components/features/SortSelect/sortItems'
 import { NoContents } from '@/components/Layouts/NoContents'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { FavoriteFolderButton } from '@/features/favoriteFolder/components/FavoriteFolderButton'
+import { DeleteFolderDialog } from '@/features/folder/components/Dialog/DeleteFolderDialog'
 import { SetColorAndIconDialog } from '@/features/folder/components/Dialog/SetColorAndIconDialog'
 import { ShareFolderDialog } from '@/features/folder/components/Dialog/ShareFolderDialog'
 import { DynamicIcon } from '@/features/folder/components/DynamicIcon'
@@ -52,6 +54,7 @@ export const FolderDetails: FC = () => {
   const [displayType, setDisplayType] = useState<DisplayType>('list')
   const [isOpenShareFolderDialog, setIsOpenShareFolderDialog] = useState(false)
   const [isOpenSetColorDialog, setIsOpenSetColorDialog] = useState(false)
+  const [isOpenConfirmDialog, setIsOpenConfirmDialog] = useState(false)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const folderHasLinks = useRecoilValue(folderHasLinksState)
   const isAuthenticated = useRecoilValue(isAuthenticatedState)
@@ -76,15 +79,9 @@ export const FolderDetails: FC = () => {
         setIsOpenShareFolderDialog(true)
         setAnchorEl(null)
       },
-      text: 'フォルダを共有',
+      text: '共有',
       icon: <IosShareRoundedIcon />,
       isShow: true,
-    },
-    {
-      text: 'フォルダを編集',
-      icon: <EditOutlinedIcon />,
-      path: `/folder/${folderId as string}/edit`,
-      isShow: isOwner,
     },
     {
       onClick: () => {
@@ -93,6 +90,21 @@ export const FolderDetails: FC = () => {
       },
       text: '色・アイコンを変更',
       icon: <ColorLensRoundedIcon />,
+      isShow: isOwner,
+    },
+    {
+      text: '編集',
+      icon: <EditOutlinedIcon />,
+      path: `/folder/${folderId as string}/edit`,
+      isShow: isOwner,
+    },
+    {
+      onClick: () => {
+        setIsOpenConfirmDialog(true)
+        setAnchorEl(null)
+      },
+      text: '削除',
+      icon: <DeleteRoundedIcon />,
       isShow: isOwner,
     },
   ]
@@ -165,6 +177,13 @@ export const FolderDetails: FC = () => {
                 setIsOpenDialog={setIsOpenShareFolderDialog}
                 folderName={folder.name}
                 ownerName={folder.user.name}
+              />
+            )}
+            {isOwner && (
+              <DeleteFolderDialog
+                folderId={folderId as string}
+                isOpenDialog={isOpenConfirmDialog}
+                setIsOpenDialog={setIsOpenConfirmDialog}
               />
             )}
           </Box>
