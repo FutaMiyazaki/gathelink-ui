@@ -14,6 +14,7 @@ export const myFoldersState = atom<myFolders>({
       updated_at: '',
       links: undefined,
       user: undefined,
+      tags: undefined
     },
   ],
 })

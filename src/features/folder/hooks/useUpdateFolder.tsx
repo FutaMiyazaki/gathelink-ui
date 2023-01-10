@@ -19,6 +19,7 @@ type params = {
   description?: string
   color?: string
   icon?: string
+  tags?: string[]
 }
 
 export const useUpdateFolder = (): UseUpdateFolder => {
@@ -36,19 +37,19 @@ export const useUpdateFolder = (): UseUpdateFolder => {
 
     await apiClient
       .patch(`/folders/${folderId}`, { folder }, { headers })
-      .then(() => {
+      .then((res) => {
         setAlert({
           isShow: true,
           message: 'フォルダを更新しました',
         })
         setMyFolders((prevMyFolders) => {
           return prevMyFolders.map((prevFolder) =>
-            prevFolder.id.toString() === folderId ? { ...prevFolder, ...folder } : prevFolder,
+            prevFolder.id.toString() === folderId ? { ...prevFolder, ...res.data } : prevFolder,
           )
         })
         setFavoriteFolders((prevFavoriteFolders) => {
           return prevFavoriteFolders.map((prevFolder) =>
-            prevFolder.id.toString() === folderId ? { ...prevFolder, ...folder } : prevFolder,
+            prevFolder.id.toString() === folderId ? { ...prevFolder, ...res.data } : prevFolder,
           )
         })
         navigate(`/folder/${folderId}`)

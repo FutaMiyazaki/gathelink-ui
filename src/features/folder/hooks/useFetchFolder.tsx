@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useState } from 'react'
 import { useSetRecoilState } from 'recoil'
 
 import { Folder } from '@/features/folder/types/Folder'
+import { Tag } from '@/features/folder/types/Tag'
 import { apiClient } from '@/lib/axios/apiClient'
 import { folderHasLinksState } from '@/states/FolderHasLinksAtom'
 import { authHeaders } from '@/utils/authHeaders'
@@ -14,11 +15,13 @@ type UseFetchFolder = {
   isFetching: boolean
   isOwner: boolean
   resStatus: number
+  tags: string[]
 }
 
 export const useFetchFolder = (): UseFetchFolder => {
   const [errorMessage, setErrorMessage] = useState('')
   const [folder, setFolder] = useState<Folder | undefined>()
+  const [tags, setTags] = useState<string[]>([])
   const [isOwner, setIsOwner] = useState(false)
   const [isFetching, setIsFetching] = useState(false)
   const [resStatus, setResStatus] = useState(0)
@@ -37,6 +40,11 @@ export const useFetchFolder = (): UseFetchFolder => {
         setIsOwner(res.data.is_owner)
         setFolder(res.data.folder)
         setFolderHasLinks(res.data.links)
+        setTags(
+          res.data.folder.tags.map((tag: Tag) => {
+            return tag.name
+          }),
+        )
       })
       .catch((err) => {
         setResStatus(err.response.status)
@@ -55,5 +63,6 @@ export const useFetchFolder = (): UseFetchFolder => {
     isFetching,
     isOwner,
     resStatus,
+    tags,
   }
 }

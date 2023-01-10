@@ -15,6 +15,8 @@ type UsePostFolder = {
 
 type params = {
   name: string
+  color: string
+  tags: string[]
 }
 
 export const usePostFolder = (): UsePostFolder => {
