@@ -52,7 +52,13 @@ export const Sidebar: FC = () => {
             sx={{ pl: 2, pr: 1, mb: 2 }}
           >
             <Link path='/' underline='none'>
-              <Typography component='span' color='primary' noWrap variant='h6'>
+              <Typography
+                component='span'
+                color='primary'
+                noWrap
+                variant='h6'
+                sx={{ fontFamily: '-apple-system', fontWeight: 'bold' }}
+              >
                 Gathelink
               </Typography>
             </Link>

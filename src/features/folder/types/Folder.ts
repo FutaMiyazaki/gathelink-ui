@@ -1,4 +1,5 @@
 import { FolderFavorites } from '@/features/favoriteFolder/types'
+import { Tag } from '@/features/folder/types/Tag'
 import { Link } from '@/features/link/types/Link'
 import { User } from '@/features/user/types/User'
 
@@ -14,4 +15,5 @@ export type Folder = {
   links?: Link[]
   user?: User
   folder_favorites?: FolderFavorites[]
+  tags?: Tag[]
 }
