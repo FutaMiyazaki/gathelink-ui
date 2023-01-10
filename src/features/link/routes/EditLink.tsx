@@ -15,7 +15,6 @@ import { FC, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
-import { number, string, z } from 'zod'
 
 import { Button } from '@/components/Elements/Button'
 import { InputLabel } from '@/components/Elements/Form/InputLabel'
@@ -25,21 +24,10 @@ import { useFetchMyFolders } from '@/features/folder/hooks/useFetchMyFolders'
 import { DeleteLinkDialog } from '@/features/link/components/DeleteLinkDialog'
 import { useFetchLink } from '@/features/link/hooks/useFetchLink'
 import { useUpdateLink } from '@/features/link/hooks/useUpdateLink'
+import { EditLinkForm, editLinkFormSchema } from '@/features/link/types/EditLinkForm'
 import { myFoldersState } from '@/states/MyFoldersAtom'
 import { RouterParams } from '@/types/RouterParams'
 import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
-
-const schema = z.object({
-  url: string()
-    .min(1, 'URL は必須です')
-    .max(1000, 'URL は 1000 文字以下で入力してください')
-    .url('URL の形式に誤りがあります')
-    .trim(),
-  title: string().max(100, 'タイトルは 100 文字以下で入力してください').trim(),
-  folderId: number().positive('フォルダは必須です'),
-})
-
-type Form = z.infer<typeof schema>
 
 export const EditLink: FC = () => {
   const { folderId, linkId } = useParams<RouterParams>()
@@ -48,8 +36,8 @@ export const EditLink: FC = () => {
     formState: { errors },
     handleSubmit,
     setValue,
-  } = useForm<Form>({
-    resolver: zodResolver(schema),
+  } = useForm<EditLinkForm>({
+    resolver: zodResolver(editLinkFormSchema),
   })
   const { fetchMyFolders, isFetching: isFetchingMyFolders } = useFetchMyFolders()
   const myFolders = useRecoilValue(myFoldersState)
@@ -57,7 +45,7 @@ export const EditLink: FC = () => {
   const { updateLink, errorMessage, isUpdating } = useUpdateLink()
   const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false)
 
-  const onSubmit: SubmitHandler<Form> = (data) => {
+  const onSubmit: SubmitHandler<EditLinkForm> = (data) => {
     const link = {
       title: data.title,
       url: data.url,
@@ -82,8 +70,6 @@ export const EditLink: FC = () => {
     }
   }, [myFolders])
 
-  if (isFetchingLink || isFetchingMyFolders) <PageLoading />
-
   return (
     <Container maxWidth='md'>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
@@ -102,80 +88,86 @@ export const EditLink: FC = () => {
           sx={{ ml: 'auto' }}
         />
       </Box>
-      {folderId !== undefined && linkId !== undefined && (
-        <DeleteLinkDialog
-          folderId={folderId}
-          linkId={linkId}
-          setIsOpenDialog={setIsOpenDialog}
-          isOpenDialog={isOpenDialog}
-        />
-      )}
-      {errorMessage !== '' && (
-        <Alert icon={false} severity='error' sx={{ mb: 2 }}>
-          {errorMessage}
-        </Alert>
-      )}
-      <Box
-        component='form'
-        noValidate
-        onSubmit={handleSubmit(onSubmit)}
-        sx={{ ...whiteBackgroundProps }}
-      >
-        <InputLabel labelTitle='URL' />
-        <TextField
-          fullWidth
-          size='small'
-          type='text'
-          error={!(errors.url == null)}
-          helperText={errors.url != null ? errors.url.message : ''}
-          sx={{ mb: 4 }}
-          {...register('url')}
-        />
-        <InputLabel
-          labelTitle='タイトル'
-          inputRequirement='未入力の場合は、URL のタイトルで保存されます'
-          required={false}
-        />
-        <TextField
-          fullWidth
-          size='small'
-          type='text'
-          error={!(errors.title == null)}
-          helperText={errors.title != null ? errors.title.message : ''}
-          sx={{ mb: 4 }}
-          {...register('title')}
-        />
-        <InputLabel labelTitle='フォルダを選ぶ' />
-        {link != null && (
-          <Select
-            fullWidth
-            defaultValue={link.folder_id}
-            size='small'
-            error={!(errors.folderId == null)}
-            {...register('folderId')}
+      {isFetchingLink || isFetchingMyFolders ? (
+        <PageLoading />
+      ) : (
+        <>
+          {folderId !== undefined && linkId !== undefined && (
+            <DeleteLinkDialog
+              folderId={folderId}
+              linkId={linkId}
+              setIsOpenDialog={setIsOpenDialog}
+              isOpenDialog={isOpenDialog}
+            />
+          )}
+          {errorMessage !== '' && (
+            <Alert icon={false} severity='error' sx={{ mb: 2 }}>
+              {errorMessage}
+            </Alert>
+          )}
+          <Box
+            component='form'
+            noValidate
+            onSubmit={handleSubmit(onSubmit)}
+            sx={{ ...whiteBackgroundProps }}
           >
-            {myFolders.map((folder) => {
-              return (
-                <MenuItem key={folder.id} value={folder.id}>
-                  {folder.name}
-                </MenuItem>
-              )
-            })}
-          </Select>
-        )}
-        {errors.folderId != null && (
-          <FormHelperText error>{errors.folderId.message}</FormHelperText>
-        )}
-        <Stack direction='row' sx={{ mt: 4 }}>
-          <Button
-            isLoading={isUpdating}
-            disabled={isUpdating}
-            label='保存する'
-            size='large'
-            type='submit'
-          />
-        </Stack>
-      </Box>
+            <InputLabel labelTitle='URL' />
+            <TextField
+              fullWidth
+              size='small'
+              type='text'
+              error={!(errors.url == null)}
+              helperText={errors.url != null ? errors.url.message : ''}
+              sx={{ mb: 4 }}
+              {...register('url')}
+            />
+            <InputLabel
+              labelTitle='タイトル'
+              inputRequirement='未入力の場合は、URL のタイトルで保存されます'
+              required={false}
+            />
+            <TextField
+              fullWidth
+              size='small'
+              type='text'
+              error={!(errors.title == null)}
+              helperText={errors.title != null ? errors.title.message : ''}
+              sx={{ mb: 4 }}
+              {...register('title')}
+            />
+            <InputLabel labelTitle='フォルダを選ぶ' />
+            {link != null && (
+              <Select
+                fullWidth
+                defaultValue={link.folder_id}
+                size='small'
+                error={!(errors.folderId == null)}
+                {...register('folderId')}
+              >
+                {myFolders.map((folder) => {
+                  return (
+                    <MenuItem key={folder.id} value={folder.id}>
+                      {folder.name}
+                    </MenuItem>
+                  )
+                })}
+              </Select>
+            )}
+            {errors.folderId != null && (
+              <FormHelperText error>{errors.folderId.message}</FormHelperText>
+            )}
+            <Stack direction='row' sx={{ mt: 4 }}>
+              <Button
+                isLoading={isUpdating}
+                disabled={isUpdating}
+                label='保存する'
+                size='large'
+                type='submit'
+              />
+            </Stack>
+          </Box>
+        </>
+      )}
     </Container>
   )
 }

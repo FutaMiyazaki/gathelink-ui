@@ -16,27 +16,15 @@ import { FC, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { number, string, z } from 'zod'
 
 import { Button } from '@/components/Elements/Button'
 import { InputLabel } from '@/components/Elements/Form/InputLabel'
 import { useFetchMyFolders } from '@/features/folder/hooks/useFetchMyFolders'
 import { usePostLink } from '@/features/link/hooks/usePostLink'
+import { NewLinkForm, newLinkFormSchema } from '@/features/link/types/NewLinkForm'
 import { isOpenCreateFolderDialogState } from '@/states/isOpenCreateFolderDialogState'
 import { myFoldersState } from '@/states/MyFoldersAtom'
 import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
-
-const schema = z.object({
-  url: string()
-    .min(1, 'URL は必須です')
-    .max(1000, 'URL は 1000 文字以下で入力してください')
-    .url('URL の形式に誤りがあります')
-    .trim(),
-  title: string().max(100, 'タイトルは 100 文字以下で入力してください').trim(),
-  folderId: number().positive('フォルダは必須です'),
-})
-
-type Form = z.infer<typeof schema>
 
 export const NewLink: FC = () => {
   const navigate = useNavigate()
@@ -48,12 +36,12 @@ export const NewLink: FC = () => {
     formState: { errors },
     handleSubmit,
     setValue,
-  } = useForm<Form>({
-    resolver: zodResolver(schema),
+  } = useForm<NewLinkForm>({
+    resolver: zodResolver(newLinkFormSchema),
   })
   const { postLink, errorMessage, isPosting } = usePostLink()
 
-  const onSubmit: SubmitHandler<Form> = (data) => {
+  const onSubmit: SubmitHandler<NewLinkForm> = (data) => {
     const link = {
       url: data.url,
       title: data.title,
