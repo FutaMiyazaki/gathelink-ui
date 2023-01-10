@@ -63,7 +63,12 @@ export const Header: FC = () => {
             component='span'
             noWrap
             variant='h6'
-            sx={{ mr: 2, display: { xs: 'flex', md: 'none' } }}
+            sx={{
+              mr: 2,
+              display: { xs: 'flex', md: 'none' },
+              fontFamily: '-apple-system',
+              fontWeight: 'bold',
+            }}
           >
             Gathelink
           </Typography>
