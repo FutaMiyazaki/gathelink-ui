@@ -11,7 +11,6 @@ import { FC, useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { TagsInput } from 'react-tag-input-component'
-import { string, z } from 'zod'
 
 import { Alert } from '@/components/Elements/Alert'
 import { Button } from '@/components/Elements/Button'
@@ -21,18 +20,9 @@ import { PageLoading } from '@/components/Layouts/PageLoading'
 import { DeleteFolderDialog } from '@/features/folder/components/Dialog/DeleteFolderDialog'
 import { useFetchFolder } from '@/features/folder/hooks/useFetchFolder'
 import { useUpdateFolder } from '@/features/folder/hooks/useUpdateFolder'
+import { EditFolderForm, editFolderFormSchema } from '@/features/folder/types/EditFolderForm'
 import { RouterParams } from '@/types/RouterParams'
 import { whiteBackgroundProps } from '@/utils/mui/whiteBackgroundProps'
-
-const schema = z.object({
-  name: string()
-    .min(1, 'フォルダ名は必須です')
-    .max(30, 'フォルダ名は 30 文字以下で入力してください')
-    .trim(),
-  description: string().max(200, '説明は 200 文字以下で入力してください').trim(),
-})
-
-type Form = z.infer<typeof schema>
 
 export const EditFolder: FC = () => {
   const { fetchFolder, folder, isFetching, tags: folderTags } = useFetchFolder()
@@ -44,13 +34,13 @@ export const EditFolder: FC = () => {
     formState: { errors },
     handleSubmit,
     setValue,
-  } = useForm<Form>({
-    resolver: zodResolver(schema),
+  } = useForm<EditFolderForm>({
+    resolver: zodResolver(editFolderFormSchema),
   })
   const { folderId } = useParams<RouterParams>()
   const { updateFolder, errorMessage, isLoading } = useUpdateFolder()
 
-  const onSubmit: SubmitHandler<Form> = (data) => {
+  const onSubmit: SubmitHandler<EditFolderForm> = (data) => {
     for (let i = 0; i < tags.length; i++) {
       if (tags[i].length > 20) {
         setValidationMessage('タグは20文字以下で入力してください')

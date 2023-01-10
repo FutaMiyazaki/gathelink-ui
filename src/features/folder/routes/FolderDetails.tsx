@@ -59,7 +59,7 @@ export const FolderDetails: FC = () => {
   const folderHasLinks = useRecoilValue(folderHasLinksState)
   const isAuthenticated = useRecoilValue(isAuthenticatedState)
   const { folderId } = useParams<RouterParams>()
-  const { errorMessage, fetchFolder, folder, setFolder, isFetching, isOwner, resStatus } =
+  const { errorMessage, fetchFolder, folder, setFolder, isFetching, isOwner, tags, resStatus } =
     useFetchFolder()
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -140,6 +140,7 @@ export const FolderDetails: FC = () => {
               setIsOpenDialog={setIsOpenSetColorDialog}
               folder={folder}
               setFolder={setFolder}
+              tags={tags}
             />
             <Typography
               variant='h1'

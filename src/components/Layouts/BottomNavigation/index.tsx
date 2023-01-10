@@ -1,13 +1,10 @@
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded'
-import FolderRoundedIcon from '@mui/icons-material/FolderRounded'
 import GitHubIcon from '@mui/icons-material/GitHub'
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded'
-import MenuOpenRoundedIcon from '@mui/icons-material/MenuOpenRounded'
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded'
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded'
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded'
-import StarRoundedIcon from '@mui/icons-material/StarRounded'
 import Avatar from '@mui/material/Avatar'
 import MuiBottomNavigation from '@mui/material/BottomNavigation'
 import BottomNavigationAction from '@mui/material/BottomNavigationAction'
@@ -23,17 +20,12 @@ import { useRecoilValue } from 'recoil'
 
 import { ListItemIcon } from '@/components/Elements/ListItemIcon'
 import { Drawer } from '@/components/Layouts/BottomNavigation/Drawer'
+import { naviActions } from '@/components/Layouts/BottomNavigation/naviActions'
 import { menuItems } from '@/components/Layouts/Header/Menu/menuItems'
 import { useLogout } from '@/features/auth/hooks/useLogout'
 import { useMedia } from '@/hooks/useMedia'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 import { currentUserState } from '@/states/CurrentUserAtom'
-
-type NaviAction = {
-  label: string
-  icon: JSX.Element
-  path: string
-}
 
 export const BottomNavigation: FC = () => {
   const [value, setValue] = useState('')
@@ -48,12 +40,6 @@ export const BottomNavigation: FC = () => {
     setIsOpenDrawer(false)
     logout()
   }
-
-  const naviActions: readonly NaviAction[] = [
-    { label: 'ホーム', icon: <HomeRoundedIcon />, path: '' },
-    { label: 'お気に入り', icon: <StarRoundedIcon />, path: '/favorite?sort=created_asc' },
-    { label: 'フォルダ', icon: <FolderRoundedIcon />, path: '/myfolders?sort=created_asc' },
-  ]
 
   if (isDesktopScreen || !isAuthenticated) return null
 
@@ -90,7 +76,7 @@ export const BottomNavigation: FC = () => {
           onClick={() => setIsOpenDrawer(true)}
           value='メニュー'
           label='メニュー'
-          icon={<MenuOpenRoundedIcon />}
+          icon={<MenuRoundedIcon />}
         />
       </MuiBottomNavigation>
       <Drawer isOpen={isOpenDrawer} setIsOpen={setIsOpenDrawer}>

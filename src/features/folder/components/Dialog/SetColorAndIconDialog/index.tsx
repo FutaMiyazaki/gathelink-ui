@@ -22,6 +22,7 @@ type SetColorAndIconDialogProps = {
   isOpenDialog: boolean
   setIsOpenDialog: Dispatch<SetStateAction<boolean>>
   folder?: Folder
+  tags?: string[]
   setFolder: Dispatch<SetStateAction<Folder | undefined>>
 }
 
@@ -29,6 +30,7 @@ export const SetColorAndIconDialog: FC<SetColorAndIconDialogProps> = ({
   isOpenDialog,
   setIsOpenDialog,
   folder: prevFolder,
+  tags,
   setFolder,
 }) => {
   const { updateFolder, errorMessage } = useUpdateFolder()
@@ -40,6 +42,7 @@ export const SetColorAndIconDialog: FC<SetColorAndIconDialogProps> = ({
 
     const folder = {
       color: newColor,
+      tags,
     }
     updateFolder(folder, folderId as string)
     prevFolder !== undefined && setFolder({ ...prevFolder, color: newColor })
@@ -51,6 +54,7 @@ export const SetColorAndIconDialog: FC<SetColorAndIconDialogProps> = ({
 
     const folder = {
       icon: newIcon,
+      tags,
     }
     updateFolder(folder, folderId as string)
     prevFolder !== undefined && setFolder({ ...prevFolder, icon: newIcon })
