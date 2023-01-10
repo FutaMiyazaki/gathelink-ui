@@ -1,6 +1,6 @@
 import { parseCookies } from 'nookies'
 import { FC, useEffect } from 'react'
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
+import { Outlet, Route, Routes } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 
 import { MainLayout } from '@/components/Layouts/MainLayout'
@@ -13,6 +13,7 @@ import { FavoriteFolders } from '@/features/favoriteFolder/routes/FavoriteFolder
 import { EditFolder } from '@/features/folder/routes/EditFolder'
 import { FolderDetails } from '@/features/folder/routes/FolderDetails'
 import { MyFolders } from '@/features/folder/routes/MyFolders'
+import { TagFolders } from '@/features/folder/routes/TagFolders'
 import { EditLink } from '@/features/link/routes/EditLink'
 import { MyLinks } from '@/features/link/routes/MyLinks'
 import { NewLink } from '@/features/link/routes/NewLink'
@@ -48,8 +49,6 @@ export const AppRoutes: FC = () => {
   )
 
   const AuthPage: FC = () => {
-    if (authenticated) return <Navigate to='/myfolders' replace={false} />
-
     return (
       <>
         <AuthHeader />
@@ -72,6 +71,7 @@ export const AppRoutes: FC = () => {
         <Route path='/myfolders' element={<AuthGuard component={<MyFolders />} />} />
         <Route path='/mylinks' element={<AuthGuard component={<MyLinks />} />} />
         <Route path='/favorite' element={<AuthGuard component={<FavoriteFolders />} />} />
+        <Route path='/tag/:tagId' element={<AuthGuard component={<TagFolders />} />} />
         <Route path='/folder/:folderId' element={<FolderDetails />} />
         <Route path='/folder/:folderId/edit' element={<AuthGuard component={<EditFolder />} />} />
         <Route path='/new/link' element={<AuthGuard component={<NewLink />} />} />

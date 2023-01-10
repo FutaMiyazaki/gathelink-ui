@@ -1,8 +1,11 @@
 import { ReactNode } from 'react'
 
-export type MenuItems = Array<{
-  icon?: ReactNode
+export type MenuItem = Readonly<{
   onClick?: () => void
-  path?: string
   text: string
+  icon: ReactNode
+  path?: string
+  isShow: boolean
 }>
+
+export type MenuItems = MenuItem[]

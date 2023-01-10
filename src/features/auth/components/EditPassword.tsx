@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
-import { FC, MouseEvent, useState } from 'react'
+import { FC, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useRecoilValue } from 'recoil'
 import { string, z } from 'zod'
@@ -51,7 +51,7 @@ export const EditPassword: FC = () => {
       component='form'
       noValidate
       onSubmit={handleSubmit(onSubmit)}
-      sx={{ ...whiteBackgroundProps, my: 6 }}
+      sx={{ ...whiteBackgroundProps, mb: 6 }}
     >
       <InputLabel labelTitle='パスワード' required={false} />
       <TextField
@@ -64,10 +64,7 @@ export const EditPassword: FC = () => {
         InputProps={{
           endAdornment: (
             <InputAdornment position='end'>
-              <IconButton
-                onClick={() => setIsShowPassword(!isShowPassword)}
-                onMouseDown={(e: MouseEvent<HTMLButtonElement>) => e.preventDefault()}
-              >
+              <IconButton onClick={() => setIsShowPassword(!isShowPassword)} edge='end'>
                 {isShowPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
               </IconButton>
             </InputAdornment>

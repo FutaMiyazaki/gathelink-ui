@@ -1,3 +1,6 @@
+import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded'
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
+import EditRoundedIcon from '@mui/icons-material/EditRounded'
 import ImageNotSupportedTwoToneIcon from '@mui/icons-material/ImageNotSupportedTwoTone'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import IconButton from '@mui/material/IconButton'
@@ -10,11 +13,9 @@ import Typography from '@mui/material/Typography'
 import { parseISO } from 'date-fns'
 import { Image } from 'mui-image'
 import { FC, MouseEvent, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
 
 import { Menu } from '@/components/Elements/Menu'
-import { MenuItems } from '@/components/Elements/Menu/MenuItems'
 import { DeleteLinkDialog } from '@/features/link/components/DeleteLinkDialog'
 import { Link as LinkType } from '@/features/link/types/Link'
 import { useMedia } from '@/hooks/useMedia'
@@ -34,27 +35,26 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner = false,
   const setAlert = useSetRecoilState(alertState)
   const { isDesktopScreen } = useMedia()
 
-  const navigate = useNavigate()
-
   const handleOpenMenu = (event: MouseEvent<HTMLElement>): void => {
     setAnchorEl(event.currentTarget)
   }
 
-  const ownerMenuItems: MenuItems = [
+  const menuItems = [
     {
       onClick: () => {
         navigator.clipboard.writeText(link.url)
-        setAlert({ isShow: true, message: 'クリップボードにリンクをコピーしました' })
+        setAlert({ isShow: true, message: 'クリップボードにURLをコピーしました' })
         setAnchorEl(null)
       },
-      text: 'クリップボードにリンクをコピー',
+      text: 'クリップボードにURLをコピー',
+      icon: <ContentCopyRoundedIcon />,
+      isShow: true,
     },
     {
-      onClick: () => {
-        navigate(`/folder/${folderId}/link/${link.id}`)
-        setAnchorEl(null)
-      },
       text: '編集',
+      icon: <EditRoundedIcon />,
+      path: `/folder/${folderId}/link/${link.id}`,
+      isShow: isOwner,
     },
     {
       onClick: () => {
@@ -62,17 +62,8 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner = false,
         setAnchorEl(null)
       },
       text: '削除',
-    },
-  ]
-
-  const notOwnerMenuItems: MenuItems = [
-    {
-      onClick: () => {
-        navigator.clipboard.writeText(link.url)
-        setAlert({ isShow: true, message: 'クリップボードにリンクをコピーしました' })
-        setAnchorEl(null)
-      },
-      text: 'クリップボードにリンクをコピー',
+      icon: <DeleteRoundedIcon />,
+      isShow: isOwner,
     },
   ]
 
@@ -120,7 +111,7 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner = false,
               >
                 {link.url.replace(/\\/g, '/').match(/\/\/([^/]*)/)?.[1]}
               </Typography>
-              <Typography component='span' variant='body2' sx={{ color: 'secondary.dark' }}>
+              <Typography component='span' variant='body2' sx={{ fontWeight: 300 }}>
                 {diffTime(new Date(), parseISO(link.updated_at))}
               </Typography>
             </>
@@ -130,11 +121,7 @@ export const LinkListItem: FC<LinkListItemProps> = ({ folderId, isOwner = false,
       <IconButton onClick={handleOpenMenu} edge='end' size='small' sx={{ mr: 0.5 }}>
         <MoreVertIcon />
       </IconButton>
-      <Menu
-        anchorEl={anchorEl}
-        handleCloseMenu={() => setAnchorEl(null)}
-        menuItems={isOwner ? ownerMenuItems : notOwnerMenuItems}
-      />
+      <Menu anchorEl={anchorEl} setAnchorEl={setAnchorEl} menuItems={menuItems} />
       {isOwner && folderId !== undefined && link.id !== undefined && (
         <DeleteLinkDialog
           folderId={folderId}

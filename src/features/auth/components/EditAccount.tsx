@@ -62,7 +62,7 @@ export const EditAccount: FC = () => {
       component='form'
       noValidate
       onSubmit={handleSubmit(onSubmit)}
-      sx={{ ...whiteBackgroundProps }}
+      sx={{ ...whiteBackgroundProps, mb: 3 }}
     >
       <InputLabel labelTitle='ユーザー名' required={false} />
       <TextField

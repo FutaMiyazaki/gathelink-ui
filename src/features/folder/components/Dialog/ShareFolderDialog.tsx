@@ -2,17 +2,16 @@ import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded'
 import ShareRoundedIcon from '@mui/icons-material/ShareRounded'
 import TwitterIcon from '@mui/icons-material/Twitter'
 import Avatar from '@mui/material/Avatar'
-import Box from '@mui/material/Box'
 import MuiButton from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
-import DialogTitle from '@mui/material/DialogTitle'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
 import { Dispatch, FC, SetStateAction } from 'react'
 import { useSetRecoilState } from 'recoil'
 
+import { Dialog } from '@/components/Elements/Dialog'
 import { alertState } from '@/states/AlertAtom'
 
 type ShareFolderDialogProps = {
@@ -38,24 +37,23 @@ export const ShareFolderDialog: FC<ShareFolderDialogProps> = ({
 
   return (
     <Dialog
-      fullWidth
-      maxWidth='sm'
-      onClose={() => setIsOpenDialog(false)}
-      open={isOpenDialog}
-      PaperProps={{
-        style: { borderRadius: 15 },
-      }}
-    >
-      <Box sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column', mt: 2 }}>
-        <Avatar sx={{ bgcolor: 'primary.main' }}>
+      isOpenDialog={isOpenDialog}
+      setIsOpenDialog={setIsOpenDialog}
+      title='フォルダを共有'
+      titleIcon={
+        <Avatar sx={{ mr: 1, bgcolor: 'primary.main' }}>
           <ShareRoundedIcon />
         </Avatar>
-      </Box>
-      <DialogTitle sx={{ textAlign: 'center' }}>フォルダを共有する</DialogTitle>
+      }
+    >
       <DialogContent>
+        <Typography component='p' sx={{ mb: 1 }}>
+          フォルダのURL
+        </Typography>
         <TextField
           disabled
           fullWidth
+          size='small'
           defaultValue={window.location.href}
           InputProps={{
             endAdornment: (

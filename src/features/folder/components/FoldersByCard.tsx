@@ -1,4 +1,3 @@
-import FolderRoundedIcon from '@mui/icons-material/FolderRounded'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
@@ -11,6 +10,7 @@ import { Link } from 'react-router-dom'
 import { Alert } from '@/components/Elements/Alert'
 import { NoContents } from '@/components/Layouts/NoContents'
 import { PageLoading } from '@/components/Layouts/PageLoading'
+import { DynamicIcon } from '@/features/folder/components/DynamicIcon'
 import { Folder } from '@/features/folder/types/Folder'
 import { diffTime } from '@/utils/date'
 
@@ -23,13 +23,25 @@ const FolderCard: FC<FolderCardProps> = ({ folder }) => {
     <Card variant='outlined'>
       <CardActionArea component={Link} to={`/folder/${folder.id}`}>
         <Box sx={{ backgroundColor: 'background.default', textAlign: 'center', py: 2 }}>
-          <FolderRoundedIcon fontSize='large' sx={{ color: folder.color }} />
+          {DynamicIcon(folder?.icon, 'large', folder?.color)}
         </Box>
         <Box sx={{ p: 1 }}>
-          <Typography component='span' variant='subtitle1' sx={{ display: 'block', lineHeight: 1 }}>
+          <Typography
+            component='span'
+            variant='subtitle1'
+            sx={{
+              display: '-webkit-box',
+              WebkitBoxOrient: 'vertical',
+              WebkitLineClamp: 2,
+              overflow: 'hidden',
+              lineHeight: 1.5,
+              fontWeight: 'bold',
+              mb: 1,
+            }}
+          >
             {folder.name}
           </Typography>
-          <Typography component='span' variant='body2' sx={{ color: 'secondary.dark' }}>
+          <Typography component='span' variant='body2' sx={{ fontWeight: 300 }}>
             {diffTime(new Date(), parseISO(folder.created_at))}
           </Typography>
         </Box>

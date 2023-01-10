@@ -1,3 +1,6 @@
+import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded'
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
+import EditRoundedIcon from '@mui/icons-material/EditRounded'
 import ImageNotSupportedTwoToneIcon from '@mui/icons-material/ImageNotSupportedTwoTone'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Box from '@mui/material/Box'
@@ -12,11 +15,9 @@ import Typography from '@mui/material/Typography'
 import { parseISO } from 'date-fns'
 import { Image } from 'mui-image'
 import { FC, MouseEvent, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
 
 import { Menu } from '@/components/Elements/Menu'
-import { MenuItems } from '@/components/Elements/Menu/MenuItems'
 import { DeleteLinkDialog } from '@/features/link/components/DeleteLinkDialog'
 import { Link as LinkType } from '@/features/link/types/Link'
 import { alertState } from '@/states/AlertAtom'
@@ -33,28 +34,28 @@ export const LinkCard: FC<LinkCardProps> = ({ link, folderId, isOwner = false })
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [isOpenDialog, setIsOpenDialog] = useState<boolean>(false)
   const setAlert = useSetRecoilState(alertState)
-  const navigate = useNavigate()
   const IMAGE_HEIGHT = 130
 
   const handleOpenMenu = (event: MouseEvent<HTMLElement>): void => {
     setAnchorEl(event.currentTarget)
   }
 
-  const ownerMenuItems: MenuItems = [
+  const menuItems = [
     {
       onClick: () => {
         navigator.clipboard.writeText(link.url)
-        setAlert({ isShow: true, message: 'クリップボードにリンクをコピーしました' })
+        setAlert({ isShow: true, message: 'クリップボードにURLをコピーしました' })
         setAnchorEl(null)
       },
-      text: 'クリップボードにリンクをコピー',
+      text: 'クリップボードにURLをコピー',
+      icon: <ContentCopyRoundedIcon />,
+      isShow: true,
     },
     {
-      onClick: () => {
-        navigate(`/folder/${folderId}/link/${link.id}`)
-        setAnchorEl(null)
-      },
       text: '編集',
+      icon: <EditRoundedIcon />,
+      path: `/folder/${folderId}/link/${link.id}`,
+      isShow: isOwner,
     },
     {
       onClick: () => {
@@ -62,17 +63,8 @@ export const LinkCard: FC<LinkCardProps> = ({ link, folderId, isOwner = false })
         setAnchorEl(null)
       },
       text: '削除',
-    },
-  ]
-
-  const notOwnerMenuItems: MenuItems = [
-    {
-      onClick: () => {
-        navigator.clipboard.writeText(link.url)
-        setAlert({ isShow: true, message: 'クリップボードにリンクをコピーしました' })
-        setAnchorEl(null)
-      },
-      text: 'クリップボードにリンクをコピー',
+      icon: <DeleteRoundedIcon />,
+      isShow: isOwner,
     },
   ]
 
@@ -121,7 +113,7 @@ export const LinkCard: FC<LinkCardProps> = ({ link, folderId, isOwner = false })
               style={{ pointerEvents: 'none' }}
             />
           )}
-          <CardContent sx={{ display: 'flex', p: 1 }}>
+          <CardContent sx={{ display: 'flex', px: 1, pt: 1, pb: 0 }}>
             <Typography
               component='span'
               variant='subtitle2'
@@ -139,17 +131,13 @@ export const LinkCard: FC<LinkCardProps> = ({ link, folderId, isOwner = false })
         </CardActionArea>
       </Tooltip>
       <CardActions disableSpacing sx={{ pt: 0 }}>
-        <Typography component='span' variant='body2' sx={{ mr: 'auto', color: 'secondary.dark' }}>
+        <Typography component='span' variant='body2' sx={{ fontWeight: 300 }}>
           {diffTime(new Date(), parseISO(link.updated_at))}
         </Typography>
-        <IconButton onClick={handleOpenMenu} edge='end' size='small'>
+        <IconButton onClick={handleOpenMenu} edge='end' size='small' sx={{ ml: 'auto' }}>
           <MoreVertIcon />
         </IconButton>
-        <Menu
-          anchorEl={anchorEl}
-          handleCloseMenu={() => setAnchorEl(null)}
-          menuItems={isOwner ? ownerMenuItems : notOwnerMenuItems}
-        />
+        <Menu anchorEl={anchorEl} setAnchorEl={setAnchorEl} menuItems={menuItems} />
         {isOwner && folderId !== undefined && link.id !== undefined && (
           <DeleteLinkDialog
             folderId={folderId}

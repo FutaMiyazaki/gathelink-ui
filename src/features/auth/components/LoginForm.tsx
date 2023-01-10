@@ -89,7 +89,7 @@ export const LoginForm: FC = () => {
           InputProps={{
             endAdornment: (
               <InputAdornment position='end'>
-                <IconButton onClick={handleClickShowPassword} onMouseDown={handleMouseDownPassword}>
+                <IconButton onClick={handleClickShowPassword} edge='end'>
                   {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                 </IconButton>
               </InputAdornment>

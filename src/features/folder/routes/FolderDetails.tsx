@@ -1,11 +1,12 @@
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined'
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
+import ColorLensRoundedIcon from '@mui/icons-material/ColorLensRounded'
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
-import FolderRoundedIcon from '@mui/icons-material/FolderRounded'
-import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined'
+import IosShareRoundedIcon from '@mui/icons-material/IosShareRounded'
+import ListRoundedIcon from '@mui/icons-material/ListRounded'
 import StarBorderRoundedIcon from '@mui/icons-material/StarBorderRounded'
 import UpdateIcon from '@mui/icons-material/Update'
-import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Container from '@mui/material/Container'
@@ -17,12 +18,13 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Unstable_Grid2'
 import { parseISO } from 'date-fns'
-import { useEffect, FC, useState } from 'react'
+import { useEffect, FC, useState, MouseEvent } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
-import { Button } from '@/components/Elements/Button'
-import { LinkButton } from '@/components/Elements/Button/LinkButton'
+import { Alert } from '@/components/Elements/Alert'
+import { Menu } from '@/components/Elements/Menu'
+import { MenuItems } from '@/components/Elements/Menu/MenuItems'
 import { DisplayTypeButtonGroup } from '@/components/features/DisplayTypeButtonGroup'
 import { DisplayType } from '@/components/features/DisplayTypeButtonGroup/displayTypeItems'
 import { SortSelect } from '@/components/features/SortSelect'
@@ -30,12 +32,15 @@ import { sortItems } from '@/components/features/SortSelect/sortItems'
 import { NoContents } from '@/components/Layouts/NoContents'
 import { PageLoading } from '@/components/Layouts/PageLoading'
 import { FavoriteFolderButton } from '@/features/favoriteFolder/components/FavoriteFolderButton'
-import { SetColorDialog } from '@/features/folder/components/Dialog/SetColorDialog'
+import { DeleteFolderDialog } from '@/features/folder/components/Dialog/DeleteFolderDialog'
+import { SetColorAndIconDialog } from '@/features/folder/components/Dialog/SetColorAndIconDialog'
 import { ShareFolderDialog } from '@/features/folder/components/Dialog/ShareFolderDialog'
+import { DynamicIcon } from '@/features/folder/components/DynamicIcon'
+import { TagList } from '@/features/folder/components/TagList'
 import { useFetchFolder } from '@/features/folder/hooks/useFetchFolder'
 import { LinkCard } from '@/features/link/components/LinkCard'
 import { LinkListItem } from '@/features/link/components/LinkListItem'
-import { Link } from '@/features/link/types/Link'
+import { Link as LinkType } from '@/features/link/types/Link'
 import { NotFound } from '@/features/misc/routes/NotFound'
 import { isAuthenticatedState } from '@/states/AuthAtom'
 import { folderHasLinksState } from '@/states/FolderHasLinksAtom'
@@ -49,6 +54,8 @@ export const FolderDetails: FC = () => {
   const [displayType, setDisplayType] = useState<DisplayType>('list')
   const [isOpenShareFolderDialog, setIsOpenShareFolderDialog] = useState(false)
   const [isOpenSetColorDialog, setIsOpenSetColorDialog] = useState(false)
+  const [isOpenConfirmDialog, setIsOpenConfirmDialog] = useState(false)
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const folderHasLinks = useRecoilValue(folderHasLinksState)
   const isAuthenticated = useRecoilValue(isAuthenticatedState)
   const { folderId } = useParams<RouterParams>()
@@ -62,6 +69,46 @@ export const FolderDetails: FC = () => {
     setSearchParams({ sort: newSortType })
   }
 
+  const handleOpenMenu = (event: MouseEvent<HTMLElement>): void => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const menuItems: MenuItems = [
+    {
+      onClick: () => {
+        setIsOpenShareFolderDialog(true)
+        setAnchorEl(null)
+      },
+      text: '共有',
+      icon: <IosShareRoundedIcon />,
+      isShow: true,
+    },
+    {
+      onClick: () => {
+        setIsOpenSetColorDialog(true)
+        setAnchorEl(null)
+      },
+      text: '色・アイコンを変更',
+      icon: <ColorLensRoundedIcon />,
+      isShow: isOwner,
+    },
+    {
+      text: '編集',
+      icon: <EditOutlinedIcon />,
+      path: `/folder/${folderId as string}/edit`,
+      isShow: isOwner,
+    },
+    {
+      onClick: () => {
+        setIsOpenConfirmDialog(true)
+        setAnchorEl(null)
+      },
+      text: '削除',
+      icon: <DeleteRoundedIcon />,
+      isShow: isOwner,
+    },
+  ]
+
   useEffect(() => {
     folderId !== undefined && fetchFolder(folderId, sortType)
   }, [folderId, sortType])
@@ -72,27 +119,23 @@ export const FolderDetails: FC = () => {
 
   return (
     <Container maxWidth='xl'>
-      {errorMessage !== '' && (
-        <Alert icon={false} severity='error' sx={{ mb: 4 }}>
-          {errorMessage}
-        </Alert>
-      )}
-      <Box>
+      <Alert message={errorMessage} />
+      <Box sx={{ mb: 4 }}>
         <Stack direction='row' alignItems='center' justifyContent='space-between' sx={{ mb: 1 }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Tooltip
               title={
                 <Typography component='span' variant='subtitle2'>
-                  色を変更
+                  色・アイコンを変更
                 </Typography>
               }
               arrow
             >
               <IconButton onClick={() => setIsOpenSetColorDialog(true)}>
-                <FolderRoundedIcon fontSize='large' sx={{ color: folder?.color }} />
+                {DynamicIcon(folder?.icon, 'large', folder?.color)}
               </IconButton>
             </Tooltip>
-            <SetColorDialog
+            <SetColorAndIconDialog
               isOpenDialog={isOpenSetColorDialog}
               setIsOpenDialog={setIsOpenSetColorDialog}
               folder={folder}
@@ -111,16 +154,39 @@ export const FolderDetails: FC = () => {
               {folder?.name}
             </Typography>
           </Box>
-          {isAuthenticated ? (
-            <FavoriteFolderButton
-              folderId={folderId as string}
-              favoritedData={folder?.folder_favorites}
-            />
-          ) : (
-            <IconButton>
-              <StarBorderRoundedIcon />
+          <Box>
+            {isAuthenticated ? (
+              <>
+                <FavoriteFolderButton
+                  folderId={folderId as string}
+                  favoritedData={folder?.folder_favorites}
+                />
+              </>
+            ) : (
+              <IconButton>
+                <StarBorderRoundedIcon />
+              </IconButton>
+            )}
+            <IconButton onClick={handleOpenMenu}>
+              <ListRoundedIcon />
             </IconButton>
-          )}
+            <Menu anchorEl={anchorEl} setAnchorEl={setAnchorEl} menuItems={menuItems} />
+            {folder?.user !== undefined && (
+              <ShareFolderDialog
+                isOpenDialog={isOpenShareFolderDialog}
+                setIsOpenDialog={setIsOpenShareFolderDialog}
+                folderName={folder.name}
+                ownerName={folder.user.name}
+              />
+            )}
+            {isOwner && (
+              <DeleteFolderDialog
+                folderId={folderId as string}
+                isOpenDialog={isOpenConfirmDialog}
+                setIsOpenDialog={setIsOpenConfirmDialog}
+              />
+            )}
+          </Box>
         </Stack>
         <Grid container spacing={1} sx={{ mb: 1 }}>
           <Grid xs={12} sm='auto'>
@@ -152,49 +218,25 @@ export const FolderDetails: FC = () => {
               sx={{ border: 'none' }}
             />
           </Grid>
+          <Grid xs={12}>
+            <TagList tags={folder?.tags} />
+          </Grid>
         </Grid>
         {folder?.description !== null && (
           <Typography variant='body2' sx={{ whiteSpace: 'pre-wrap', px: 1 }}>
             {folder?.description}
           </Typography>
         )}
-
-        <Stack direction='row' alignItems='center' spacing={1} sx={{ mt: 2 }}>
-          {folder?.user !== undefined && (
-            <>
-              <Button
-                onClick={() => setIsOpenShareFolderDialog(true)}
-                icon={<ShareOutlinedIcon />}
-                label='共有'
-                variant='outlined'
-              />
-              <ShareFolderDialog
-                isOpenDialog={isOpenShareFolderDialog}
-                setIsOpenDialog={setIsOpenShareFolderDialog}
-                folderName={folder.name}
-                ownerName={folder.user.name}
-              />
-            </>
-          )}
-          {isOwner && (
-            <LinkButton
-              color='secondary'
-              icon={<EditOutlinedIcon />}
-              label='編集'
-              path={`/folder/${folderId as string}/edit`}
-            />
-          )}
-        </Stack>
       </Box>
       {folderHasLinks.length > 0 ? (
         <>
-          <Stack direction='row' justifyContent='flex-end' alignItems='center' sx={{ mb: 1 }}>
+          <Stack direction='row' justifyContent='flex-end' alignItems='center' sx={{ mb: 3 }}>
             <SortSelect sort={sortType} selectItems={sortItems} handleChange={handleChangeSort} />
             <DisplayTypeButtonGroup displayType={displayType} setDisplayType={setDisplayType} />
           </Stack>
           {displayType === 'list' && (
             <List sx={{ ...whiteBackgroundProps, pl: 1, pr: 0, py: 2 }}>
-              {folderHasLinks?.map((link: Link) => {
+              {folderHasLinks?.map((link: LinkType) => {
                 return (
                   <LinkListItem
                     key={link.id}
@@ -208,7 +250,7 @@ export const FolderDetails: FC = () => {
           )}
           {displayType === 'card' && (
             <Grid container columns={{ xs: 2, sm: 2, md: 3, lg: 4, xl: 5 }} spacing={3}>
-              {folderHasLinks?.map((link: Link) => {
+              {folderHasLinks?.map((link: LinkType) => {
                 return (
                   <Grid key={link.id} xs={1}>
                     <LinkCard folderId={folderId as string} isOwner={isOwner} link={link} />

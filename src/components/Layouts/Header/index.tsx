@@ -7,12 +7,11 @@ import Stack from '@mui/material/Stack'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import { FC, MouseEvent, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { Button } from '@/components/Elements/Button'
 import { LinkButton } from '@/components/Elements/Button/LinkButton'
-import { Link } from '@/components/Elements/Link'
+import { Link as AppLink } from '@/components/Elements/Link'
 import { Menu } from '@/components/Elements/Menu'
 import { MenuItems } from '@/components/Elements/Menu/MenuItems'
 import { HeaderMenu } from '@/components/Layouts/Header/Menu'
@@ -26,28 +25,29 @@ export const Header: FC = () => {
   const setIsOpenCreateFolderDialog = useSetRecoilState(isOpenCreateFolderDialogState)
   const isAuthenticated = useRecoilValue(isAuthenticatedState)
   const { isDesktopScreen } = useMedia()
-  const navigate = useNavigate()
 
   const handleOpenMenu = (event: MouseEvent<HTMLElement>): void => {
     setAnchorEl(event.currentTarget)
   }
 
-  const headerAddActions: MenuItems = [
+  const menuItems: MenuItems = [
     {
-      icon: <AddLinkOutlinedIcon sx={{ mr: 1 }} />,
       onClick: () => {
-        navigate('/new/link')
         setAnchorEl(null)
       },
       text: 'リンクを追加',
+      icon: <AddLinkOutlinedIcon />,
+      path: '/new/link',
+      isShow: true,
     },
     {
-      icon: <CreateNewFolderOutlinedIcon sx={{ mr: 1 }} />,
       onClick: () => {
         setIsOpenCreateFolderDialog(true)
         setAnchorEl(null)
       },
       text: 'フォルダを作成',
+      icon: <CreateNewFolderOutlinedIcon />,
+      isShow: true,
     },
   ]
 
@@ -57,17 +57,22 @@ export const Header: FC = () => {
       sx={{ backgroundColor: 'secondary.light', borderBottom: 1, borderColor: '#e0e0e0' }}
     >
       <Toolbar variant={isDesktopScreen ? 'regular' : 'dense'}>
-        <Link path='/'>
+        <AppLink path='/'>
           <Typography
             color='primary'
             component='span'
             noWrap
             variant='h6'
-            sx={{ mr: 2, display: { xs: 'flex', md: 'none' } }}
+            sx={{
+              mr: 2,
+              display: { xs: 'flex', md: 'none' },
+              fontFamily: '-apple-system',
+              fontWeight: 'bold',
+            }}
           >
             Gathelink
           </Typography>
-        </Link>
+        </AppLink>
         {isAuthenticated && isDesktopScreen && (
           <>
             <Button
@@ -77,11 +82,7 @@ export const Header: FC = () => {
               variant='contained'
               sx={{ ml: 38 }}
             />
-            <Menu
-              anchorEl={anchorEl}
-              handleCloseMenu={() => setAnchorEl(null)}
-              menuItems={headerAddActions}
-            />
+            <Menu anchorEl={anchorEl} setAnchorEl={setAnchorEl} menuItems={menuItems} />
           </>
         )}
         <Box sx={{ flexGrow: 1 }} />

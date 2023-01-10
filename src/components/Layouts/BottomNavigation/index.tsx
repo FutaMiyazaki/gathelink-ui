@@ -1,9 +1,9 @@
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded'
 import FolderRoundedIcon from '@mui/icons-material/FolderRounded'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded'
-import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded'
 import MenuOpenRoundedIcon from '@mui/icons-material/MenuOpenRounded'
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded'
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded'
@@ -102,11 +102,7 @@ export const BottomNavigation: FC = () => {
               </Avatar>
             </ListItemAvatar>
             <ListItemText primary={currentUser.name} />
-            {isExpandAccountMenu ? (
-              <KeyboardArrowUpRoundedIcon />
-            ) : (
-              <KeyboardArrowDownRoundedIcon />
-            )}
+            {isExpandAccountMenu ? <CloseRoundedIcon /> : <KeyboardArrowDownRoundedIcon />}
           </ListItemButton>
           <Collapse in={isExpandAccountMenu} timeout='auto' unmountOnExit>
             <List disablePadding component='div'>

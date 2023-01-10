@@ -1,4 +1,3 @@
-import FolderRoundedIcon from '@mui/icons-material/FolderRounded'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
@@ -13,6 +12,7 @@ import { Link } from '@/components/Elements/Link'
 import { ListItemIcon } from '@/components/Elements/ListItemIcon'
 import { NoContents } from '@/components/Layouts/NoContents'
 import { PageLoading } from '@/components/Layouts/PageLoading'
+import { DynamicIcon } from '@/features/folder/components/DynamicIcon'
 import { Folder } from '@/features/folder/types/Folder'
 import { diffTime } from '@/utils/date'
 
@@ -36,9 +36,7 @@ const FolderListItem: FC<FolderListItemProps> = ({ folder }) => (
       sx={{ p: 0 }}
     >
       <ListItemButton>
-        <ListItemIcon>
-          <FolderRoundedIcon sx={{ color: folder.color }} />
-        </ListItemIcon>
+        <ListItemIcon>{DynamicIcon(folder?.icon, 'medium', folder?.color)}</ListItemIcon>
         <ListItemText
           primary={
             <Typography
@@ -47,13 +45,14 @@ const FolderListItem: FC<FolderListItemProps> = ({ folder }) => (
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
+                fontWeight: 'bold',
               }}
             >
               {folder?.name}
             </Typography>
           }
           secondary={
-            <Typography component='span' variant='body2' sx={{ color: 'secondary.dark' }}>
+            <Typography component='span' variant='body2' sx={{ fontWeight: 300 }}>
               {diffTime(new Date(), parseISO(folder.created_at))}
             </Typography>
           }

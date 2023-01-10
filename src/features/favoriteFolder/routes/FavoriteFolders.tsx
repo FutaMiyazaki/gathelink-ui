@@ -14,7 +14,6 @@ import { sortItems } from '@/components/features/SortSelect/sortItems'
 import { FoldersByCard } from '@/features/folder/components/FoldersByCard'
 import { FoldersByList } from '@/features/folder/components/FoldersByList'
 import { useFetchFavoriteFolders } from '@/features/folder/hooks/useFetchFavoriteFolders'
-import { useMedia } from '@/hooks/useMedia'
 import { favoriteFoldersState } from '@/states/FavoriteFolders'
 import { SortType } from '@/types/SortType'
 
@@ -24,7 +23,6 @@ export const FavoriteFolders: FC = () => {
   const [sortType, setSortType] = useState<SortType>('created_asc')
   const [displayType, setDisplayType] = useState<DisplayType>('list')
   const [searchParams, setSearchParams] = useSearchParams()
-  const { isMobileScreen } = useMedia()
   const noContentsMessage = 'お気に入りフォルダはありません'
 
   const handleChangeSort = (e: SelectChangeEvent): void => {
@@ -33,12 +31,16 @@ export const FavoriteFolders: FC = () => {
     setSearchParams({ sort: newSortType })
   }
 
-  const renderContent = (
-    <>
-      <Box sx={{ mx: 1.5, mb: 3 }}>
+  useEffect(() => {
+    fetchFavoriteFolders(sortType)
+  }, [sortType])
+
+  return (
+    <Container maxWidth='md'>
+      <Box sx={{ mb: 3 }}>
         <Typography variant='h1'>お気に入りフォルダ</Typography>
         {favoriteFolders !== undefined && favoriteFolders.length > 0 && (
-          <Stack direction='row' justifyContent='flex-end' alignItems='center'>
+          <Stack direction='row' justifyContent='flex-end' alignItems='center' sx={{ mt: 3 }}>
             <SortSelect sort={sortType} selectItems={sortItems} handleChange={handleChangeSort} />
             <DisplayTypeButtonGroup displayType={displayType} setDisplayType={setDisplayType} />
           </Stack>
@@ -60,14 +62,6 @@ export const FavoriteFolders: FC = () => {
           noContentsMessage={noContentsMessage}
         />
       )}
-    </>
+    </Container>
   )
-
-  useEffect(() => {
-    fetchFavoriteFolders(sortType)
-  }, [sortType])
-
-  if (isMobileScreen) return <>{renderContent}</>
-
-  return <Container maxWidth='md'>{renderContent}</Container>
 }
